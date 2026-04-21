@@ -7,11 +7,110 @@ from collections import defaultdict
 
 app = Flask(__name__)
 
-# ── ENV VARS (set all in Render) ──────────────────────────────────────────────
-APIFY_TOKEN             = os.environ.get("APIFY_TOKEN", "")
-APIFY_COMPETITOR_DATASET = os.environ.get("APIFY_COMPETITOR_DATASET", "")  # harvestapi/linkedin-company-posts runs
-APIFY_MY_POSTS_DATASET   = os.environ.get("APIFY_MY_POSTS_DATASET", "")    # supreme_coder/linkedin-post runs
-APIFY_PROFILE_DATASET    = os.environ.get("APIFY_PROFILE_DATASET", "")     # harvestapi/linkedin-profile-scraper runs
+# ── ENV VARS ──────────────────────────────────────────────────────────────────
+APIFY_TOKEN              = os.environ.get("APIFY_TOKEN", "")
+APIFY_COMPETITOR_DATASET = os.environ.get("APIFY_COMPETITOR_DATASET", "")
+APIFY_MY_POSTS_DATASET   = os.environ.get("APIFY_MY_POSTS_DATASET", "")
+APIFY_PROFILE_DATASET    = os.environ.get("APIFY_PROFILE_DATASET", "")
+SUPABASE_URL             = os.environ.get("SUPABASE_URL", "")
+SUPABASE_KEY             = os.environ.get("SUPABASE_KEY", "")
+
+# ── SUPABASE CLIENT ───────────────────────────────────────────────────────────
+_supabase = None
+def get_supabase():
+    global _supabase
+    if _supabase is None and SUPABASE_URL and SUPABASE_KEY:
+        try:
+            from supabase import create_client
+            _supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        except Exception as e:
+            print(f"Supabase init error: {e}")
+    return _supabase
+
+def db_save_post(post):
+    """Save or update a post in Supabase. Uses URL as unique ID."""
+    sb = get_supabase()
+    if not sb:
+        return False
+    try:
+        record = {
+            "id":            post.get("url", post.get("date", "") + "-" + post.get("hook", "")[:30]).replace(" ", "-"),
+            "date":          post.get("date"),
+            "pillar":        post.get("pillar"),
+            "hook":          post.get("hook", "")[:500],
+            "format":        post.get("format", "Text"),
+            "post_time":     post.get("post_time", ""),
+            "impressions":   post.get("impressions", 0),
+            "reached":       post.get("reached", 0),
+            "reactions":     post.get("reactions", 0),
+            "comments":      post.get("comments", 0),
+            "reposts":       post.get("reposts", 0),
+            "saves":         post.get("saves", 0),
+            "sends":         post.get("sends", 0),
+            "profile_views": post.get("profile_views", 0),
+            "new_followers": post.get("new_followers", 0),
+            "demographics":  json.dumps(post.get("demographics", [])),
+            "locations":     json.dumps(post.get("locations", [])),
+            "seniority":     json.dumps(post.get("seniority", [])),
+            "notes":         post.get("notes", ""),
+            "url":           post.get("url", ""),
+            "updated_at":    datetime.now().isoformat(),
+        }
+        sb.table("posts").upsert(record).execute()
+        return True
+    except Exception as e:
+        print(f"Supabase save error: {e}")
+        return False
+
+def db_load_all_posts():
+    """Load all posts from Supabase, sorted by date."""
+    sb = get_supabase()
+    if not sb:
+        return None
+    try:
+        result = sb.table("posts").select("*").order("date", desc=True).execute()
+        posts = []
+        for row in result.data:
+            posts.append({
+                "date":          row.get("date", ""),
+                "pillar":        row.get("pillar", ""),
+                "hook":          row.get("hook", ""),
+                "format":        row.get("format", "Text"),
+                "post_time":     row.get("post_time", ""),
+                "impressions":   row.get("impressions", 0),
+                "reached":       row.get("reached", 0),
+                "reactions":     row.get("reactions", 0),
+                "comments":      row.get("comments", 0),
+                "reposts":       row.get("reposts", 0),
+                "saves":         row.get("saves", 0),
+                "sends":         row.get("sends", 0),
+                "profile_views": row.get("profile_views", 0),
+                "new_followers": row.get("new_followers", 0),
+                "demographics":  json.loads(row.get("demographics") or "[]"),
+                "locations":     json.loads(row.get("locations") or "[]"),
+                "seniority":     json.loads(row.get("seniority") or "[]"),
+                "notes":         row.get("notes", ""),
+                "url":           row.get("url", ""),
+            })
+        return posts if posts else None
+    except Exception as e:
+        print(f"Supabase load error: {e}")
+        return None
+
+def db_seed_if_empty():
+    """Seed Supabase with SEEDED_POSTS if the table is empty."""
+    sb = get_supabase()
+    if not sb:
+        return
+    try:
+        result = sb.table("posts").select("id").limit(1).execute()
+        if not result.data:
+            print("Seeding Supabase with initial posts...")
+            for post in SEEDED_POSTS:
+                db_save_post(post)
+            print(f"Seeded {len(SEEDED_POSTS)} posts.")
+    except Exception as e:
+        print(f"Supabase seed check error: {e}")
 
 # ── ACTOR IDs ─────────────────────────────────────────────────────────────────
 ACTOR_COMPETITOR  = "harvestapi~linkedin-company-posts"
@@ -40,6 +139,18 @@ PILLARS = {
 
 # ── SEEDED POST DATA (real posts from Brett's scrape) ─────────────────────────
 SEEDED_POSTS = [
+    {
+        "date": "2026-03-25", "day": "Tue", "pillar": "Ops & Pain",
+        "hook": "We're hiring at Orchestrate — Business Development Manager",
+        "format": "Image", "post_time": "11:12 AM",
+        "impressions": 5324, "reached": 3551, "reactions": 24, "comments": 5,
+        "reposts": 2, "saves": 1, "sends": 2, "profile_views": 60, "new_followers": 4,
+        "demographics": ["Account Executive 21%", "Account Manager 12%", "Sales Manager 6%", "Founder 1%"],
+        "locations": ["Atlanta 11%", "NYC 8%", "LA 4%", "Chicago 4%", "Dallas 4%"],
+        "seniority": ["Senior 49%", "Entry 27%", "Manager 10%", "Director 5%", "Owner 2%"],
+        "notes": "Strong performer — 5,324 impressions, 4 followers gained. Advertising & Events Services audience. Hiring post outperformed most content posts.",
+        "url": "https://www.linkedin.com/posts/brett-shields-atl_hiring-businessdevelopment-eventsindustry-activity-7442589251290042370-BDfN"
+    },
     {
         "date": "2026-04-01", "day": "Tue", "pillar": "Ops & Pain",
         "hook": "Trade show / experiential marketing — FABTECH 2025",
@@ -422,38 +533,57 @@ def competitor_results(dataset_id):
         "data_source": "Live — Apify LinkedIn Company Posts Scraper",
     })
 
-# Get my posts results from a dataset
+# Get my posts results from a dataset — also saves to Supabase
 @app.route("/api/results/my-posts/<dataset_id>")
 def my_post_results(dataset_id):
     items, err = apify_fetch(dataset_id)
     if err: return jsonify({"error": err}), 500
+    posts = process_my_posts(items)
+
+    # Save each new post to Supabase permanently
+    saved = 0
+    for p in posts:
+        if db_save_post(p):
+            saved += 1
+
     return jsonify({
-        "posts":       process_my_posts(items),
-        "scanned_at":  datetime.now().strftime("%A, %B %d at %I:%M %p"),
+        "posts":      posts,
+        "saved":      saved,
+        "scanned_at": datetime.now().strftime("%A, %B %d at %I:%M %p"),
     })
 
-# Main dashboard data — uses seeded data + latest Apify datasets if available
+# Main dashboard — Supabase is source of truth, falls back to seeded data
 @app.route("/api/dashboard")
 def dashboard():
+    # Try Supabase first — seed it if empty
+    db_seed_if_empty()
+    all_posts = db_load_all_posts()
+
+    # Fall back to seeded data if Supabase not available
+    if not all_posts:
+        all_posts = SEEDED_POSTS
+        live_source = "Seeded data (Supabase not connected)"
+    else:
+        live_source = f"Supabase — {len(all_posts)} posts stored"
+
     competitor_data = []
     trend_data      = []
-    live_source     = "Seeded data"
 
     if APIFY_COMPETITOR_DATASET:
         items, err = apify_fetch(APIFY_COMPETITOR_DATASET)
         if items:
             competitor_data = process_competitors(items)
             trend_data      = process_competitor_trends(items)
-            live_source     = "Live — Apify"
+            live_source     = f"Live — Apify + Supabase ({len(all_posts)} posts)"
 
     coaching  = compute_coaching([], competitor_data, trend_data)
     benchmarks = compute_weekly_benchmarks()
 
-    total_impressions = sum(p.get("impressions", 0) for p in SEEDED_POSTS)
-    total_reactions   = sum(p.get("reactions", 0)   for p in SEEDED_POSTS)
-    total_comments    = sum(p.get("comments", 0)    for p in SEEDED_POSTS)
-    total_saves       = sum(p.get("saves", 0)        for p in SEEDED_POSTS)
-    followers_gained  = sum(p.get("new_followers", 0) for p in SEEDED_POSTS)
+    total_impressions = sum(p.get("impressions", 0) for p in all_posts)
+    total_reactions   = sum(p.get("reactions", 0)   for p in all_posts)
+    total_comments    = sum(p.get("comments", 0)    for p in all_posts)
+    total_saves       = sum(p.get("saves", 0)        for p in all_posts)
+    followers_gained  = sum(p.get("new_followers", 0) for p in all_posts)
 
     return jsonify({
         "profile": {
@@ -468,23 +598,19 @@ def dashboard():
             "total_reactions":   total_reactions,
             "total_comments":    total_comments,
             "total_saves":       total_saves,
-            "posts_count":       len(SEEDED_POSTS),
+            "posts_count":       len(all_posts),
         },
-        "published_posts":  SEEDED_POSTS,
+        "published_posts":   all_posts,
         "weekly_benchmarks": benchmarks,
-        "competitors":      competitor_data,
-        "trends":           trend_data,
-        "coaching":         coaching,
-        "pillars":          PILLARS,
-        "idea_backlog":     IDEA_BACKLOG,
-        "profile_todos":    PROFILE_TODOS,
-        "data_source":      live_source,
-        "scanned_at":       datetime.now().strftime("%A, %B %d at %I:%M %p"),
+        "competitors":       competitor_data,
+        "trends":            trend_data,
+        "coaching":          coaching,
+        "pillars":           PILLARS,
+        "idea_backlog":      IDEA_BACKLOG,
+        "data_source":       live_source,
+        "scanned_at":        datetime.now().strftime("%A, %B %d at %I:%M %p"),
+        "scanned_at_iso":    datetime.now().isoformat(),
     })
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
 
 # Last scan timestamp — used by frontend 4-hour auto-refresh logic
 @app.route("/api/last-scan")
@@ -505,9 +631,10 @@ def scan_all():
         "maxReactionsPerPost": 5,
         "includeReposts": False,
     })
+    # Pull last 30 posts from Brett's profile — no date limit so nothing drops off
     my_result, my_err = apify_trigger(ACTOR_MY_POSTS, {
         "startUrls": [{"url": MY_LINKEDIN_URL}],
-        "maxResults": 10,
+        "maxResults": 30,
     })
     return jsonify({
         "competitors": comp_result,
