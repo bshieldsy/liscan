@@ -3,399 +3,1116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LI Scanner</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<title>LinkedIn HQ — Brett Shields</title>
+<link href="https://fonts.googleapis.com/css2?family=Editorial+New:ital,wght@0,400;1,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg:#f5f5f7;--surface:#fff;--surface2:#f5f5f7;
-    --border:rgba(0,0,0,.08);--text:#1d1d1f;--text2:#6e6e73;--text3:#aeaeb2;
-    --blue:#0071e3;--blue-l:#e8f0fb;--green:#34c759;--green-l:#e8f8ed;
-    --orange:#ff9500;--orange-l:#fff4e5;--red:#ff3b30;--red-l:#fff0ef;
-    --radius:18px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;-webkit-font-smoothing:antialiased}
+:root {
+  --bg: #f4f2ec;
+  --bg2: #eae8e0;
+  --dark: #1a1f14;
+  --dark2: #243320;
+  --green: #2d5a27;
+  --green-bright: #5db847;
+  --green-muted: #8db884;
+  --text: #1a1f14;
+  --text2: #4a5044;
+  --text3: #8a9084;
+  --border: rgba(26,31,20,0.12);
+  --border-dark: rgba(255,255,255,0.1);
+  --pink: #EC4899;
+  --orange: #F97316;
+  --teal: #14B8A6;
+  --red: #EF4444;
+  --purple: #A855F7;
+  --card: #ffffff;
+  --card-dark: #1e2518;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Instrument Sans', sans-serif;
+  --serif: 'Editorial New', Georgia, serif;
+}
 
-  header{background:rgba(245,245,247,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
-  .logo{font-weight:500;font-size:17px;letter-spacing:-.3px}
-  .logo-dot{color:var(--blue)}
-  .hdr-mid{font-size:13px;color:var(--text2)}
-  .scan-btn{background:var(--blue);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:8px 18px;border-radius:980px;cursor:pointer;transition:all .2s}
-  .scan-btn:hover{background:#0077ed;transform:scale(1.02)}
-  .scan-btn:disabled{background:var(--text3);cursor:not-allowed;transform:none}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  .wrapper{max-width:1120px;margin:0 auto;padding:40px 24px 60px}
-  .page-title{margin-bottom:32px}
-  .page-title h1{font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;letter-spacing:-.5px;line-height:1.1}
-  .page-title p{font-size:15px;color:var(--text2);margin-top:6px;font-weight:300}
+html { scroll-behavior: smooth; }
 
-  .error-bar{background:var(--red-l);border:1px solid rgba(255,59,48,.2);border-radius:12px;padding:14px 20px;margin-bottom:24px;font-size:14px;color:var(--red);display:none}
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
 
-  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-  .stat-card{background:var(--surface);border-radius:var(--radius);padding:22px 22px 20px;border:1px solid var(--border);transition:box-shadow .2s,transform .2s}
-  .stat-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07);transform:translateY(-1px)}
-  .sc-label{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:8px}
-  .sc-value{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;letter-spacing:-1px;line-height:1}
-  .sc-sub{font-size:12px;color:var(--text3);margin-top:6px;display:flex;align-items:center;gap:4px}
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
 
-  .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:980px}
-  .b-green{background:var(--green-l);color:var(--green)}
-  .b-red{background:var(--red-l);color:var(--red)}
-  .b-orange{background:var(--orange-l);color:var(--orange)}
-  .b-blue{background:var(--blue-l);color:var(--blue)}
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(244,242,236,0.9);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+}
 
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-  .card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s}
-  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07)}
-  .card-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-  .card-title{font-size:15px;font-weight:500;letter-spacing:-.2px}
-  .card-tag{font-size:11px;font-weight:500;color:var(--blue);background:var(--blue-l);padding:3px 10px;border-radius:980px}
+.logo {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  display: flex; align-items: center; gap: 8px;
+}
+.logo-mark {
+  width: 28px; height: 28px;
+  background: var(--dark);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-bright);
+  font-size: 14px; font-weight: 700;
+}
 
-  .comp-row{padding:14px 24px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer}
-  .comp-row:last-child{border-bottom:none}
-  .comp-row:hover{background:var(--surface2)}
-  .comp-top{display:flex;align-items:center;margin-bottom:6px}
-  .comp-icon{width:32px;height:32px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text2);margin-right:12px;flex-shrink:0}
-  .comp-info{flex:1}
-  .comp-name{font-size:14px;font-weight:500;letter-spacing:-.1px}
-  .comp-sub{font-size:12px;color:var(--text3);margin-top:1px}
-  .comp-stats{display:flex;gap:16px;align-items:center}
-  .csi{text-align:right}
-  .csi-val{font-size:15px;font-weight:500;letter-spacing:-.3px}
-  .csi-lbl{font-size:10px;color:var(--text3)}
-  .comp-snippet{font-size:12px;color:var(--text2);line-height:1.5;padding:6px 10px;background:var(--surface2);border-radius:8px;margin-top:4px}
-  .comp-topics{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-  .topic-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:980px;background:var(--blue-l);color:var(--blue)}
+nav { display: flex; align-items: center; gap: 4px; }
+.nav-btn {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  color: var(--text2); padding: 6px 14px; border-radius: 6px;
+  transition: all 0.15s; text-decoration: none;
+}
+.nav-btn:hover, .nav-btn.active { background: var(--bg2); color: var(--text); }
 
-  .trend-item{padding:16px 24px;border-bottom:1px solid var(--border)}
-  .trend-item:last-child{border-bottom:none}
-  .trend-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-  .trend-name{font-size:14px;font-weight:500;letter-spacing:-.1px}
-  .trend-right{display:flex;align-items:center;gap:8px}
-  .trend-pct{font-size:13px;font-weight:500;color:var(--text2)}
-  .trend-track{height:4px;background:var(--surface2);border-radius:980px;overflow:hidden}
-  .trend-fill{height:100%;border-radius:980px;width:0;transition:width 1s cubic-bezier(.16,1,.3,1)}
-  .f-blue{background:var(--blue)}.f-green{background:var(--green)}.f-orange{background:var(--orange)}
-  .trend-meta{font-size:11px;color:var(--text3);margin-top:6px}
+.scan-btn {
+  background: var(--dark); color: var(--bg);
+  border: none; cursor: pointer;
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  padding: 8px 18px; border-radius: 8px;
+  transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+}
+.scan-btn:hover { background: var(--green); transform: translateY(-1px); }
+.scan-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  .action-item{display:flex;gap:14px;padding:16px 24px;border-bottom:1px solid var(--border);align-items:flex-start;transition:background .15s}
-  .action-item:last-child{border-bottom:none}
-  .action-item:hover{background:var(--surface2)}
-  .action-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0}
-  .action-dot.orange{background:var(--orange)}
-  .action-dot.green{background:var(--green)}
-  .action-text{font-size:14px;color:var(--text);line-height:1.5}
+/* ── HERO STRIP ── */
+.hero {
+  background: var(--dark);
+  padding: 56px 40px 48px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 50%, rgba(93,184,71,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-grid {
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: center; gap: 40px;
+  max-width: 1200px; margin: 0 auto;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  margin-bottom: 12px;
+}
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 400; line-height: 1.05;
+  color: #fff; letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+.hero-title em { font-style: italic; color: var(--green-bright); }
+.hero-sub {
+  font-size: 14px; color: rgba(255,255,255,0.5);
+  font-weight: 400;
+}
+.hero-stats {
+  display: flex; gap: 32px;
+}
+.hero-stat { text-align: right; }
+.hero-stat-val {
+  font-family: var(--serif);
+  font-size: 36px; font-weight: 400;
+  color: #fff; letter-spacing: -1px; line-height: 1;
+}
+.hero-stat-lbl {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.35); margin-top: 4px;
+}
 
-  .perf-grid{display:grid;grid-template-columns:1fr 1fr}
-  .perf-cell{padding:22px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
-  .perf-cell:nth-child(even){border-right:none}
-  .perf-cell:nth-last-child(-n+2){border-bottom:none}
-  .perf-lbl{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:6px}
-  .perf-val{font-family:'DM Serif Display',serif;font-size:32px;font-weight:400;letter-spacing:-.5px;line-height:1}
-  .perf-sub{font-size:12px;color:var(--text3);margin-top:4px}
+/* ── TICKER ── */
+.ticker-wrap {
+  background: var(--green);
+  overflow: hidden; white-space: nowrap;
+  padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1);
+}
+.ticker-inner {
+  display: inline-block;
+  animation: ticker 30s linear infinite;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+.ticker-inner .sep { color: var(--green-bright); margin: 0 24px; }
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  .data-source{text-align:center;font-size:11px;color:var(--green);margin-top:8px;font-weight:500}
-  .footer{text-align:center;font-size:12px;color:var(--text3);margin-top:24px}
+/* ── MAIN LAYOUT ── */
+main { max-width: 1200px; margin: 0 auto; padding: 40px 40px 80px; }
 
-  .overlay{position:fixed;inset:0;background:rgba(245,245,247,.92);backdrop-filter:blur(24px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
-  .overlay.hidden{opacity:0;pointer-events:none}
-  .spinner{width:40px;height:40px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:20px}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .ov-label{font-size:15px;font-weight:500;margin-bottom:6px}
-  .ov-status{font-size:13px;color:var(--text2)}
+/* ── SECTION ── */
+.section { margin-bottom: 56px; }
+.section-header {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.section-title {
+  font-family: var(--serif);
+  font-size: 22px; font-weight: 400;
+  letter-spacing: -0.3px; color: var(--text);
+}
+.section-meta {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* ── METRIC CARDS ── */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.metric-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.metric-card:hover { border-color: var(--green-muted); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.metric-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 8px;
+}
+.metric-value {
+  font-family: var(--serif);
+  font-size: 38px; font-weight: 400;
+  letter-spacing: -1.5px; line-height: 1;
+  color: var(--text);
+}
+.metric-sub {
+  font-size: 11px; color: var(--text3);
+  margin-top: 6px;
+}
+.metric-badge {
+  display: inline-flex; align-items: center;
+  font-family: var(--mono); font-size: 10px;
+  font-weight: 500; padding: 2px 8px; border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.badge-green { background: #e8f5e2; color: var(--green); }
+.badge-red   { background: #fef2f2; color: #dc2626; }
+.badge-orange{ background: #fff7ed; color: #ea580c; }
+.badge-blue  { background: #eff6ff; color: #2563eb; }
+.badge-purple{ background: #faf5ff; color: #7c3aed; }
+.badge-teal  { background: #f0fdfa; color: #0d9488; }
+.badge-pink  { background: #fdf2f8; color: #be185d; }
+
+/* ── TWO COLUMN ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.card-dark {
+  background: var(--dark);
+  border-color: rgba(255,255,255,0.08);
+}
+.card-header {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-dark .card-header { border-color: rgba(255,255,255,0.08); }
+.card-title {
+  font-size: 13px; font-weight: 600;
+  letter-spacing: -0.1px; color: var(--text);
+}
+.card-dark .card-title { color: #fff; }
+.card-tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: var(--green); background: #e8f5e2;
+  padding: 3px 8px; border-radius: 4px;
+}
+
+/* ── COMPETITOR ROWS ── */
+.comp-row {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s; cursor: pointer;
+}
+.comp-row:last-child { border-bottom: none; }
+.comp-row:hover { background: var(--bg2); }
+.comp-top { display: flex; align-items: center; gap: 12px; }
+.comp-icon {
+  width: 30px; height: 30px; border-radius: 6px;
+  background: var(--bg2); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--text2);
+  flex-shrink: 0;
+}
+.comp-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.comp-followers { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+.comp-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+.comp-stat-val { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--text); }
+.comp-stat-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
+.comp-snippet {
+  margin: 8px 0 0 42px;
+  font-size: 12px; color: var(--text2); line-height: 1.5;
+  padding: 8px 10px; background: var(--bg); border-radius: 6px;
+  border-left: 2px solid var(--border);
+}
+.comp-topics { margin: 6px 0 0 42px; display: flex; gap: 5px; flex-wrap: wrap; }
+.topic-pill {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text3);
+  background: var(--bg2); padding: 2px 7px; border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+/* ── TREND BARS ── */
+.trend-item {
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.trend-item:last-child { border-bottom: none; }
+.trend-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.trend-name { font-size: 13px; font-weight: 500; color: var(--text); }
+.trend-right { display: flex; align-items: center; gap: 8px; }
+.trend-avg { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+.trend-track { height: 3px; background: var(--bg2); border-radius: 2px; overflow: hidden; }
+.trend-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+.fill-green  { background: var(--green-bright); }
+.fill-orange { background: var(--orange); }
+.fill-teal   { background: var(--teal); }
+.trend-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 5px; }
+
+/* ── POST ROWS ── */
+.post-row {
+  border-bottom: 1px solid var(--border);
+  cursor: pointer; transition: background 0.15s;
+}
+.post-row:last-child { border-bottom: none; }
+.post-row:hover .post-collapsed { background: var(--bg); }
+.post-collapsed { padding: 14px 24px; display: flex; align-items: center; gap: 14px; }
+.pillar-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.post-hook { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
+.post-date { font-family: var(--mono); font-size: 11px; color: var(--text3); }
+.post-impressions { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--text); min-width: 60px; text-align: right; }
+.pillar-badge {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
+  text-transform: uppercase; padding: 2px 8px; border-radius: 3px;
+  font-weight: 600; white-space: nowrap;
+}
+.post-expanded {
+  padding: 0 24px 16px 46px;
+  display: none;
+}
+.post-expanded.open { display: block; }
+.post-metrics-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr);
+  gap: 12px; margin: 12px 0;
+}
+.post-metric { text-align: center; }
+.pm-val { font-family: var(--serif); font-size: 22px; color: var(--text); }
+.pm-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-top: 2px; }
+.post-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
+.post-tag-group { margin-top: 8px; }
+.tag-label { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 5px; }
+.post-note {
+  background: #fffbeb; border: 1px solid #fde68a;
+  border-radius: 6px; padding: 10px 12px;
+  font-size: 12px; color: #92400e; margin-top: 10px; line-height: 1.5;
+}
+.post-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--green);
+  text-decoration: none; margin-top: 10px;
+  transition: color 0.15s;
+}
+.post-link:hover { color: var(--dark); }
+
+/* ── COACHING ── */
+.coaching-section { margin-bottom: 12px; }
+.coaching-label {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 6px 24px; display: flex; align-items: center; gap: 8px;
+}
+.coaching-dot { width: 6px; height: 6px; border-radius: 50%; }
+.coaching-item {
+  display: flex; gap: 14px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start; transition: background 0.15s;
+}
+.coaching-item:last-child { border-bottom: none; }
+.coaching-item:hover { background: var(--bg); }
+.coaching-num {
+  font-family: var(--serif); font-size: 24px; font-weight: 400;
+  color: var(--border); line-height: 1; min-width: 24px; flex-shrink: 0;
+}
+.coaching-text { font-size: 13px; color: var(--text); line-height: 1.6; padding-top: 2px; }
+
+/* ── CONTENT CALENDAR ── */
+.cal-row {
+  display: grid; grid-template-columns: 90px 120px 1fr 120px;
+  align-items: center; gap: 16px;
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.cal-row:last-child { border-bottom: none; }
+.cal-row:hover { background: var(--bg); }
+.cal-day { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
+.cal-date { font-size: 12px; color: var(--text2); }
+.cal-hook { font-size: 13px; color: var(--text); }
+.cal-status {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
+  text-align: center; font-weight: 600;
+}
+.status-published { background: #e8f5e2; color: var(--green); }
+.status-planned   { background: var(--bg2); color: var(--text3); }
+.status-missed    { background: #fef2f2; color: #dc2626; }
+
+/* ── PILLAR CARDS ── */
+.pillar-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pillar-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.pillar-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.pillar-color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pillar-name { font-size: 13px; font-weight: 600; color: var(--text); }
+.pillar-day { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-left: auto; }
+.pillar-stat { margin-bottom: 4px; }
+.pillar-stat-val { font-family: var(--serif); font-size: 28px; font-weight: 400; color: var(--text); }
+.pillar-stat-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
+.pillar-purpose { font-size: 11px; color: var(--text3); line-height: 1.5; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+/* ── BACKLOG ── */
+.backlog-group { margin-bottom: 16px; }
+.backlog-header {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 24px; border-bottom: 1px solid var(--border);
+}
+.backlog-count { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; color: var(--text3); margin-left: auto; }
+.backlog-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 24px; border-bottom: 1px solid var(--border);
+  transition: background 0.15s; cursor: pointer;
+}
+.backlog-item:last-child { border-bottom: none; }
+.backlog-item:hover { background: var(--bg); }
+.backlog-arrow { font-family: var(--mono); font-size: 11px; color: var(--green); margin-top: 1px; }
+.backlog-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+/* ── PROFILE TODOS ── */
+.todo-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 12px 24px; border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.todo-item:last-child { border-bottom: none; }
+.todo-item:hover { background: var(--bg); }
+.todo-check {
+  width: 16px; height: 16px; border-radius: 4px;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0; margin-top: 1px;
+}
+.todo-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+/* ── CHART AREA ── */
+.chart-container { padding: 24px; }
+.chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 80px; }
+.chart-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  transition: height 1s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+  min-width: 20px; cursor: pointer; position: relative;
+}
+.chart-bar:hover { opacity: 0.8; }
+.chart-labels { display: flex; gap: 8px; margin-top: 4px; }
+.chart-label { flex: 1; text-align: center; font-family: var(--mono); font-size: 9px; letter-spacing: 1px; color: var(--text3); }
+
+/* ── OVERLAY ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(244,242,236,0.92);
+  backdrop-filter: blur(24px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 999; transition: opacity 0.4s;
+}
+.overlay.hidden { opacity: 0; pointer-events: none; }
+.overlay-spinner {
+  width: 36px; height: 36px;
+  border: 2px solid var(--border); border-top-color: var(--green);
+  border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.overlay-label { font-family: var(--serif); font-size: 20px; color: var(--text); margin-bottom: 6px; }
+.overlay-status { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--text3); }
+
+/* ── ERROR BAR ── */
+.error-bar {
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
+  font-size: 13px; color: #dc2626; display: none;
+}
+
+/* ── SEPARATOR ── */
+.sep { height: 1px; background: var(--border); margin: 32px 0; }
+
+/* ── DATA BADGE ── */
+.data-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--green);
+  padding: 4px 10px; background: #e8f5e2; border-radius: 4px;
+}
+.data-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark); color: rgba(255,255,255,0.4);
+  padding: 24px 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+footer span { color: var(--green-bright); }
 </style>
 </head>
 <body>
 
+<!-- OVERLAY -->
 <div class="overlay hidden" id="overlay">
-  <div class="spinner"></div>
-  <div class="ov-label" id="ovLabel">Scanning LinkedIn</div>
-  <div class="ov-status" id="ovStatus">Triggering scrape...</div>
+  <div class="overlay-spinner"></div>
+  <div class="overlay-label">Scanning LinkedIn</div>
+  <div class="overlay-status" id="ovStatus">Connecting...</div>
 </div>
 
+<!-- HEADER -->
 <header>
-  <div class="logo">LI Scanner<span class="logo-dot">.</span></div>
-  <div class="hdr-mid">Event & Project Management · Small Business · Live Data</div>
-  <button class="scan-btn" id="scanBtn" onclick="startScan()">Scan Now</button>
+  <div class="logo">
+    <div class="logo-mark">LI</div>
+    LinkedIn HQ
+  </div>
+  <nav>
+    <a href="#my-performance" class="nav-btn">My Performance</a>
+    <a href="#competitors" class="nav-btn">Competitors</a>
+    <a href="#coaching" class="nav-btn">Coaching</a>
+    <a href="#content" class="nav-btn">Content</a>
+  </nav>
+  <button class="scan-btn" id="scanBtn" onclick="startScan()">
+    <span>↺</span> Scan Now
+  </button>
 </header>
 
-<div class="wrapper">
-  <div class="page-title">
-    <h1>Your LinkedIn Intelligence</h1>
-    <p>Real-time competitor posts · Industry trends · Action items — all from live LinkedIn data</p>
-  </div>
-
-  <div class="error-bar" id="errorBar"></div>
-
-  <div class="stat-row">
-    <div class="stat-card">
-      <div class="sc-label">Total Posts This Week</div>
-      <div class="sc-value" id="statPosts">—</div>
-      <div class="sc-sub">Across all 5 competitors</div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid">
+    <div class="reveal">
+      <div class="hero-eyebrow">► LinkedIn Intelligence Platform</div>
+      <div class="hero-title">Turn your LinkedIn into<br><em>compound growth.</em></div>
+      <div class="hero-sub">Real data. Real competitors. Real coaching. Brett Shields — Managing Director</div>
     </div>
-    <div class="stat-card">
-      <div class="sc-label">Total Likes This Week</div>
-      <div class="sc-value" id="statLikes">—</div>
-      <div class="sc-sub">Combined engagement</div>
-    </div>
-    <div class="stat-card">
-      <div class="sc-label">Rising Trends</div>
-      <div class="sc-value" id="statTrends">—</div>
-      <div class="sc-sub">In your niche right now</div>
-    </div>
-    <div class="stat-card">
-      <div class="sc-label">Action Items</div>
-      <div class="sc-value" id="statActions">—</div>
-      <div class="sc-sub">Based on real data</div>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Competitor Activity</div>
-        <div class="card-tag" id="compTag">Live</div>
+    <div class="hero-stats reveal reveal-delay-2">
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroFollowers">692</div>
+        <div class="hero-stat-lbl">Followers</div>
       </div>
-      <div id="compList"><div style="padding:24px;color:var(--text3);font-size:14px">Run a scan to load real data...</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Industry Trends</div>
-        <div class="card-tag" id="trendTag">Live</div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroImpressions">—</div>
+        <div class="hero-stat-lbl">Impressions</div>
       </div>
-      <div id="trendList"><div style="padding:24px;color:var(--text3);font-size:14px">Run a scan to load real data...</div></div>
-    </div>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Action Items</div>
-        <div class="card-tag">Based on Real Data</div>
-      </div>
-      <div id="actionList"><div style="padding:24px;color:var(--text3);font-size:14px">Run a scan to generate real recommendations...</div></div>
-    </div>
-
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Your Stats</div>
-        <div class="card-tag">Update Weekly</div>
-      </div>
-      <div class="perf-grid">
-        <div class="perf-cell">
-          <div class="perf-lbl">Followers</div>
-          <div class="perf-val">245</div>
-          <div class="perf-sub">Update in app.py</div>
-        </div>
-        <div class="perf-cell">
-          <div class="perf-lbl">Engagement Rate</div>
-          <div class="perf-val" style="color:var(--orange)">3.2%</div>
-          <div class="perf-sub">Update in app.py</div>
-        </div>
-        <div class="perf-cell">
-          <div class="perf-lbl">Posts This Month</div>
-          <div class="perf-val" style="color:var(--red)">4</div>
-          <div class="perf-sub">Target: 6+</div>
-        </div>
-        <div class="perf-cell">
-          <div class="perf-lbl">Pending Connects</div>
-          <div class="perf-val" style="color:var(--green)">12</div>
-          <div class="perf-sub">Accept & message</div>
-        </div>
+      <div class="hero-stat">
+        <div class="hero-stat-val" id="heroPosts">—</div>
+        <div class="hero-stat-lbl">Posts</div>
       </div>
     </div>
   </div>
-
-  <div class="data-source" id="dataSource"></div>
-  <div class="footer" id="footer">Hit "Scan Now" to pull fresh live data from LinkedIn</div>
 </div>
 
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    Event Management <span class="sep">►</span> Project Management <span class="sep">►</span> No-Code Automation <span class="sep">►</span> AI for Events <span class="sep">►</span> Small Team Collaboration <span class="sep">►</span> Freelancer Tools <span class="sep">►</span> Ops & Pain <span class="sep">►</span> Founder Tease <span class="sep">►</span> Pop Culture Hook <span class="sep">►</span> Event Management <span class="sep">►</span> Project Management <span class="sep">►</span> No-Code Automation <span class="sep">►</span> AI for Events <span class="sep">►</span> Small Team Collaboration <span class="sep">►</span> Freelancer Tools <span class="sep">►</span>
+  </div>
+</div>
+
+<main>
+
+<!-- ERROR -->
+<div class="error-bar" id="errorBar"></div>
+
+<!-- ── MY PERFORMANCE ── -->
+<section class="section" id="my-performance">
+  <div class="section-header reveal">
+    <div class="section-title">My Performance</div>
+    <div id="dataSourceBadge" class="data-badge">Loading data</div>
+  </div>
+
+  <div class="metric-grid reveal">
+    <div class="metric-card">
+      <div class="metric-label">Impressions</div>
+      <div class="metric-value" id="mImpressions">—</div>
+      <div class="metric-sub">This week</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Reactions</div>
+      <div class="metric-value" id="mReactions">—</div>
+      <div class="metric-sub">Likes + praise</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Comments</div>
+      <div class="metric-value" id="mComments">—</div>
+      <div class="metric-sub">Conversation driver</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Saves</div>
+      <div class="metric-value" id="mSaves">—</div>
+      <div class="metric-sub">Intent signal</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Followers Gained</div>
+      <div class="metric-value" id="mFollowers">—</div>
+      <div class="metric-sub">From tracked posts</div>
+    </div>
+  </div>
+
+  <!-- Pillar breakdown -->
+  <div class="three-col" style="margin-top:16px" id="pillarGrid"></div>
+</section>
+
+<!-- ── PUBLISHED POSTS ── -->
+<section class="section" id="posts-section">
+  <div class="section-header reveal">
+    <div class="section-title">Published Posts</div>
+    <div class="section-meta" id="postsCount">Loading...</div>
+  </div>
+  <div class="card reveal">
+    <div id="postsList"></div>
+  </div>
+</section>
+
+<!-- ── CONTENT CALENDAR ── -->
+<section class="section" id="content">
+  <div class="section-header reveal">
+    <div class="section-title">This Week's Calendar</div>
+    <div class="section-meta" id="weekPosted">—</div>
+  </div>
+  <div class="card reveal">
+    <div id="calendarList"></div>
+  </div>
+</section>
+
+<!-- ── COACHING ── -->
+<section class="section" id="coaching">
+  <div class="section-header reveal">
+    <div class="section-title">HQ Coaching</div>
+    <div class="section-meta">Your senior social media manager</div>
+  </div>
+  <div class="card reveal">
+    <div id="coachingList"></div>
+  </div>
+</section>
+
+<!-- ── COMPETITORS ── -->
+<section class="section" id="competitors">
+  <div class="section-header reveal">
+    <div class="section-title">Competitor Intelligence</div>
+    <div class="section-meta" id="compScannedAt">Run a scan to load live data</div>
+  </div>
+  <div class="two-col">
+    <div class="card reveal">
+      <div class="card-header">
+        <div class="card-title">Activity This Week</div>
+        <div class="card-tag" id="compTag">5 Companies</div>
+      </div>
+      <div id="compList"><div style="padding:24px;color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:1px">► RUN SCAN TO LOAD LIVE DATA</div></div>
+    </div>
+    <div class="card reveal reveal-delay-1">
+      <div class="card-header">
+        <div class="card-title">Industry Trends</div>
+        <div class="card-tag" id="trendTag">Detecting...</div>
+      </div>
+      <div id="trendList"><div style="padding:24px;color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:1px">► RUN SCAN TO LOAD LIVE DATA</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── IDEA BACKLOG ── -->
+<section class="section" id="backlog-section">
+  <div class="section-header reveal">
+    <div class="section-title">Idea Backlog</div>
+    <div class="section-meta">Organized by pillar</div>
+  </div>
+  <div class="card reveal" id="backlogCard"></div>
+</section>
+
+<!-- ── PROFILE TO-DOS ── -->
+<section class="section" id="todos-section">
+  <div class="section-header reveal">
+    <div class="section-title">Profile To-Dos</div>
+    <div class="section-meta">Optimize your presence</div>
+  </div>
+  <div class="card reveal" id="todoCard"></div>
+</section>
+
+</main>
+
+<footer>
+  <span>LI</span> LinkedIn HQ — Brett Shields &nbsp;|&nbsp; Event Producer &amp; Strategist
+  <div id="footerTime">Loading...</div>
+</footer>
+
 <script>
-const dotColors = ['','orange','','orange','green'];
-const fillColors = ['f-green','f-blue','f-blue','f-orange','f-orange','f-orange'];
+// ── PILLAR CONFIG ──────────────────────────────────────────────────────────
+const PILLARS = {
+  "Pop Culture":   { day: "Mon", color: "#EC4899" },
+  "Ops & Pain":    { day: "Tue", color: "#F97316" },
+  "Personal":      { day: "Wed", color: "#14B8A6" },
+  "Hot Take":      { day: "Thu", color: "#EF4444" },
+  "Founder Tease": { day: "Fri", color: "#A855F7" },
+};
 
-function showError(msg) {
-  const bar = document.getElementById('errorBar');
-  bar.textContent = '⚠ ' + msg;
-  bar.style.display = 'block';
+// ── SCROLL REVEAL ──────────────────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+function observeAll() {
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 }
+observeAll();
 
-function hideError() {
-  document.getElementById('errorBar').style.display = 'none';
+// ── FORMAT ─────────────────────────────────────────────────────────────────
+const fmt = n => n >= 1000 ? (n/1000).toFixed(1) + 'k' : String(n);
+
+function pillarBadge(pillar) {
+  const p = PILLARS[pillar] || { color: '#6b7280' };
+  return `<span class="pillar-badge" style="background:${p.color}18;color:${p.color}">${pillar}</span>`;
 }
 
 function trendBadge(t) {
-  if (t.includes('Up'))     return '<span class="badge b-green">↑ Up</span>';
-  if (t.includes('Down'))   return '<span class="badge b-red">↓ Down</span>';
-  if (t === 'No data this week') return '<span class="badge b-orange">No data</span>';
-  return '<span class="badge b-orange">→ Stable</span>';
+  if (t && t.includes('Up'))   return `<span class="metric-badge badge-green">↑ Up</span>`;
+  if (t && t.includes('Down')) return `<span class="metric-badge badge-red">↓ Down</span>`;
+  if (t === 'No data')         return `<span class="metric-badge badge-orange">No data</span>`;
+  return `<span class="metric-badge" style="background:var(--bg2);color:var(--text3)">→ Stable</span>`;
 }
 
-function initials(name) {
-  return name.split(/[\.\s]/)[0].substring(0,2);
+// ── RENDER FUNCTIONS ───────────────────────────────────────────────────────
+
+function renderHero(d) {
+  document.getElementById('heroFollowers').textContent = d.profile.followers.toLocaleString();
+  document.getElementById('heroImpressions').textContent = fmt(d.this_week.total_impressions);
+  document.getElementById('heroPosts').textContent = d.this_week.posts_count;
 }
 
-function renderCompetitors(data) {
-  document.getElementById('compTag').textContent = 'Live · ' + data.length + ' companies';
-  document.getElementById('compList').innerHTML = data.map(c => `
-    <div class="comp-row" ${c.top_post ? `onclick="window.open('${c.top_post.url}','_blank')"` : ''}>
-      <div class="comp-top">
-        <div class="comp-icon">${initials(c.name)}</div>
-        <div class="comp-info">
-          <div class="comp-name">${c.name}</div>
-          <div class="comp-sub">${c.followers} followers · ${c.posts} post${c.posts !== 1 ? 's' : ''} this week</div>
+function renderMetrics(d) {
+  document.getElementById('mImpressions').textContent = fmt(d.this_week.total_impressions);
+  document.getElementById('mReactions').textContent   = d.this_week.total_reactions;
+  document.getElementById('mComments').textContent    = d.this_week.total_comments;
+  document.getElementById('mSaves').textContent       = d.this_week.total_saves;
+  document.getElementById('mFollowers').textContent   = '+' + d.this_week.followers_gained;
+  document.getElementById('dataSourceBadge').textContent = d.data_source;
+  document.getElementById('footerTime').textContent   = 'Last updated: ' + d.scanned_at;
+}
+
+function renderPillarGrid(posts) {
+  const stats = {};
+  Object.keys(PILLARS).forEach(p => { stats[p] = { posts: 0, impressions: 0, comments: 0, reactions: 0 }; });
+  posts.forEach(p => {
+    if (!stats[p.pillar]) return;
+    stats[p.pillar].posts++;
+    stats[p.pillar].impressions += p.impressions || 0;
+    stats[p.pillar].comments    += p.comments    || 0;
+    stats[p.pillar].reactions   += p.reactions   || 0;
+  });
+
+  document.getElementById('pillarGrid').innerHTML = Object.entries(PILLARS).map(([name, cfg]) => {
+    const s = stats[name] || { posts: 0, impressions: 0, comments: 0, reactions: 0 };
+    const avgImp = s.posts ? Math.round(s.impressions / s.posts) : 0;
+    return `
+    <div class="pillar-card reveal">
+      <div class="pillar-top">
+        <div class="pillar-color-dot" style="background:${cfg.color}"></div>
+        <div class="pillar-name">${name}</div>
+        <div class="pillar-day">${cfg.day}</div>
+      </div>
+      <div class="pillar-stat">
+        <div class="pillar-stat-val">${s.posts}</div>
+        <div class="pillar-stat-lbl">posts</div>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:8px">
+        <div><div class="pillar-stat-val" style="font-size:18px">${fmt(avgImp)}</div><div class="pillar-stat-lbl">avg impr</div></div>
+        <div><div class="pillar-stat-val" style="font-size:18px">${s.comments}</div><div class="pillar-stat-lbl">comments</div></div>
+      </div>
+    </div>`;
+  }).join('');
+  observeAll();
+}
+
+function renderPosts(posts) {
+  document.getElementById('postsCount').textContent = posts.length + ' posts tracked';
+  document.getElementById('postsList').innerHTML = posts.map((p, i) => {
+    const pillarCfg = PILLARS[p.pillar] || { color: '#6b7280' };
+    const impDisplay = p.impressions > 0 ? fmt(p.impressions) : '—';
+    const er = p.impressions > 0 ? ((p.reactions + p.comments + p.reposts) / p.impressions * 100).toFixed(1) : '—';
+
+    const demos = p.demographics?.length ? `
+      <div class="post-tag-group">
+        <div class="tag-label">Who's Viewing</div>
+        <div class="post-tags">${p.demographics.map(d => `<span class="metric-badge badge-blue" style="font-family:var(--mono);font-size:9px">${d}</span>`).join('')}</div>
+      </div>` : '';
+    const locs = p.locations?.length ? `
+      <div class="post-tag-group" style="margin-top:8px">
+        <div class="tag-label">Top Locations</div>
+        <div class="post-tags">${p.locations.map(l => `<span class="topic-pill">${l}</span>`).join('')}</div>
+      </div>` : '';
+    const senr = p.seniority?.length ? `
+      <div class="post-tag-group" style="margin-top:8px">
+        <div class="tag-label">Seniority</div>
+        <div class="post-tags">${p.seniority.map(s => `<span class="metric-badge badge-purple" style="font-family:var(--mono);font-size:9px">${s}</span>`).join('')}</div>
+      </div>` : '';
+
+    return `
+    <div class="post-row reveal" style="animation-delay:${i * 0.05}s">
+      <div class="post-collapsed" onclick="togglePost(${i})">
+        <div class="pillar-dot" style="background:${pillarCfg.color}"></div>
+        <div>
+          ${pillarBadge(p.pillar)}
+          <div class="post-date">${p.date}</div>
         </div>
-        <div class="comp-stats">
-          <div class="csi">
-            <div class="csi-val">${c.likes}</div>
-            <div class="csi-lbl">Likes</div>
+        <div class="post-hook">${p.hook}</div>
+        <div style="text-align:right">
+          <div class="post-impressions">${impDisplay}</div>
+          <div class="post-date">impressions</div>
+        </div>
+      </div>
+      <div class="post-expanded" id="post-${i}">
+        <div class="post-metrics-grid">
+          <div class="post-metric"><div class="pm-val">${fmt(p.impressions||0)}</div><div class="pm-lbl">Impressions</div></div>
+          <div class="post-metric"><div class="pm-val">${p.reactions||0}</div><div class="pm-lbl">Reactions</div></div>
+          <div class="post-metric"><div class="pm-val">${p.comments||0}</div><div class="pm-lbl">Comments</div></div>
+          <div class="post-metric"><div class="pm-val">${p.saves||0}</div><div class="pm-lbl">Saves</div></div>
+          <div class="post-metric"><div class="pm-val">${er}%</div><div class="pm-lbl">Eng. Rate</div></div>
+        </div>
+        ${demos}${locs}${senr}
+        ${p.notes ? `<div class="post-note">► ${p.notes}</div>` : ''}
+        ${p.url ? `<a class="post-link" href="${p.url}" target="_blank">► View on LinkedIn →</a>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+  observeAll();
+}
+
+function togglePost(i) {
+  const el = document.getElementById('post-' + i);
+  el.classList.toggle('open');
+}
+
+function renderCalendar(posts) {
+  const today = new Date();
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - today.getDay() + 1);
+
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  const pillarDay = { Mon: 'Pop Culture', Tue: 'Ops & Pain', Wed: 'Personal', Thu: 'Hot Take', Fri: 'Founder Tease' };
+
+  const rows = days.map((day, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0];
+    const published = posts.find(p => p.date === dateStr && p.impressions > 0);
+    const planned   = posts.find(p => p.date === dateStr);
+    const pillar    = pillarDay[day];
+    const cfg       = PILLARS[pillar] || { color: '#6b7280' };
+    const isPast    = d < today && d.toDateString() !== today.toDateString();
+
+    let statusHtml, hookHtml;
+    if (published) {
+      statusHtml = `<span class="cal-status status-published">Published</span>`;
+      hookHtml   = published.hook;
+    } else if (planned) {
+      statusHtml = `<span class="cal-status" style="background:#eff6ff;color:#2563eb">Posted</span>`;
+      hookHtml   = planned.hook;
+    } else if (isPast) {
+      statusHtml = `<span class="cal-status status-missed">Missed</span>`;
+      hookHtml   = `<span style="color:var(--text3)">No post logged</span>`;
+    } else {
+      statusHtml = `<span class="cal-status status-planned">Planned</span>`;
+      hookHtml   = `<span style="color:var(--text3)">${pillar} day — draft pending</span>`;
+    }
+
+    return `
+    <div class="cal-row">
+      <div>
+        <div class="cal-day">${day}</div>
+        <div class="cal-date">${d.toLocaleDateString('en-US', {month:'short',day:'numeric'})}</div>
+      </div>
+      <div>${pillarBadge(pillar)}</div>
+      <div class="cal-hook">${hookHtml}</div>
+      <div>${statusHtml}</div>
+    </div>`;
+  });
+
+  const published = rows.filter((_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    const dateStr = d.toISOString().split('T')[0];
+    return posts.find(p => p.date === dateStr);
+  }).length;
+
+  document.getElementById('weekPosted').textContent = `${published}/5 posted`;
+  document.getElementById('calendarList').innerHTML = rows.join('');
+}
+
+function renderCoaching(coaching) {
+  const sections = [
+    { key: 'urgent',    label: 'Urgent', color: '#dc2626', dotColor: '#dc2626', bg: '#fef2f2' },
+    { key: 'this_week', label: 'This Week', color: '#d97706', dotColor: '#f59e0b', bg: '#fffbeb' },
+    { key: 'longterm',  label: 'Long-term', color: '#2563eb', dotColor: '#3b82f6', bg: '#eff6ff' },
+  ];
+
+  document.getElementById('coachingList').innerHTML = sections.map(s => {
+    const items = coaching[s.key] || [];
+    if (!items.length) return '';
+    return `
+    <div class="coaching-section">
+      <div class="coaching-label" style="background:${s.bg};color:${s.color}">
+        <div class="coaching-dot" style="background:${s.dotColor}"></div>
+        ${s.label.toUpperCase()}
+      </div>
+      ${items.map((item, i) => `
+        <div class="coaching-item">
+          <div class="coaching-num">${String(i+1).padStart(2,'0')}</div>
+          <div class="coaching-text">${item}</div>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function renderCompetitors(competitors, scannedAt) {
+  if (scannedAt) document.getElementById('compScannedAt').textContent = scannedAt;
+  if (!competitors || !competitors.length) return;
+
+  document.getElementById('compTag').textContent = competitors.length + ' companies';
+  document.getElementById('compList').innerHTML = competitors.map(c => {
+    const initials = c.name.split(/[\.\s]/)[0].substring(0, 2);
+    return `
+    <div class="comp-row" ${c.top_post?.url ? `onclick="window.open('${c.top_post.url}','_blank')"` : ''}>
+      <div class="comp-top">
+        <div class="comp-icon">${initials}</div>
+        <div>
+          <div class="comp-name">${c.name}</div>
+          <div class="comp-followers">${c.followers} followers</div>
+        </div>
+        <div class="comp-right">
+          <div style="text-align:right">
+            <div class="comp-stat-val">${c.likes}</div>
+            <div class="comp-stat-lbl">Likes</div>
           </div>
-          <div class="csi">
-            <div class="csi-val">${c.comments}</div>
-            <div class="csi-lbl">Comments</div>
+          <div style="text-align:right">
+            <div class="comp-stat-val">${c.comments}</div>
+            <div class="comp-stat-lbl">Comments</div>
           </div>
           ${trendBadge(c.trend)}
         </div>
       </div>
       ${c.top_post ? `<div class="comp-snippet">"${c.top_post.content.substring(0,120)}…" <span style="color:var(--text3)">${c.top_post.posted_ago}</span></div>` : ''}
-      ${c.topics.length ? `<div class="comp-topics">${c.topics.map(t => `<span class="topic-tag">${t}</span>`).join('')}</div>` : ''}
-    </div>`).join('');
+      ${c.topics?.length ? `<div class="comp-topics">${c.topics.map(t => `<span class="topic-pill">${t}</span>`).join('')}</div>` : ''}
+    </div>`;
+  }).join('');
 }
 
-function renderTrends(data) {
-  document.getElementById('trendTag').textContent = data.filter(t => t.momentum === 'Rising').length + ' Rising';
-  document.getElementById('trendList').innerHTML = data.map((t, i) => `
-    <div class="trend-item">
+function renderTrends(trends) {
+  if (!trends || !trends.length) return;
+  const colors = ['fill-green', 'fill-teal', 'fill-green', 'fill-orange', 'fill-orange', 'fill-teal'];
+  const rising = trends.filter(t => t.momentum === 'Rising').length;
+  document.getElementById('trendTag').textContent = rising + ' Rising';
+
+  document.getElementById('trendList').innerHTML = trends.map((t, i) => `
+    <div class="trend-item reveal">
       <div class="trend-top">
         <div class="trend-name">${t.name}</div>
         <div class="trend-right">
-          <div class="trend-pct">${t.avg_likes} avg likes</div>
-          <span class="badge ${t.momentum === 'Rising' ? 'b-green' : 'b-orange'}">
-            ${t.momentum === 'Rising' ? '↑' : '→'} ${t.momentum}
-          </span>
+          <div class="trend-avg">${t.avg_likes} avg likes</div>
+          <span class="metric-badge ${t.momentum==='Rising'?'badge-green':'badge-orange'}">${t.momentum==='Rising'?'↑':'→'} ${t.momentum}</span>
         </div>
       </div>
       <div class="trend-track">
-        <div class="trend-fill ${fillColors[i] || 'f-blue'}" style="width:${t.pct}%"></div>
+        <div class="trend-fill ${colors[i]||'fill-green'}" data-width="${t.pct}"></div>
       </div>
-      <div class="trend-meta">${t.mentions} competitor post${t.mentions !== 1 ? 's' : ''} · Relevance: <strong>${t.relevance}</strong></div>
+      <div class="trend-meta">${t.mentions} competitor post${t.mentions!==1?'s':''} · Relevance: <strong>${t.relevance}</strong></div>
+    </div>`).join('');
+
+  setTimeout(() => {
+    document.querySelectorAll('.trend-fill').forEach(b => {
+      b.style.width = b.dataset.width + '%';
+    });
+  }, 300);
+  observeAll();
+}
+
+function renderBacklog(backlog) {
+  const pillarOrder = ['Pop Culture', 'Ops & Pain', 'Personal', 'Founder Tease', 'Hot Take'];
+  document.getElementById('backlogCard').innerHTML = pillarOrder.map(p => {
+    const items = backlog[p] || [];
+    const cfg = PILLARS[p] || { color: '#6b7280' };
+    return `
+    <div class="backlog-group">
+      <div class="backlog-header" style="background:${cfg.color}08">
+        <div class="pillar-color-dot" style="background:${cfg.color}"></div>
+        ${pillarBadge(p)}
+        <div class="backlog-count">${items.length} ideas</div>
+      </div>
+      ${items.map(idea => `
+        <div class="backlog-item">
+          <div class="backlog-arrow">►</div>
+          <div class="backlog-text">${idea}</div>
+        </div>`).join('')}
+    </div>`;
+  }).join('');
+}
+
+function renderTodos(todos) {
+  document.getElementById('todoCard').innerHTML = todos.map(t => `
+    <div class="todo-item">
+      <div class="todo-check" style="${t.done ? 'background:var(--green);border-color:var(--green)' : ''}"></div>
+      <div class="todo-text" style="${t.done ? 'color:var(--text3);text-decoration:line-through' : ''}">${t.task}</div>
     </div>`).join('');
 }
 
-function renderActions(data) {
-  document.getElementById('statActions').textContent = data.length;
-  document.getElementById('actionList').innerHTML = data.map((a, i) => `
-    <div class="action-item">
-      <div class="action-dot ${dotColors[i] || ''}"></div>
-      <div class="action-text">${a}</div>
-    </div>`).join('');
-}
-
-function renderSummary(summary, scanned_at) {
-  document.getElementById('statPosts').textContent  = summary.total_posts;
-  document.getElementById('statLikes').textContent  = summary.total_likes;
-  document.getElementById('statTrends').textContent = summary.rising_trends;
-  document.getElementById('dataSource').textContent = '✓ ' + summary.data_source;
-  document.getElementById('footer').textContent     = 'Last updated ' + scanned_at;
-}
-
-async function pollStatus(run_id, dataset_id) {
-  const ovStatus = document.getElementById('ovStatus');
-  const maxWait  = 120; // 2 minutes max
-  let   waited   = 0;
-
-  while (waited < maxWait) {
-    await new Promise(r => setTimeout(r, 3000));
-    waited += 3;
-
-    try {
-      const r = await fetch(`/api/status/${run_id}`);
-      const d = await r.json();
-      ovStatus.textContent = `Scraping LinkedIn… (${waited}s)`;
-
-      if (d.status === 'SUCCEEDED') {
-        ovStatus.textContent = 'Processing data...';
-        return dataset_id;
-      }
-      if (d.status === 'FAILED' || d.status === 'ABORTED') {
-        throw new Error('Apify run failed. Check your token and try again.');
-      }
-    } catch(e) {
-      if (e.message.includes('Apify')) throw e;
-    }
+// ── MAIN DATA LOAD ─────────────────────────────────────────────────────────
+async function loadDashboard() {
+  try {
+    const r = await fetch('/api/dashboard');
+    const d = await r.json();
+    renderHero(d);
+    renderMetrics(d);
+    renderPillarGrid(d.published_posts);
+    renderPosts([...d.published_posts].reverse());
+    renderCalendar(d.published_posts);
+    renderCoaching(d.coaching);
+    renderBacklog(d.idea_backlog);
+    renderTodos(d.profile_todos);
+    if (d.competitors?.length) renderCompetitors(d.competitors, d.scanned_at);
+    if (d.trends?.length)      renderTrends(d.trends);
+    observeAll();
+  } catch(e) {
+    console.error('Dashboard load error:', e);
   }
-  throw new Error('Scan timed out. Try again.');
 }
 
+// ── SCAN ───────────────────────────────────────────────────────────────────
 async function startScan() {
-  const btn      = document.getElementById('scanBtn');
-  const overlay  = document.getElementById('overlay');
+  const btn     = document.getElementById('scanBtn');
+  const overlay = document.getElementById('overlay');
   const ovStatus = document.getElementById('ovStatus');
-  const ovLabel  = document.getElementById('ovLabel');
 
-  hideError();
+  document.getElementById('errorBar').style.display = 'none';
+  overlay.classList.remove('hidden');
   btn.disabled = true;
   btn.textContent = 'Scanning…';
-  ovLabel.textContent  = 'Scanning LinkedIn';
-  ovStatus.textContent = 'Triggering scrape...';
-  overlay.classList.remove('hidden');
+
+  const steps = [
+    'Connecting to Apify...',
+    'Scraping competitor posts...',
+    'Analyzing industry trends...',
+    'Processing engagement data...',
+    'Building insights...',
+  ];
+  let si = 0;
+  const ticker = setInterval(() => {
+    if (si < steps.length) ovStatus.textContent = steps[si++];
+  }, 600);
 
   try {
-    // Step 1: Trigger scrape
-    const triggerRes = await fetch('/api/trigger', {method: 'POST'});
-    const triggerData = await triggerRes.json();
+    const res  = await fetch('/api/scan/competitors', { method: 'POST' });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
 
-    if (triggerData.error) throw new Error(triggerData.error);
+    ovStatus.textContent = 'Waiting for LinkedIn data...';
+    let waited = 0;
+    while (waited < 150) {
+      await new Promise(r => setTimeout(r, 3000));
+      waited += 3;
+      const sr = await fetch(`/api/status/${data.run_id}`);
+      const sd = await sr.json();
+      ovStatus.textContent = `Scraping... (${waited}s)`;
+      if (sd.status === 'SUCCEEDED') break;
+      if (sd.status === 'FAILED') throw new Error('Apify run failed.');
+    }
 
-    ovStatus.textContent = 'Scrape started — waiting for LinkedIn data...';
+    ovStatus.textContent = 'Processing results...';
+    const rr = await fetch(`/api/results/competitors/${data.dataset_id}`);
+    const rd = await rr.json();
+    if (rd.error) throw new Error(rd.error);
 
-    // Step 2: Poll until done
-    const dataset_id = await pollStatus(triggerData.run_id, triggerData.dataset_id);
+    renderCompetitors(rd.competitors, rd.scanned_at);
+    renderTrends(rd.trends);
 
-    // Step 3: Fetch and render results
-    ovStatus.textContent = 'Loading results...';
-    const resultsRes  = await fetch(`/api/results/${dataset_id}`);
-    const resultsData = await resultsRes.json();
-
-    if (resultsData.error) throw new Error(resultsData.error);
-
-    renderCompetitors(resultsData.competitors);
-    renderTrends(resultsData.trends);
-    renderActions(resultsData.actions);
-    renderSummary(resultsData.summary, resultsData.scanned_at);
-
-    overlay.classList.add('hidden');
-    btn.disabled = false;
-    btn.textContent = 'Scan Now';
+    // Reload full dashboard
+    await loadDashboard();
 
   } catch(e) {
+    const bar = document.getElementById('errorBar');
+    bar.textContent = '⚠ ' + e.message;
+    bar.style.display = 'block';
+  } finally {
+    clearInterval(ticker);
     overlay.classList.add('hidden');
     btn.disabled = false;
-    btn.textContent = 'Scan Now';
-    showError(e.message);
+    btn.innerHTML = '<span>↺</span> Scan Now';
   }
 }
 
-// On load — try to fetch latest dataset if env var is set
-window.addEventListener('load', async () => {
-  // Always hide overlay immediately on load
+// ── BOOT ───────────────────────────────────────────────────────────────────
+window.addEventListener('load', () => {
   document.getElementById('overlay').classList.add('hidden');
-
-  try {
-    const r = await fetch('/api/latest');
-    if (r.ok) {
-      const d = await r.json();
-      if (!d.error) {
-        renderCompetitors(d.competitors);
-        renderTrends(d.trends);
-        renderActions(d.actions);
-        renderSummary(d.summary, d.scanned_at);
-      }
-    }
-  } catch(e) {
-    // Silent fail — user just needs to hit Scan Now
-  }
+  loadDashboard();
 });
 </script>
 </body>
