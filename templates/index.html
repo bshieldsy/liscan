@@ -14,69 +14,58 @@
     --radius:18px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;
-       font-weight:300;min-height:100vh;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-weight:300;min-height:100vh;-webkit-font-smoothing:antialiased}
 
-  header{background:rgba(245,245,247,.85);backdrop-filter:blur(20px);
-    border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
-    padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+  header{background:rgba(245,245,247,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
   .logo{font-weight:500;font-size:17px;letter-spacing:-.3px}
   .logo-dot{color:var(--blue)}
   .hdr-mid{font-size:13px;color:var(--text2)}
-  .scan-btn{background:var(--blue);color:#fff;border:none;font-family:'DM Sans',sans-serif;
-    font-size:13px;font-weight:500;padding:8px 18px;border-radius:980px;cursor:pointer;
-    transition:all .2s;letter-spacing:-.1px}
+  .scan-btn{background:var(--blue);color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:8px 18px;border-radius:980px;cursor:pointer;transition:all .2s}
   .scan-btn:hover{background:#0077ed;transform:scale(1.02)}
   .scan-btn:disabled{background:var(--text3);cursor:not-allowed;transform:none}
 
   .wrapper{max-width:1120px;margin:0 auto;padding:40px 24px 60px}
-
   .page-title{margin-bottom:32px}
-  .page-title h1{font-family:'DM Serif Display',serif;font-size:38px;
-    font-weight:400;letter-spacing:-.5px;line-height:1.1}
+  .page-title h1{font-family:'DM Serif Display',serif;font-size:38px;font-weight:400;letter-spacing:-.5px;line-height:1.1}
   .page-title p{font-size:15px;color:var(--text2);margin-top:6px;font-weight:300}
 
+  .error-bar{background:var(--red-l);border:1px solid rgba(255,59,48,.2);border-radius:12px;padding:14px 20px;margin-bottom:24px;font-size:14px;color:var(--red);display:none}
+
   .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-  .stat-card{background:var(--surface);border-radius:var(--radius);padding:22px 22px 20px;
-    border:1px solid var(--border);transition:box-shadow .2s,transform .2s}
+  .stat-card{background:var(--surface);border-radius:var(--radius);padding:22px 22px 20px;border:1px solid var(--border);transition:box-shadow .2s,transform .2s}
   .stat-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07);transform:translateY(-1px)}
   .sc-label{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:8px}
-  .sc-value{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;
-    letter-spacing:-1px;line-height:1}
-  .sc-sub{font-size:12px;color:var(--text3);margin-top:6px;display:flex;
-    align-items:center;gap:4px}
+  .sc-value{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;letter-spacing:-1px;line-height:1}
+  .sc-sub{font-size:12px;color:var(--text3);margin-top:6px;display:flex;align-items:center;gap:4px}
 
-  .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;
-    padding:2px 8px;border-radius:980px}
+  .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:980px}
   .b-green{background:var(--green-l);color:var(--green)}
   .b-red{background:var(--red-l);color:var(--red)}
   .b-orange{background:var(--orange-l);color:var(--orange)}
   .b-blue{background:var(--blue-l);color:var(--blue)}
 
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-  .card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);
-    overflow:hidden;transition:box-shadow .2s}
+  .card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:box-shadow .2s}
   .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07)}
-  .card-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--border);
-    display:flex;align-items:center;justify-content:space-between}
+  .card-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
   .card-title{font-size:15px;font-weight:500;letter-spacing:-.2px}
-  .card-tag{font-size:11px;font-weight:500;color:var(--blue);
-    background:var(--blue-l);padding:3px 10px;border-radius:980px}
+  .card-tag{font-size:11px;font-weight:500;color:var(--blue);background:var(--blue-l);padding:3px 10px;border-radius:980px}
 
-  .comp-row{display:flex;align-items:center;padding:14px 24px;
-    border-bottom:1px solid var(--border);transition:background .15s}
+  .comp-row{padding:14px 24px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer}
   .comp-row:last-child{border-bottom:none}
   .comp-row:hover{background:var(--surface2)}
-  .comp-icon{width:32px;height:32px;border-radius:8px;background:var(--surface2);
-    border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
-    font-size:13px;font-weight:600;color:var(--text2);margin-right:12px;flex-shrink:0}
+  .comp-top{display:flex;align-items:center;margin-bottom:6px}
+  .comp-icon{width:32px;height:32px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;color:var(--text2);margin-right:12px;flex-shrink:0}
   .comp-info{flex:1}
   .comp-name{font-size:14px;font-weight:500;letter-spacing:-.1px}
   .comp-sub{font-size:12px;color:var(--text3);margin-top:1px}
-  .comp-stats{display:flex;gap:20px;align-items:center}
+  .comp-stats{display:flex;gap:16px;align-items:center}
   .csi{text-align:right}
   .csi-val{font-size:15px;font-weight:500;letter-spacing:-.3px}
   .csi-lbl{font-size:10px;color:var(--text3)}
+  .comp-snippet{font-size:12px;color:var(--text2);line-height:1.5;padding:6px 10px;background:var(--surface2);border-radius:8px;margin-top:4px}
+  .comp-topics{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+  .topic-tag{font-size:10px;font-weight:500;padding:2px 8px;border-radius:980px;background:var(--blue-l);color:var(--blue)}
 
   .trend-item{padding:16px 24px;border-bottom:1px solid var(--border)}
   .trend-item:last-child{border-bottom:none}
@@ -87,38 +76,30 @@
   .trend-track{height:4px;background:var(--surface2);border-radius:980px;overflow:hidden}
   .trend-fill{height:100%;border-radius:980px;width:0;transition:width 1s cubic-bezier(.16,1,.3,1)}
   .f-blue{background:var(--blue)}.f-green{background:var(--green)}.f-orange{background:var(--orange)}
-  .trend-mentions{font-size:11px;color:var(--text3);margin-top:6px}
+  .trend-meta{font-size:11px;color:var(--text3);margin-top:6px}
 
-  .action-item{display:flex;gap:14px;padding:16px 24px;border-bottom:1px solid var(--border);
-    align-items:flex-start;transition:background .15s;cursor:pointer}
+  .action-item{display:flex;gap:14px;padding:16px 24px;border-bottom:1px solid var(--border);align-items:flex-start;transition:background .15s}
   .action-item:last-child{border-bottom:none}
   .action-item:hover{background:var(--surface2)}
-  .action-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);
-    margin-top:5px;flex-shrink:0}
+  .action-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);margin-top:5px;flex-shrink:0}
   .action-dot.orange{background:var(--orange)}
   .action-dot.green{background:var(--green)}
   .action-text{font-size:14px;color:var(--text);line-height:1.5}
 
   .perf-grid{display:grid;grid-template-columns:1fr 1fr}
-  .perf-cell{padding:22px 24px;border-right:1px solid var(--border);
-    border-bottom:1px solid var(--border)}
+  .perf-cell{padding:22px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
   .perf-cell:nth-child(even){border-right:none}
   .perf-cell:nth-last-child(-n+2){border-bottom:none}
   .perf-lbl{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:6px}
-  .perf-val{font-family:'DM Serif Display',serif;font-size:32px;font-weight:400;
-    letter-spacing:-.5px;line-height:1}
+  .perf-val{font-family:'DM Serif Display',serif;font-size:32px;font-weight:400;letter-spacing:-.5px;line-height:1}
   .perf-sub{font-size:12px;color:var(--text3);margin-top:4px}
 
-  .footer{text-align:center;font-size:12px;color:var(--text3);margin-top:32px}
+  .data-source{text-align:center;font-size:11px;color:var(--green);margin-top:8px;font-weight:500}
+  .footer{text-align:center;font-size:12px;color:var(--text3);margin-top:24px}
 
-  /* Scan overlay */
-  .overlay{position:fixed;inset:0;background:rgba(245,245,247,.92);
-    backdrop-filter:blur(24px);display:flex;flex-direction:column;
-    align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
+  .overlay{position:fixed;inset:0;background:rgba(245,245,247,.92);backdrop-filter:blur(24px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
   .overlay.hidden{opacity:0;pointer-events:none}
-  .spinner{width:40px;height:40px;border:2.5px solid var(--border);
-    border-top-color:var(--blue);border-radius:50%;
-    animation:spin .8s linear infinite;margin-bottom:20px}
+  .spinner{width:40px;height:40px;border:2.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:20px}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ov-label{font-size:15px;font-weight:500;margin-bottom:6px}
   .ov-status{font-size:13px;color:var(--text2)}
@@ -128,227 +109,291 @@
 
 <div class="overlay" id="overlay">
   <div class="spinner"></div>
-  <div class="ov-label">Scanning LinkedIn</div>
-  <div class="ov-status" id="ovStatus">Initializing...</div>
+  <div class="ov-label" id="ovLabel">Scanning LinkedIn</div>
+  <div class="ov-status" id="ovStatus">Triggering scrape...</div>
 </div>
 
 <header>
   <div class="logo">LI Scanner<span class="logo-dot">.</span></div>
-  <div class="hdr-mid">Event & Project Management · Small Business</div>
-  <button class="scan-btn" id="scanBtn" onclick="runScan()">Scan Now</button>
+  <div class="hdr-mid">Event & Project Management · Small Business · Live Data</div>
+  <button class="scan-btn" id="scanBtn" onclick="startScan()">Scan Now</button>
 </header>
 
 <div class="wrapper">
   <div class="page-title">
     <h1>Your LinkedIn Intelligence</h1>
-    <p>Event industry · Project management · Small teams · Freelancers</p>
+    <p>Real-time competitor posts · Industry trends · Action items — all from live LinkedIn data</p>
   </div>
 
-  <!-- STAT ROW -->
+  <div class="error-bar" id="errorBar"></div>
+
   <div class="stat-row">
     <div class="stat-card">
-      <div class="sc-label">Followers</div>
-      <div class="sc-value" id="statFollowers">—</div>
-      <div class="sc-sub"><span class="badge b-green">↑ +12</span> this week</div>
+      <div class="sc-label">Total Posts This Week</div>
+      <div class="sc-value" id="statPosts">—</div>
+      <div class="sc-sub">Across all 5 competitors</div>
     </div>
     <div class="stat-card">
-      <div class="sc-label">Engagement Rate</div>
-      <div class="sc-value" id="statEngage">—</div>
-      <div class="sc-sub"><span class="badge b-orange" id="engageBadge">Below avg</span> 4.1% industry</div>
+      <div class="sc-label">Total Likes This Week</div>
+      <div class="sc-value" id="statLikes">—</div>
+      <div class="sc-sub">Combined engagement</div>
     </div>
     <div class="stat-card">
       <div class="sc-label">Rising Trends</div>
-      <div class="sc-value">4</div>
-      <div class="sc-sub"><span class="badge b-blue">In your niche</span></div>
+      <div class="sc-value" id="statTrends">—</div>
+      <div class="sc-sub">In your niche right now</div>
     </div>
     <div class="stat-card">
       <div class="sc-label">Action Items</div>
-      <div class="sc-value">5</div>
-      <div class="sc-sub"><span class="badge b-red">Needs attention</span></div>
+      <div class="sc-value" id="statActions">—</div>
+      <div class="sc-sub">Based on real data</div>
     </div>
   </div>
 
   <div class="grid">
-    <!-- COMPETITORS -->
     <div class="card">
       <div class="card-hdr">
         <div class="card-title">Competitor Activity</div>
-        <div class="card-tag">Live</div>
+        <div class="card-tag" id="compTag">Live</div>
       </div>
-      <div id="compList"></div>
+      <div id="compList"><div style="padding:24px;color:var(--text3);font-size:14px">Run a scan to load real data...</div></div>
     </div>
 
-    <!-- TRENDS -->
     <div class="card">
       <div class="card-hdr">
         <div class="card-title">Industry Trends</div>
-        <div class="card-tag">4 Rising</div>
+        <div class="card-tag" id="trendTag">Live</div>
       </div>
-      <div id="trendList"></div>
+      <div id="trendList"><div style="padding:24px;color:var(--text3);font-size:14px">Run a scan to load real data...</div></div>
     </div>
   </div>
 
   <div class="grid">
-    <!-- PERFORMANCE -->
     <div class="card">
       <div class="card-hdr">
-        <div class="card-title">Your Performance</div>
-        <div class="card-tag">This Month</div>
+        <div class="card-title">Action Items</div>
+        <div class="card-tag">Based on Real Data</div>
+      </div>
+      <div id="actionList"><div style="padding:24px;color:var(--text3);font-size:14px">Run a scan to generate real recommendations...</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Your Stats</div>
+        <div class="card-tag">Update Weekly</div>
       </div>
       <div class="perf-grid">
         <div class="perf-cell">
           <div class="perf-lbl">Followers</div>
-          <div class="perf-val" id="perfFollowers">—</div>
-          <div class="perf-sub">↑ 12 this week</div>
+          <div class="perf-val">245</div>
+          <div class="perf-sub">Update in app.py</div>
         </div>
         <div class="perf-cell">
           <div class="perf-lbl">Engagement Rate</div>
-          <div class="perf-val" id="perfEngage" style="color:var(--orange)">—</div>
-          <div class="perf-sub">Below 4.1% avg</div>
+          <div class="perf-val" style="color:var(--orange)">3.2%</div>
+          <div class="perf-sub">Update in app.py</div>
         </div>
         <div class="perf-cell">
           <div class="perf-lbl">Posts This Month</div>
-          <div class="perf-val" id="perfPosts" style="color:var(--red)">—</div>
+          <div class="perf-val" style="color:var(--red)">4</div>
           <div class="perf-sub">Target: 6+</div>
         </div>
         <div class="perf-cell">
-          <div class="perf-lbl">Pending Connections</div>
-          <div class="perf-val" id="perfConnections" style="color:var(--green)">—</div>
-          <div class="perf-sub">Ready to accept</div>
+          <div class="perf-lbl">Pending Connects</div>
+          <div class="perf-val" style="color:var(--green)">12</div>
+          <div class="perf-sub">Accept & message</div>
         </div>
       </div>
-    </div>
-
-    <!-- ACTIONS -->
-    <div class="card">
-      <div class="card-hdr">
-        <div class="card-title">Action Items</div>
-        <div class="card-tag">Do These Now</div>
-      </div>
-      <div id="actionList"></div>
     </div>
   </div>
 
-  <div class="footer" id="footer">Loading...</div>
+  <div class="data-source" id="dataSource"></div>
+  <div class="footer" id="footer">Hit "Scan Now" to pull fresh live data from LinkedIn</div>
 </div>
 
 <script>
-const dotColors = ['','orange','orange','','green'];
+const dotColors = ['','orange','','orange','green'];
+const fillColors = ['f-green','f-blue','f-blue','f-orange','f-orange','f-orange'];
+
+function showError(msg) {
+  const bar = document.getElementById('errorBar');
+  bar.textContent = '⚠ ' + msg;
+  bar.style.display = 'block';
+}
+
+function hideError() {
+  document.getElementById('errorBar').style.display = 'none';
+}
+
+function trendBadge(t) {
+  if (t.includes('Up'))     return '<span class="badge b-green">↑ Up</span>';
+  if (t.includes('Down'))   return '<span class="badge b-red">↓ Down</span>';
+  if (t === 'No data this week') return '<span class="badge b-orange">No data</span>';
+  return '<span class="badge b-orange">→ Stable</span>';
+}
+
+function initials(name) {
+  return name.split(/[\.\s]/)[0].substring(0,2);
+}
 
 function renderCompetitors(data) {
-  const initials = n => n.split(/[\.\s]/)[0].substring(0,2);
-  const trendBadge = t => {
-    if (t.includes('Up'))     return '<span class="badge b-green">↑ Up</span>';
-    if (t.includes('Down'))   return '<span class="badge b-red">↓ Down</span>';
-    return '<span class="badge b-orange">→ Stable</span>';
-  };
+  document.getElementById('compTag').textContent = 'Live · ' + data.length + ' companies';
   document.getElementById('compList').innerHTML = data.map(c => `
-    <div class="comp-row">
-      <div class="comp-icon">${initials(c.name)}</div>
-      <div class="comp-info">
-        <div class="comp-name">${c.name}</div>
-        <div class="comp-sub">${c.posts} posts this week</div>
-      </div>
-      <div class="comp-stats">
-        <div class="csi">
-          <div class="csi-val">${c.engage}%</div>
-          <div class="csi-lbl">Engagement</div>
+    <div class="comp-row" ${c.top_post ? `onclick="window.open('${c.top_post.url}','_blank')"` : ''}>
+      <div class="comp-top">
+        <div class="comp-icon">${initials(c.name)}</div>
+        <div class="comp-info">
+          <div class="comp-name">${c.name}</div>
+          <div class="comp-sub">${c.followers} followers · ${c.posts} post${c.posts !== 1 ? 's' : ''} this week</div>
         </div>
-        ${trendBadge(c.trend)}
+        <div class="comp-stats">
+          <div class="csi">
+            <div class="csi-val">${c.likes}</div>
+            <div class="csi-lbl">Likes</div>
+          </div>
+          <div class="csi">
+            <div class="csi-val">${c.comments}</div>
+            <div class="csi-lbl">Comments</div>
+          </div>
+          ${trendBadge(c.trend)}
+        </div>
       </div>
+      ${c.top_post ? `<div class="comp-snippet">"${c.top_post.content.substring(0,120)}…" <span style="color:var(--text3)">${c.top_post.posted_ago}</span></div>` : ''}
+      ${c.topics.length ? `<div class="comp-topics">${c.topics.map(t => `<span class="topic-tag">${t}</span>`).join('')}</div>` : ''}
     </div>`).join('');
 }
 
 function renderTrends(data) {
-  const colors = ['f-green','f-blue','f-blue','f-orange','f-orange'];
-  const momBadge = m => m === 'Rising'
-    ? '<span class="badge b-green">↑ Rising</span>'
-    : '<span class="badge b-orange">→ Stable</span>';
-  document.getElementById('trendList').innerHTML = data.map((t,i) => `
+  document.getElementById('trendTag').textContent = data.filter(t => t.momentum === 'Rising').length + ' Rising';
+  document.getElementById('trendList').innerHTML = data.map((t, i) => `
     <div class="trend-item">
       <div class="trend-top">
         <div class="trend-name">${t.name}</div>
         <div class="trend-right">
-          <div class="trend-pct">${t.engage}%</div>
-          ${momBadge(t.momentum)}
+          <div class="trend-pct">${t.avg_likes} avg likes</div>
+          <span class="badge ${t.momentum === 'Rising' ? 'b-green' : 'b-orange'}">
+            ${t.momentum === 'Rising' ? '↑' : '→'} ${t.momentum}
+          </span>
         </div>
       </div>
       <div class="trend-track">
-        <div class="trend-fill ${colors[i]}" style="width:${t.pct}%"></div>
+        <div class="trend-fill ${fillColors[i] || 'f-blue'}" style="width:${t.pct}%"></div>
       </div>
-      <div class="trend-mentions">${t.mentions} mentions · ${t.relevance} relevance to your business</div>
+      <div class="trend-meta">${t.mentions} competitor post${t.mentions !== 1 ? 's' : ''} · Relevance: <strong>${t.relevance}</strong></div>
     </div>`).join('');
 }
 
 function renderActions(data) {
-  document.getElementById('actionList').innerHTML = data.map((a,i) => `
+  document.getElementById('statActions').textContent = data.length;
+  document.getElementById('actionList').innerHTML = data.map((a, i) => `
     <div class="action-item">
-      <div class="action-dot ${dotColors[i]}"></div>
+      <div class="action-dot ${dotColors[i] || ''}"></div>
       <div class="action-text">${a}</div>
     </div>`).join('');
 }
 
-function renderStats(s) {
-  document.getElementById('statFollowers').textContent  = s.followers;
-  document.getElementById('statEngage').textContent     = s.engagement + '%';
-  document.getElementById('perfFollowers').textContent  = s.followers;
-  document.getElementById('perfEngage').textContent     = s.engagement + '%';
-  document.getElementById('perfPosts').textContent      = s.posts;
-  document.getElementById('perfConnections').textContent = s.connections;
+function renderSummary(summary, scanned_at) {
+  document.getElementById('statPosts').textContent  = summary.total_posts;
+  document.getElementById('statLikes').textContent  = summary.total_likes;
+  document.getElementById('statTrends').textContent = summary.rising_trends;
+  document.getElementById('dataSource').textContent = '✓ ' + summary.data_source;
+  document.getElementById('footer').textContent     = 'Last updated ' + scanned_at;
 }
 
-async function runScan() {
-  const btn = document.getElementById('scanBtn');
-  const overlay = document.getElementById('overlay');
+async function pollStatus(run_id, dataset_id) {
   const ovStatus = document.getElementById('ovStatus');
+  const maxWait  = 120; // 2 minutes max
+  let   waited   = 0;
 
+  while (waited < maxWait) {
+    await new Promise(r => setTimeout(r, 3000));
+    waited += 3;
+
+    try {
+      const r = await fetch(`/api/status/${run_id}`);
+      const d = await r.json();
+      ovStatus.textContent = `Scraping LinkedIn… (${waited}s)`;
+
+      if (d.status === 'SUCCEEDED') {
+        ovStatus.textContent = 'Processing data...';
+        return dataset_id;
+      }
+      if (d.status === 'FAILED' || d.status === 'ABORTED') {
+        throw new Error('Apify run failed. Check your token and try again.');
+      }
+    } catch(e) {
+      if (e.message.includes('Apify')) throw e;
+    }
+  }
+  throw new Error('Scan timed out. Try again.');
+}
+
+async function startScan() {
+  const btn      = document.getElementById('scanBtn');
+  const overlay  = document.getElementById('overlay');
+  const ovStatus = document.getElementById('ovStatus');
+  const ovLabel  = document.getElementById('ovLabel');
+
+  hideError();
   btn.disabled = true;
   btn.textContent = 'Scanning…';
+  ovLabel.textContent  = 'Scanning LinkedIn';
+  ovStatus.textContent = 'Triggering scrape...';
   overlay.classList.remove('hidden');
 
-  const steps = [
-    'Connecting to data sources...',
-    'Scanning competitor activity...',
-    'Analyzing industry trends...',
-    'Pulling your performance data...',
-    'Generating recommendations...',
-  ];
-
-  let i = 0;
-  const ticker = setInterval(() => {
-    if (i < steps.length) ovStatus.textContent = steps[i++];
-  }, 500);
-
   try {
-    const res = await fetch('/api/scan');
-    const d   = await res.json();
+    // Step 1: Trigger scrape
+    const triggerRes = await fetch('/api/trigger', {method: 'POST'});
+    const triggerData = await triggerRes.json();
 
-    clearInterval(ticker);
-    ovStatus.textContent = 'Done.';
+    if (triggerData.error) throw new Error(triggerData.error);
 
-    renderCompetitors(d.competitors);
-    renderTrends(d.trends);
-    renderActions(d.actions);
-    renderStats(d.your_stats);
-    document.getElementById('footer').textContent = 'Last updated ' + d.scanned_at;
+    ovStatus.textContent = 'Scrape started — waiting for LinkedIn data...';
 
-    setTimeout(() => {
-      overlay.classList.add('hidden');
-      btn.disabled = false;
-      btn.textContent = 'Scan Now';
-    }, 400);
+    // Step 2: Poll until done
+    const dataset_id = await pollStatus(triggerData.run_id, triggerData.dataset_id);
+
+    // Step 3: Fetch and render results
+    ovStatus.textContent = 'Loading results...';
+    const resultsRes  = await fetch(`/api/results/${dataset_id}`);
+    const resultsData = await resultsRes.json();
+
+    if (resultsData.error) throw new Error(resultsData.error);
+
+    renderCompetitors(resultsData.competitors);
+    renderTrends(resultsData.trends);
+    renderActions(resultsData.actions);
+    renderSummary(resultsData.summary, resultsData.scanned_at);
+
+    overlay.classList.add('hidden');
+    btn.disabled = false;
+    btn.textContent = 'Scan Now';
 
   } catch(e) {
-    clearInterval(ticker);
-    ovStatus.textContent = 'Error — check console.';
+    overlay.classList.add('hidden');
     btn.disabled = false;
-    btn.textContent = 'Retry';
-    setTimeout(() => overlay.classList.add('hidden'), 1500);
+    btn.textContent = 'Scan Now';
+    showError(e.message);
   }
 }
 
-// Auto-scan on load
-window.addEventListener('load', runScan);
+// On load — try to fetch latest dataset if env var is set
+window.addEventListener('load', async () => {
+  try {
+    const r = await fetch('/api/latest');
+    if (r.ok) {
+      const d = await r.json();
+      if (!d.error) {
+        renderCompetitors(d.competitors);
+        renderTrends(d.trends);
+        renderActions(d.actions);
+        renderSummary(d.summary, d.scanned_at);
+      }
+    }
+  } catch(e) {
+    // Silent fail — user just needs to hit Scan Now
+  }
+});
 </script>
 </body>
 </html>
