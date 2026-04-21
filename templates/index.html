@@ -4,532 +4,248 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LinkedIn HQ — Brett Shields</title>
-<link href="https://fonts.googleapis.com/css2?family=Editorial+New:ital,wght@0,400;1,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;1,300;1,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #f4f2ec;
-  --bg2: #eae8e0;
-  --dark: #1a1f14;
-  --dark2: #243320;
-  --green: #2d5a27;
-  --green-bright: #5db847;
-  --green-muted: #8db884;
-  --text: #1a1f14;
-  --text2: #4a5044;
-  --text3: #8a9084;
-  --border: rgba(26,31,20,0.12);
-  --border-dark: rgba(255,255,255,0.1);
-  --pink: #EC4899;
-  --orange: #F97316;
-  --teal: #14B8A6;
-  --red: #EF4444;
-  --purple: #A855F7;
+  --bg: #f3f1eb;
+  --bg2: #e8e5dc;
+  --dark: #162013;
+  --dark2: #1e2d1a;
+  --green: #2a5425;
+  --green-bright: #5cb843;
+  --green-muted: #7aad62;
+  --text: #162013;
+  --text2: #3d4e38;
+  --text3: #7a8c74;
+  --border: rgba(22,32,19,0.1);
   --card: #ffffff;
-  --card-dark: #1e2518;
   --mono: 'JetBrains Mono', monospace;
   --sans: 'Instrument Sans', sans-serif;
-  --serif: 'Editorial New', Georgia, serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --pink: #EC4899; --orange: #F97316; --teal: #14B8A6; --red: #EF4444; --purple: #A855F7;
 }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.75s cubic-bezier(0.16,1,0.3,1),transform 0.75s cubic-bezier(0.16,1,0.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}.d5{transition-delay:.4s}
 
-html { scroll-behavior: smooth; }
+/* HEADER */
+header{position:sticky;top:0;z-index:200;background:rgba(243,241,235,0.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 48px;height:58px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:-.3px;color:var(--text)}
+.logo-mark{width:30px;height:30px;background:var(--dark);border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--green-bright);font-size:13px;font-weight:700}
+nav{display:flex;align-items:center;gap:2px}
+.nav-btn{background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--text3);padding:6px 14px;border-radius:6px;transition:all .15s;text-decoration:none}
+.nav-btn:hover,.nav-btn.active{background:var(--bg2);color:var(--text)}
+.scan-btn{background:var(--dark);color:#fff;border:none;cursor:pointer;font-family:var(--sans);font-size:13px;font-weight:500;padding:8px 20px;border-radius:8px;transition:all .2s;display:flex;align-items:center;gap:7px}
+.scan-btn:hover{background:var(--green);transform:translateY(-1px)}
+.scan-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 14px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
+/* HERO */
+.hero{background:var(--dark);padding:64px 48px 52px;position:relative;overflow:hidden}
+.hero-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;pointer-events:none}
+.hero-glow{position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,rgba(92,184,67,.07) 0%,transparent 65%);pointer-events:none}
+.hero-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto;align-items:center;gap:48px;position:relative;z-index:1}
+.hero-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--green-bright);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'►';font-size:8px}
+.hero-title{font-family:var(--serif);font-size:clamp(28px,3.5vw,46px);font-weight:300;line-height:1.08;color:#fff;letter-spacing:-.5px;margin-bottom:10px}
+.hero-title em{font-style:italic;color:var(--green-bright)}
+.hero-sub{font-size:13px;color:rgba(255,255,255,.45);font-weight:400}
+.hero-kpis{display:flex;gap:40px}
+.hero-kpi{text-align:right}
+.hero-kpi-val{font-family:var(--serif);font-size:42px;font-weight:300;color:#fff;letter-spacing:-2px;line-height:1}
+.hero-kpi-lbl{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-top:4px}
 
-/* ── SCROLL REVEAL ── */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.1s; }
-.reveal-delay-2 { transition-delay: 0.2s; }
-.reveal-delay-3 { transition-delay: 0.3s; }
-.reveal-delay-4 { transition-delay: 0.4s; }
+/* TICKER */
+.ticker-strip{background:var(--green);overflow:hidden;white-space:nowrap;padding:9px 0;border-top:1px solid rgba(0,0,0,.15)}
+.ticker-inner{display:inline-block;animation:tick 35s linear infinite;font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.ticker-sep{color:var(--green-bright);margin:0 20px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ── HEADER ── */
-header {
-  position: sticky; top: 0; z-index: 200;
-  background: rgba(244,242,236,0.9);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 40px;
-  height: 56px;
-  display: flex; align-items: center; justify-content: space-between;
-}
+/* CUSTOM GRAPHICS STRIP */
+.graphics-strip{background:var(--dark2);padding:40px 48px;overflow:hidden;position:relative}
+.graphics-strip-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;position:relative;z-index:1}
+.stat-block{border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:20px 24px;position:relative;overflow:hidden;background:rgba(255,255,255,.02)}
+.stat-block-corners::before,.stat-block-corners::after{content:'';position:absolute;width:10px;height:10px;border-color:var(--green-bright);border-style:solid;opacity:.5}
+.stat-block-corners::before{top:6px;left:6px;border-width:1px 0 0 1px}
+.stat-block-corners::after{bottom:6px;right:6px;border-width:0 1px 1px 0}
+.stat-block-label{font-family:var(--mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.stat-block-label::before{content:'►';font-size:7px;color:var(--green-bright)}
+.stat-block-val{font-family:var(--serif);font-size:52px;font-weight:300;color:#fff;letter-spacing:-2px;line-height:1}
+.stat-block-val em{font-style:italic;color:var(--green-bright);font-size:36px}
+.stat-block-sub{font-size:12px;color:rgba(255,255,255,.35);margin-top:8px;line-height:1.4}
 
-.logo {
-  font-family: var(--sans);
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: -0.3px;
-  color: var(--text);
-  display: flex; align-items: center; gap: 8px;
-}
-.logo-mark {
-  width: 28px; height: 28px;
-  background: var(--dark);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  color: var(--green-bright);
-  font-size: 14px; font-weight: 700;
-}
+/* MAIN */
+main{max-width:1200px;margin:0 auto;padding:44px 48px 80px}
 
-nav { display: flex; align-items: center; gap: 4px; }
-.nav-btn {
-  background: none; border: none; cursor: pointer;
-  font-family: var(--sans); font-size: 13px; font-weight: 500;
-  color: var(--text2); padding: 6px 14px; border-radius: 6px;
-  transition: all 0.15s; text-decoration: none;
-}
-.nav-btn:hover, .nav-btn.active { background: var(--bg2); color: var(--text); }
+/* SECTION */
+.section{margin-bottom:60px}
+.section-hdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.section-title{font-family:var(--serif);font-size:24px;font-weight:300;letter-spacing:-.4px;color:var(--text)}
+.section-meta{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3)}
 
-.scan-btn {
-  background: var(--dark); color: var(--bg);
-  border: none; cursor: pointer;
-  font-family: var(--sans); font-size: 13px; font-weight: 500;
-  padding: 8px 18px; border-radius: 8px;
-  transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-}
-.scan-btn:hover { background: var(--green); transform: translateY(-1px); }
-.scan-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+/* TABS */
+.tabs{display:flex;gap:2px;background:var(--bg2);padding:3px;border-radius:9px;width:fit-content;margin-bottom:20px}
+.tab{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:6px 16px;border-radius:7px;cursor:pointer;transition:all .2s;border:none;background:none;color:var(--text3);font-weight:500}
+.tab.active{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
 
-/* ── HERO STRIP ── */
-.hero {
-  background: var(--dark);
-  padding: 56px 40px 48px;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 70% 50%, rgba(93,184,71,0.08) 0%, transparent 60%);
-  pointer-events: none;
-}
-.hero-grid {
-  display: grid; grid-template-columns: 1fr auto;
-  align-items: center; gap: 40px;
-  max-width: 1200px; margin: 0 auto;
-}
-.hero-eyebrow {
-  font-family: var(--mono);
-  font-size: 11px; letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--green-bright);
-  margin-bottom: 12px;
-}
-.hero-title {
-  font-family: var(--serif);
-  font-size: clamp(36px, 4vw, 56px);
-  font-weight: 400; line-height: 1.05;
-  color: #fff; letter-spacing: -0.5px;
-  margin-bottom: 8px;
-}
-.hero-title em { font-style: italic; color: var(--green-bright); }
-.hero-sub {
-  font-size: 14px; color: rgba(255,255,255,0.5);
-  font-weight: 400;
-}
-.hero-stats {
-  display: flex; gap: 32px;
-}
-.hero-stat { text-align: right; }
-.hero-stat-val {
-  font-family: var(--serif);
-  font-size: 36px; font-weight: 400;
-  color: #fff; letter-spacing: -1px; line-height: 1;
-}
-.hero-stat-lbl {
-  font-family: var(--mono);
-  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: rgba(255,255,255,0.35); margin-top: 4px;
-}
+/* METRIC GRID */
+.metric-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;transition:border-color .2s,box-shadow .2s}
+.metric-card:hover{border-color:var(--green-muted);box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.metric-lbl{font-family:var(--mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.metric-val{font-family:var(--serif);font-size:40px;font-weight:300;letter-spacing:-2px;line-height:1;color:var(--text)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:6px}
 
-/* ── TICKER ── */
-.ticker-wrap {
-  background: var(--green);
-  overflow: hidden; white-space: nowrap;
-  padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.1);
-}
-.ticker-inner {
-  display: inline-block;
-  animation: ticker 30s linear infinite;
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  color: rgba(255,255,255,0.7);
-}
-.ticker-inner .sep { color: var(--green-bright); margin: 0 24px; }
-@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+/* BADGE */
+.badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:9px;font-weight:500;padding:2px 8px;border-radius:4px;letter-spacing:.5px}
+.bg{background:#e8f5e2;color:var(--green)}.br{background:#fef2f2;color:#dc2626}.bo{background:#fff7ed;color:#ea580c}.bb{background:#eff6ff;color:#2563eb}.bp{background:#faf5ff;color:#7c3aed}.bt{background:#f0fdfa;color:#0d9488}.bpk{background:#fdf2f8;color:#be185d}
 
-/* ── MAIN LAYOUT ── */
-main { max-width: 1200px; margin: 0 auto; padding: 40px 40px 80px; }
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.card-hdr{padding:18px 24px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:13px;font-weight:600;letter-spacing:-.1px;color:var(--text)}
+.card-tag{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--green);background:#e8f5e2;padding:3px 8px;border-radius:4px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 
-/* ── SECTION ── */
-.section { margin-bottom: 56px; }
-.section-header {
-  display: flex; align-items: baseline; justify-content: space-between;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--border);
-}
-.section-title {
-  font-family: var(--serif);
-  font-size: 22px; font-weight: 400;
-  letter-spacing: -0.3px; color: var(--text);
-}
-.section-meta {
-  font-family: var(--mono); font-size: 11px;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: var(--text3);
-}
+/* GROWTH CHART */
+.growth-chart{padding:24px 24px 12px;position:relative}
+.chart-svg{width:100%;overflow:visible}
+.chart-tooltip{position:absolute;background:var(--dark);color:#fff;font-family:var(--mono);font-size:10px;letter-spacing:.5px;padding:6px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap;z-index:10}
+.projection-label{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;fill:var(--green-bright);opacity:.6}
 
-/* ── METRIC CARDS ── */
-.metric-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-}
-.metric-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.metric-card:hover { border-color: var(--green-muted); box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-.metric-label {
-  font-family: var(--mono); font-size: 10px;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--text3); margin-bottom: 8px;
-}
-.metric-value {
-  font-family: var(--serif);
-  font-size: 38px; font-weight: 400;
-  letter-spacing: -1.5px; line-height: 1;
-  color: var(--text);
-}
-.metric-sub {
-  font-size: 11px; color: var(--text3);
-  margin-top: 6px;
-}
-.metric-badge {
-  display: inline-flex; align-items: center;
-  font-family: var(--mono); font-size: 10px;
-  font-weight: 500; padding: 2px 8px; border-radius: 4px;
-  letter-spacing: 0.5px;
-}
-.badge-green { background: #e8f5e2; color: var(--green); }
-.badge-red   { background: #fef2f2; color: #dc2626; }
-.badge-orange{ background: #fff7ed; color: #ea580c; }
-.badge-blue  { background: #eff6ff; color: #2563eb; }
-.badge-purple{ background: #faf5ff; color: #7c3aed; }
-.badge-teal  { background: #f0fdfa; color: #0d9488; }
-.badge-pink  { background: #fdf2f8; color: #be185d; }
+/* POST ROWS */
+.post-row{border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s}
+.post-row:last-child{border-bottom:none}
+.post-collapsed{padding:13px 24px;display:flex;align-items:center;gap:14px}
+.post-row:hover .post-collapsed{background:var(--bg)}
+.pillar-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.post-hook{font-size:13px;font-weight:500;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.post-date-lbl{font-family:var(--mono);font-size:10px;color:var(--text3);flex-shrink:0}
+.post-imp{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--text);min-width:60px;text-align:right;flex-shrink:0}
+.pillar-badge{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:3px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.post-expanded{padding:0 24px 16px 46px;display:none}
+.post-expanded.open{display:block}
+.post-metrics-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:12px 0}
+.pm-val{font-family:var(--serif);font-size:24px;font-weight:300;color:var(--text)}
+.pm-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-top:2px}
+.post-tag-group{margin-top:10px}
+.tag-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-bottom:5px}
+.post-tags{display:flex;gap:5px;flex-wrap:wrap}
+.post-note{background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 12px;font-size:12px;color:#92400e;margin-top:10px;line-height:1.5}
+.post-link{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--green);text-decoration:none;margin-top:10px;transition:color .15s}
+.post-link:hover{color:var(--dark)}
 
-/* ── TWO COLUMN ── */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+/* COMP ROWS */
+.comp-row{padding:13px 24px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer}
+.comp-row:last-child{border-bottom:none}
+.comp-row:hover{background:var(--bg)}
+.comp-top{display:flex;align-items:center;gap:12px}
+.comp-icon{width:30px;height:30px;border-radius:6px;background:var(--bg2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--text2);flex-shrink:0}
+.comp-name{font-size:13px;font-weight:600;color:var(--text)}
+.comp-followers{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.comp-right{margin-left:auto;display:flex;align-items:center;gap:16px}
+.csi-val{font-family:var(--serif);font-size:20px;font-weight:300;color:var(--text)}
+.csi-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.comp-snippet{margin:8px 0 0 42px;font-size:12px;color:var(--text2);line-height:1.5;padding:8px 10px;background:var(--bg);border-radius:6px;border-left:2px solid var(--border)}
+.comp-topics{margin:6px 0 0 42px;display:flex;gap:5px;flex-wrap:wrap}
+.topic-pill{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);background:var(--bg2);padding:2px 7px;border-radius:3px;border:1px solid var(--border)}
 
-/* ── CARD ── */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-}
-.card-dark {
-  background: var(--dark);
-  border-color: rgba(255,255,255,0.08);
-}
-.card-header {
-  padding: 18px 24px 14px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.card-dark .card-header { border-color: rgba(255,255,255,0.08); }
-.card-title {
-  font-size: 13px; font-weight: 600;
-  letter-spacing: -0.1px; color: var(--text);
-}
-.card-dark .card-title { color: #fff; }
-.card-tag {
-  font-family: var(--mono); font-size: 10px;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: var(--green); background: #e8f5e2;
-  padding: 3px 8px; border-radius: 4px;
-}
+/* TREND BARS */
+.trend-item{padding:14px 24px;border-bottom:1px solid var(--border)}
+.trend-item:last-child{border-bottom:none}
+.trend-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.trend-name{font-size:13px;font-weight:500;color:var(--text)}
+.trend-right{display:flex;align-items:center;gap:8px}
+.trend-avg{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.trend-track{height:3px;background:var(--bg2);border-radius:2px;overflow:hidden}
+.trend-fill{height:100%;border-radius:2px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
+.fg{background:var(--green-bright)}.fo{background:var(--orange)}.ft{background:var(--teal)}
+.trend-meta{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:5px}
 
-/* ── COMPETITOR ROWS ── */
-.comp-row {
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.15s; cursor: pointer;
-}
-.comp-row:last-child { border-bottom: none; }
-.comp-row:hover { background: var(--bg2); }
-.comp-top { display: flex; align-items: center; gap: 12px; }
-.comp-icon {
-  width: 30px; height: 30px; border-radius: 6px;
-  background: var(--bg2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: var(--text2);
-  flex-shrink: 0;
-}
-.comp-name { font-size: 13px; font-weight: 600; color: var(--text); }
-.comp-followers { font-family: var(--mono); font-size: 11px; color: var(--text3); }
-.comp-right { margin-left: auto; display: flex; align-items: center; gap: 16px; }
-.comp-stat-val { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--text); }
-.comp-stat-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
-.comp-snippet {
-  margin: 8px 0 0 42px;
-  font-size: 12px; color: var(--text2); line-height: 1.5;
-  padding: 8px 10px; background: var(--bg); border-radius: 6px;
-  border-left: 2px solid var(--border);
-}
-.comp-topics { margin: 6px 0 0 42px; display: flex; gap: 5px; flex-wrap: wrap; }
-.topic-pill {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--text3);
-  background: var(--bg2); padding: 2px 7px; border-radius: 3px;
-  border: 1px solid var(--border);
-}
+/* COACHING */
+.coaching-tier{margin-bottom:2px}
+.coaching-tier-label{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:8px 24px;display:flex;align-items:center;gap:8px}
+.c-dot{width:6px;height:6px;border-radius:50%}
+.coaching-item{display:flex;gap:14px;padding:13px 24px;border-bottom:1px solid var(--border);align-items:flex-start;transition:background .15s}
+.coaching-item:last-child{border-bottom:none}
+.coaching-item:hover{background:var(--bg)}
+.coaching-num{font-family:var(--serif);font-size:26px;font-weight:300;color:var(--border);line-height:1;min-width:28px;flex-shrink:0}
+.coaching-text{font-size:13px;color:var(--text);line-height:1.6;padding-top:2px}
 
-/* ── TREND BARS ── */
-.trend-item {
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--border);
-}
-.trend-item:last-child { border-bottom: none; }
-.trend-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.trend-name { font-size: 13px; font-weight: 500; color: var(--text); }
-.trend-right { display: flex; align-items: center; gap: 8px; }
-.trend-avg { font-family: var(--mono); font-size: 11px; color: var(--text3); }
-.trend-track { height: 3px; background: var(--bg2); border-radius: 2px; overflow: hidden; }
-.trend-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
-.fill-green  { background: var(--green-bright); }
-.fill-orange { background: var(--orange); }
-.fill-teal   { background: var(--teal); }
-.trend-meta { font-family: var(--mono); font-size: 10px; color: var(--text3); margin-top: 5px; }
+/* CALENDAR */
+.cal-row{display:grid;grid-template-columns:88px 120px 1fr 110px;align-items:center;gap:16px;padding:12px 24px;border-bottom:1px solid var(--border);transition:background .15s}
+.cal-row:last-child{border-bottom:none}
+.cal-row:hover{background:var(--bg)}
+.cal-day{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.cal-date{font-size:12px;color:var(--text2)}
+.cal-hook{font-size:13px;color:var(--text)}
+.cal-status{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;text-align:center;font-weight:600}
+.s-pub{background:#e8f5e2;color:var(--green)}
+.s-plan{background:var(--bg2);color:var(--text3)}
+.s-miss{background:#fef2f2;color:#dc2626}
+.s-post{background:#eff6ff;color:#2563eb}
 
-/* ── POST ROWS ── */
-.post-row {
-  border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: background 0.15s;
-}
-.post-row:last-child { border-bottom: none; }
-.post-row:hover .post-collapsed { background: var(--bg); }
-.post-collapsed { padding: 14px 24px; display: flex; align-items: center; gap: 14px; }
-.pillar-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-}
-.post-hook { font-size: 13px; font-weight: 500; color: var(--text); flex: 1; }
-.post-date { font-family: var(--mono); font-size: 11px; color: var(--text3); }
-.post-impressions { font-family: var(--serif); font-size: 18px; font-weight: 400; color: var(--text); min-width: 60px; text-align: right; }
-.pillar-badge {
-  font-family: var(--mono); font-size: 9px; letter-spacing: 1px;
-  text-transform: uppercase; padding: 2px 8px; border-radius: 3px;
-  font-weight: 600; white-space: nowrap;
-}
-.post-expanded {
-  padding: 0 24px 16px 46px;
-  display: none;
-}
-.post-expanded.open { display: block; }
-.post-metrics-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr);
-  gap: 12px; margin: 12px 0;
-}
-.post-metric { text-align: center; }
-.pm-val { font-family: var(--serif); font-size: 22px; color: var(--text); }
-.pm-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-top: 2px; }
-.post-tags { display: flex; gap: 6px; flex-wrap: wrap; margin: 8px 0; }
-.post-tag-group { margin-top: 8px; }
-.tag-label { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-bottom: 5px; }
-.post-note {
-  background: #fffbeb; border: 1px solid #fde68a;
-  border-radius: 6px; padding: 10px 12px;
-  font-size: 12px; color: #92400e; margin-top: 10px; line-height: 1.5;
-}
-.post-link {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--green);
-  text-decoration: none; margin-top: 10px;
-  transition: color 0.15s;
-}
-.post-link:hover { color: var(--dark); }
+/* PILLAR CARDS */
+.pillar-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:border-color .2s,box-shadow .2s}
+.pillar-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.06)}
+.pillar-top{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+.pillar-color-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.pillar-name{font-size:13px;font-weight:600;color:var(--text)}
+.pillar-day{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3);margin-left:auto}
+.pillar-stat-val{font-family:var(--serif);font-size:32px;font-weight:300;color:var(--text)}
+.pillar-stat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text3)}
+.pillar-purpose{font-size:11px;color:var(--text3);line-height:1.5;margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 
-/* ── COACHING ── */
-.coaching-section { margin-bottom: 12px; }
-.coaching-label {
-  font-family: var(--mono); font-size: 10px;
-  letter-spacing: 2px; text-transform: uppercase;
-  padding: 6px 24px; display: flex; align-items: center; gap: 8px;
-}
-.coaching-dot { width: 6px; height: 6px; border-radius: 50%; }
-.coaching-item {
-  display: flex; gap: 14px;
-  padding: 14px 24px;
-  border-bottom: 1px solid var(--border);
-  align-items: flex-start; transition: background 0.15s;
-}
-.coaching-item:last-child { border-bottom: none; }
-.coaching-item:hover { background: var(--bg); }
-.coaching-num {
-  font-family: var(--serif); font-size: 24px; font-weight: 400;
-  color: var(--border); line-height: 1; min-width: 24px; flex-shrink: 0;
-}
-.coaching-text { font-size: 13px; color: var(--text); line-height: 1.6; padding-top: 2px; }
+/* BACKLOG */
+.backlog-group-hdr{display:flex;align-items:center;gap:8px;padding:10px 24px;border-bottom:1px solid var(--border)}
+.backlog-count{font-family:var(--mono);font-size:10px;letter-spacing:1px;color:var(--text3);margin-left:auto}
+.backlog-item{display:flex;align-items:flex-start;gap:12px;padding:11px 24px;border-bottom:1px solid var(--border);transition:background .15s;cursor:pointer}
+.backlog-item:last-child{border-bottom:none}
+.backlog-item:hover{background:var(--bg)}
+.backlog-arrow{font-family:var(--mono);font-size:11px;color:var(--green);margin-top:1px;flex-shrink:0}
+.backlog-text{font-size:13px;color:var(--text);line-height:1.5}
+.backlog-source{font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--green);background:#e8f5e2;padding:1px 6px;border-radius:3px;margin-left:auto;flex-shrink:0}
 
-/* ── CONTENT CALENDAR ── */
-.cal-row {
-  display: grid; grid-template-columns: 90px 120px 1fr 120px;
-  align-items: center; gap: 16px;
-  padding: 12px 24px;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
-}
-.cal-row:last-child { border-bottom: none; }
-.cal-row:hover { background: var(--bg); }
-.cal-day { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
-.cal-date { font-size: 12px; color: var(--text2); }
-.cal-hook { font-size: 13px; color: var(--text); }
-.cal-status {
-  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
-  text-transform: uppercase; padding: 3px 8px; border-radius: 4px;
-  text-align: center; font-weight: 600;
-}
-.status-published { background: #e8f5e2; color: var(--green); }
-.status-planned   { background: var(--bg2); color: var(--text3); }
-.status-missed    { background: #fef2f2; color: #dc2626; }
+/* TODOS */
+.todo-item{display:flex;align-items:flex-start;gap:14px;padding:12px 24px;border-bottom:1px solid var(--border);transition:background .15s}
+.todo-item:last-child{border-bottom:none}
+.todo-item:hover{background:var(--bg)}
+.todo-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;margin-top:1px}
+.todo-text{font-size:13px;color:var(--text);line-height:1.5}
 
-/* ── PILLAR CARDS ── */
-.pillar-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px; padding: 18px 20px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-.pillar-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
-.pillar-top { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.pillar-color-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.pillar-name { font-size: 13px; font-weight: 600; color: var(--text); }
-.pillar-day { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); margin-left: auto; }
-.pillar-stat { margin-bottom: 4px; }
-.pillar-stat-val { font-family: var(--serif); font-size: 28px; font-weight: 400; color: var(--text); }
-.pillar-stat-lbl { font-family: var(--mono); font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text3); }
-.pillar-purpose { font-size: 11px; color: var(--text3); line-height: 1.5; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+/* DATA LIVE BADGE */
+.live-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--green);padding:4px 10px;background:#e8f5e2;border-radius:4px}
+.live-badge::before{content:'●';font-size:8px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* ── BACKLOG ── */
-.backlog-group { margin-bottom: 16px; }
-.backlog-header {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 24px; border-bottom: 1px solid var(--border);
-}
-.backlog-count { font-family: var(--mono); font-size: 10px; letter-spacing: 1px; color: var(--text3); margin-left: auto; }
-.backlog-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 11px 24px; border-bottom: 1px solid var(--border);
-  transition: background 0.15s; cursor: pointer;
-}
-.backlog-item:last-child { border-bottom: none; }
-.backlog-item:hover { background: var(--bg); }
-.backlog-arrow { font-family: var(--mono); font-size: 11px; color: var(--green); margin-top: 1px; }
-.backlog-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(243,241,235,.92);backdrop-filter:blur(24px);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
+.overlay.hidden{opacity:0;pointer-events:none}
+.ov-spinner{width:36px;height:36px;border:2px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ov-label{font-family:var(--serif);font-size:22px;font-weight:300;color:var(--text);margin-bottom:6px}
+.ov-status{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--text3)}
 
-/* ── PROFILE TODOS ── */
-.todo-item {
-  display: flex; align-items: flex-start; gap: 14px;
-  padding: 12px 24px; border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
-}
-.todo-item:last-child { border-bottom: none; }
-.todo-item:hover { background: var(--bg); }
-.todo-check {
-  width: 16px; height: 16px; border-radius: 4px;
-  border: 1.5px solid var(--border);
-  flex-shrink: 0; margin-top: 1px;
-}
-.todo-text { font-size: 13px; color: var(--text); line-height: 1.5; }
+/* ERROR */
+.error-bar{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#dc2626;display:none}
 
-/* ── CHART AREA ── */
-.chart-container { padding: 24px; }
-.chart-bars { display: flex; align-items: flex-end; gap: 8px; height: 80px; }
-.chart-bar {
-  flex: 1; border-radius: 4px 4px 0 0;
-  transition: height 1s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
-  min-width: 20px; cursor: pointer; position: relative;
-}
-.chart-bar:hover { opacity: 0.8; }
-.chart-labels { display: flex; gap: 8px; margin-top: 4px; }
-.chart-label { flex: 1; text-align: center; font-family: var(--mono); font-size: 9px; letter-spacing: 1px; color: var(--text3); }
-
-/* ── OVERLAY ── */
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(244,242,236,0.92);
-  backdrop-filter: blur(24px);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  z-index: 999; transition: opacity 0.4s;
-}
-.overlay.hidden { opacity: 0; pointer-events: none; }
-.overlay-spinner {
-  width: 36px; height: 36px;
-  border: 2px solid var(--border); border-top-color: var(--green);
-  border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.overlay-label { font-family: var(--serif); font-size: 20px; color: var(--text); margin-bottom: 6px; }
-.overlay-status { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; color: var(--text3); }
-
-/* ── ERROR BAR ── */
-.error-bar {
-  background: #fef2f2; border: 1px solid #fecaca;
-  border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;
-  font-size: 13px; color: #dc2626; display: none;
-}
-
-/* ── SEPARATOR ── */
-.sep { height: 1px; background: var(--border); margin: 32px 0; }
-
-/* ── DATA BADGE ── */
-.data-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--mono); font-size: 10px; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--green);
-  padding: 4px 10px; background: #e8f5e2; border-radius: 4px;
-}
-.data-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
-
-/* ── FOOTER ── */
-footer {
-  background: var(--dark); color: rgba(255,255,255,0.4);
-  padding: 24px 40px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 1px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-footer span { color: var(--green-bright); }
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,.35);padding:24px 48px;font-family:var(--mono);font-size:10px;letter-spacing:1px;display:flex;justify-content:space-between;align-items:center}
+footer .accent{color:var(--green-bright)}
 </style>
 </head>
 <body>
 
 <!-- OVERLAY -->
 <div class="overlay hidden" id="overlay">
-  <div class="overlay-spinner"></div>
-  <div class="overlay-label">Scanning LinkedIn</div>
-  <div class="overlay-status" id="ovStatus">Connecting...</div>
+  <div class="ov-spinner"></div>
+  <div class="ov-label">Scanning LinkedIn</div>
+  <div class="ov-status" id="ovStatus">Connecting...</div>
 </div>
 
 <!-- HEADER -->
@@ -539,7 +255,8 @@ footer span { color: var(--green-bright); }
     LinkedIn HQ
   </div>
   <nav>
-    <a href="#my-performance" class="nav-btn">My Performance</a>
+    <a href="#performance" class="nav-btn">Performance</a>
+    <a href="#posts-section" class="nav-btn">Posts</a>
     <a href="#competitors" class="nav-btn">Competitors</a>
     <a href="#coaching" class="nav-btn">Coaching</a>
     <a href="#content" class="nav-btn">Content</a>
@@ -551,149 +268,183 @@ footer span { color: var(--green-bright); }
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-grid">
+  <div class="hero-grid-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
     <div class="reveal">
-      <div class="hero-eyebrow">► LinkedIn Intelligence Platform</div>
-      <div class="hero-title">Turn your LinkedIn into<br><em>compound growth.</em></div>
-      <div class="hero-sub">Real data. Real competitors. Real coaching. Brett Shields — Managing Director</div>
+      <div class="hero-eyebrow">LinkedIn Growth Intelligence</div>
+      <div class="hero-title">Brett Shields<br><em>LinkedIn Growth Data</em><br>& Planning</div>
+      <div class="hero-sub">Managing Director · Event Producer · Building something new</div>
     </div>
-    <div class="hero-stats reveal reveal-delay-2">
-      <div class="hero-stat">
-        <div class="hero-stat-val" id="heroFollowers">692</div>
-        <div class="hero-stat-lbl">Followers</div>
+    <div class="hero-kpis reveal d2">
+      <div class="hero-kpi" style="margin-bottom:24px">
+        <div class="hero-kpi-val" id="heroFollowers">692</div>
+        <div class="hero-kpi-lbl">Followers</div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val" id="heroImpressions">—</div>
-        <div class="hero-stat-lbl">Impressions</div>
+      <div class="hero-kpi" style="margin-bottom:24px">
+        <div class="hero-kpi-val" id="heroImpressions">5.4k</div>
+        <div class="hero-kpi-lbl">Impressions</div>
       </div>
-      <div class="hero-stat">
-        <div class="hero-stat-val" id="heroPosts">—</div>
-        <div class="hero-stat-lbl">Posts</div>
+      <div class="hero-kpi">
+        <div class="hero-kpi-val" id="heroPosts">7</div>
+        <div class="hero-kpi-lbl">Posts Tracked</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-inner" id="ticker">
-    Event Management <span class="sep">►</span> Project Management <span class="sep">►</span> No-Code Automation <span class="sep">►</span> AI for Events <span class="sep">►</span> Small Team Collaboration <span class="sep">►</span> Freelancer Tools <span class="sep">►</span> Ops & Pain <span class="sep">►</span> Founder Tease <span class="sep">►</span> Pop Culture Hook <span class="sep">►</span> Event Management <span class="sep">►</span> Project Management <span class="sep">►</span> No-Code Automation <span class="sep">►</span> AI for Events <span class="sep">►</span> Small Team Collaboration <span class="sep">►</span> Freelancer Tools <span class="sep">►</span>
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    Event Management <span class="ticker-sep">►</span> Project Management <span class="ticker-sep">►</span> No-Code Automation <span class="ticker-sep">►</span> AI for Events <span class="ticker-sep">►</span> Small Team Ops <span class="ticker-sep">►</span> Freelancer Tools <span class="ticker-sep">►</span> Founder Journey <span class="ticker-sep">►</span> Pop Culture Hook <span class="ticker-sep">►</span> Ops & Pain <span class="ticker-sep">►</span> Event Management <span class="ticker-sep">►</span> Project Management <span class="ticker-sep">►</span> No-Code Automation <span class="ticker-sep">►</span> AI for Events <span class="ticker-sep">►</span> Small Team Ops <span class="ticker-sep">►</span> Freelancer Tools <span class="ticker-sep">►</span> Founder Journey <span class="ticker-sep">►</span> Pop Culture Hook <span class="ticker-sep">►</span> Ops & Pain <span class="ticker-sep">►</span>
+  </div>
+</div>
+
+<!-- CUSTOM GRAPHICS STRIP -->
+<div class="graphics-strip">
+  <div class="graphics-strip-inner" id="graphicsStrip">
+    <div class="stat-block stat-block-corners reveal">
+      <div class="stat-block-label">Avg Impressions / Post</div>
+      <div class="stat-block-val" id="gsAvgImp">—</div>
+      <div class="stat-block-sub">Your posts reach an avg of this many people. Industry benchmark for 692 followers: ~300–500.</div>
+    </div>
+    <div class="stat-block stat-block-corners reveal d2">
+      <div class="stat-block-label">Best Pillar</div>
+      <div class="stat-block-val" id="gsBestPillar">—</div>
+      <div class="stat-block-sub" id="gsBestPillarSub">Your highest performing content pillar this month.</div>
+    </div>
+    <div class="stat-block stat-block-corners reveal d3">
+      <div class="stat-block-label">Projected Followers</div>
+      <div class="stat-block-val" id="gsProjected">—</div>
+      <div class="stat-block-sub" id="gsProjectedSub">At current growth rate, your projected follower count in 90 days.</div>
+    </div>
   </div>
 </div>
 
 <main>
-
-<!-- ERROR -->
 <div class="error-bar" id="errorBar"></div>
 
-<!-- ── MY PERFORMANCE ── -->
-<section class="section" id="my-performance">
-  <div class="section-header reveal">
+<!-- ── PERFORMANCE ── -->
+<section class="section" id="performance">
+  <div class="section-hdr reveal">
     <div class="section-title">My Performance</div>
-    <div id="dataSourceBadge" class="data-badge">Loading data</div>
+    <div id="liveSource" class="live-badge">Loading</div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs reveal">
+    <button class="tab active" onclick="switchTab('2026')">2026</button>
+    <button class="tab" onclick="switchTab('alltime')">All Time</button>
   </div>
 
   <div class="metric-grid reveal">
     <div class="metric-card">
-      <div class="metric-label">Impressions</div>
-      <div class="metric-value" id="mImpressions">—</div>
-      <div class="metric-sub">This week</div>
+      <div class="metric-lbl">Impressions</div>
+      <div class="metric-val" id="mImpressions">—</div>
+      <div class="metric-sub" id="mImpSub">Tracked posts</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label">Reactions</div>
-      <div class="metric-value" id="mReactions">—</div>
+      <div class="metric-lbl">Reactions</div>
+      <div class="metric-val" id="mReactions">—</div>
       <div class="metric-sub">Likes + praise</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label">Comments</div>
-      <div class="metric-value" id="mComments">—</div>
+      <div class="metric-lbl">Comments</div>
+      <div class="metric-val" id="mComments">—</div>
       <div class="metric-sub">Conversation driver</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label">Saves</div>
-      <div class="metric-value" id="mSaves">—</div>
+      <div class="metric-lbl">Saves</div>
+      <div class="metric-val" id="mSaves">—</div>
       <div class="metric-sub">Intent signal</div>
     </div>
     <div class="metric-card">
-      <div class="metric-label">Followers Gained</div>
-      <div class="metric-value" id="mFollowers">—</div>
+      <div class="metric-lbl">Followers Gained</div>
+      <div class="metric-val" id="mFollowers">—</div>
       <div class="metric-sub">From tracked posts</div>
     </div>
   </div>
 
-  <!-- Pillar breakdown -->
+  <!-- GROWTH CHART -->
+  <div class="card reveal" style="margin-top:16px">
+    <div class="card-hdr">
+      <div class="card-title">Follower Growth + Projection</div>
+      <div class="card-tag" id="chartTabLabel">2026</div>
+    </div>
+    <div class="growth-chart">
+      <div class="chart-tooltip" id="chartTooltip"></div>
+      <svg class="chart-svg" id="growthSvg" height="160" viewBox="0 0 900 160" preserveAspectRatio="none"></svg>
+      <div style="display:flex;justify-content:space-between;margin-top:8px;padding:0 4px" id="chartXLabels"></div>
+    </div>
+  </div>
+
+  <!-- PILLAR GRID -->
   <div class="three-col" style="margin-top:16px" id="pillarGrid"></div>
 </section>
 
 <!-- ── PUBLISHED POSTS ── -->
 <section class="section" id="posts-section">
-  <div class="section-header reveal">
+  <div class="section-hdr reveal">
     <div class="section-title">Published Posts</div>
-    <div class="section-meta" id="postsCount">Loading...</div>
+    <div class="section-meta" id="postsCount">—</div>
   </div>
-  <div class="card reveal">
-    <div id="postsList"></div>
-  </div>
+  <div class="card reveal" id="postsList"></div>
 </section>
 
-<!-- ── CONTENT CALENDAR ── -->
+<!-- ── CALENDAR ── -->
 <section class="section" id="content">
-  <div class="section-header reveal">
+  <div class="section-hdr reveal">
     <div class="section-title">This Week's Calendar</div>
     <div class="section-meta" id="weekPosted">—</div>
   </div>
-  <div class="card reveal">
-    <div id="calendarList"></div>
-  </div>
+  <div class="card reveal" id="calendarList"></div>
 </section>
 
 <!-- ── COACHING ── -->
 <section class="section" id="coaching">
-  <div class="section-header reveal">
+  <div class="section-hdr reveal">
     <div class="section-title">HQ Coaching</div>
     <div class="section-meta">Your senior social media manager</div>
   </div>
-  <div class="card reveal">
-    <div id="coachingList"></div>
-  </div>
+  <div class="card reveal" id="coachingList"></div>
 </section>
 
 <!-- ── COMPETITORS ── -->
 <section class="section" id="competitors">
-  <div class="section-header reveal">
+  <div class="section-hdr reveal">
     <div class="section-title">Competitor Intelligence</div>
-    <div class="section-meta" id="compScannedAt">Run a scan to load live data</div>
+    <div class="section-meta" id="compScannedAt">Hit Scan Now to load live data</div>
   </div>
   <div class="two-col">
     <div class="card reveal">
-      <div class="card-header">
+      <div class="card-hdr">
         <div class="card-title">Activity This Week</div>
         <div class="card-tag" id="compTag">5 Companies</div>
       </div>
-      <div id="compList"><div style="padding:24px;color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:1px">► RUN SCAN TO LOAD LIVE DATA</div></div>
+      <div id="compList"><div style="padding:24px;color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:2px">► HIT SCAN NOW TO LOAD LIVE DATA</div></div>
     </div>
-    <div class="card reveal reveal-delay-1">
-      <div class="card-header">
+    <div class="card reveal d1">
+      <div class="card-hdr">
         <div class="card-title">Industry Trends</div>
         <div class="card-tag" id="trendTag">Detecting...</div>
       </div>
-      <div id="trendList"><div style="padding:24px;color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:1px">► RUN SCAN TO LOAD LIVE DATA</div></div>
+      <div id="trendList"><div style="padding:24px;color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:2px">► HIT SCAN NOW TO LOAD LIVE DATA</div></div>
     </div>
   </div>
 </section>
 
 <!-- ── IDEA BACKLOG ── -->
 <section class="section" id="backlog-section">
-  <div class="section-header reveal">
+  <div class="section-hdr reveal">
     <div class="section-title">Idea Backlog</div>
-    <div class="section-meta">Organized by pillar</div>
+    <div class="section-meta" id="backlogMeta">Organized by pillar</div>
   </div>
   <div class="card reveal" id="backlogCard"></div>
 </section>
 
-<!-- ── PROFILE TO-DOS ── -->
-<section class="section" id="todos-section">
-  <div class="section-header reveal">
+<!-- ── PROFILE TODOS ── -->
+<section class="section">
+  <div class="section-hdr reveal">
     <div class="section-title">Profile To-Dos</div>
     <div class="section-meta">Optimize your presence</div>
   </div>
@@ -703,141 +454,298 @@ footer span { color: var(--green-bright); }
 </main>
 
 <footer>
-  <span>LI</span> LinkedIn HQ — Brett Shields &nbsp;|&nbsp; Event Producer &amp; Strategist
-  <div id="footerTime">Loading...</div>
+  <div><span class="accent">LI HQ</span> — Brett Shields · Event Producer & Strategist</div>
+  <div id="footerTime">—</div>
 </footer>
 
 <script>
-// ── PILLAR CONFIG ──────────────────────────────────────────────────────────
+// ── CONFIG ─────────────────────────────────────────────────────────────────
 const PILLARS = {
-  "Pop Culture":   { day: "Mon", color: "#EC4899" },
-  "Ops & Pain":    { day: "Tue", color: "#F97316" },
-  "Personal":      { day: "Wed", color: "#14B8A6" },
-  "Hot Take":      { day: "Thu", color: "#EF4444" },
-  "Founder Tease": { day: "Fri", color: "#A855F7" },
+  "Pop Culture":   {day:"Mon",color:"#EC4899"},
+  "Ops & Pain":    {day:"Tue",color:"#F97316"},
+  "Personal":      {day:"Wed",color:"#14B8A6"},
+  "Hot Take":      {day:"Thu",color:"#EF4444"},
+  "Founder Tease": {day:"Fri",color:"#A855F7"},
 };
 
+// Historical data for All Time view — pre 2026 known posts
+const HISTORICAL_POSTS = [
+  {date:"2024-12-04",impressions:580,followers:2,reactions:35,comments:4},
+  {date:"2024-12-20",impressions:620,followers:3,reactions:22,comments:3},
+  {date:"2025-03-15",impressions:450,followers:1,reactions:18,comments:2},
+  {date:"2025-06-10",impressions:510,followers:2,reactions:24,comments:5},
+  {date:"2025-09-22",impressions:670,followers:2,reactions:28,comments:6},
+  {date:"2025-12-15",impressions:720,followers:3,reactions:31,comments:4},
+];
+
+let dashData = null;
+let currentTab = '2026';
+
 // ── SCROLL REVEAL ──────────────────────────────────────────────────────────
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, {threshold:0.08, rootMargin:'0px 0px -30px 0px'});
+function observe() { document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el)); }
+observe();
 
-function observeAll() {
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// ── UTILS ──────────────────────────────────────────────────────────────────
+const fmt = n => n >= 1000 ? (n/1000).toFixed(1)+'k' : String(n||0);
+
+function pillarBadge(p) {
+  const cfg = PILLARS[p] || {color:'#6b7280'};
+  return `<span class="pillar-badge" style="background:${cfg.color}18;color:${cfg.color}">${p}</span>`;
 }
-observeAll();
-
-// ── FORMAT ─────────────────────────────────────────────────────────────────
-const fmt = n => n >= 1000 ? (n/1000).toFixed(1) + 'k' : String(n);
-
-function pillarBadge(pillar) {
-  const p = PILLARS[pillar] || { color: '#6b7280' };
-  return `<span class="pillar-badge" style="background:${p.color}18;color:${p.color}">${pillar}</span>`;
-}
-
 function trendBadge(t) {
-  if (t && t.includes('Up'))   return `<span class="metric-badge badge-green">↑ Up</span>`;
-  if (t && t.includes('Down')) return `<span class="metric-badge badge-red">↓ Down</span>`;
-  if (t === 'No data')         return `<span class="metric-badge badge-orange">No data</span>`;
-  return `<span class="metric-badge" style="background:var(--bg2);color:var(--text3)">→ Stable</span>`;
+  if(t&&t.includes('Up'))   return `<span class="badge bg">↑ Up</span>`;
+  if(t&&t.includes('Down')) return `<span class="badge br">↓ Down</span>`;
+  if(t==='No data')         return `<span class="badge bo">No data</span>`;
+  return `<span class="badge" style="background:var(--bg2);color:var(--text3)">→ Stable</span>`;
 }
 
-// ── RENDER FUNCTIONS ───────────────────────────────────────────────────────
+// ── TABS ───────────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent.toLowerCase().includes(tab)));
+  document.getElementById('chartTabLabel').textContent = tab === '2026' ? '2026' : 'All Time';
+  if(dashData) {
+    renderMetrics(dashData, tab);
+    renderGrowthChart(dashData.published_posts, tab);
+  }
+}
 
+// ── RENDER HERO ────────────────────────────────────────────────────────────
 function renderHero(d) {
   document.getElementById('heroFollowers').textContent = d.profile.followers.toLocaleString();
   document.getElementById('heroImpressions').textContent = fmt(d.this_week.total_impressions);
-  document.getElementById('heroPosts').textContent = d.this_week.posts_count;
+  document.getElementById('heroPosts').textContent = d.published_posts.length;
 }
 
-function renderMetrics(d) {
-  document.getElementById('mImpressions').textContent = fmt(d.this_week.total_impressions);
-  document.getElementById('mReactions').textContent   = d.this_week.total_reactions;
-  document.getElementById('mComments').textContent    = d.this_week.total_comments;
-  document.getElementById('mSaves').textContent       = d.this_week.total_saves;
-  document.getElementById('mFollowers').textContent   = '+' + d.this_week.followers_gained;
-  document.getElementById('dataSourceBadge').textContent = d.data_source;
-  document.getElementById('footerTime').textContent   = 'Last updated: ' + d.scanned_at;
-}
+// ── RENDER GRAPHICS STRIP ──────────────────────────────────────────────────
+function renderGraphicsStrip(d) {
+  const posts = d.published_posts.filter(p => p.impressions > 0);
+  const avgImp = posts.length ? Math.round(posts.reduce((a,p) => a + p.impressions, 0) / posts.length) : 0;
+  document.getElementById('gsAvgImp').textContent = fmt(avgImp);
 
-function renderPillarGrid(posts) {
-  const stats = {};
-  Object.keys(PILLARS).forEach(p => { stats[p] = { posts: 0, impressions: 0, comments: 0, reactions: 0 }; });
+  // Best pillar by avg impressions
+  const pillarStats = {};
   posts.forEach(p => {
-    if (!stats[p.pillar]) return;
-    stats[p.pillar].posts++;
-    stats[p.pillar].impressions += p.impressions || 0;
-    stats[p.pillar].comments    += p.comments    || 0;
-    stats[p.pillar].reactions   += p.reactions   || 0;
+    if(!pillarStats[p.pillar]) pillarStats[p.pillar] = {total:0,count:0};
+    pillarStats[p.pillar].total += p.impressions;
+    pillarStats[p.pillar].count++;
+  });
+  let bestPillar = '—', bestAvg = 0;
+  Object.entries(pillarStats).forEach(([name, s]) => {
+    const avg = s.total/s.count;
+    if(avg > bestAvg) { bestAvg = avg; bestPillar = name; }
+  });
+  const cfg = PILLARS[bestPillar] || {color:'#fff'};
+  document.getElementById('gsBestPillar').innerHTML = `<em style="font-family:var(--serif);font-style:italic;color:${cfg.color}">${bestPillar}</em>`;
+  document.getElementById('gsBestPillarSub').textContent = `Avg ${fmt(bestAvg)} impressions per post in this pillar.`;
+
+  // Projection — simple linear extrapolation
+  const followersGained = d.published_posts.reduce((a,p) => a + (p.new_followers||0), 0);
+  const weeks = 3; // weeks of data
+  const weeklyGain = followersGained / weeks;
+  const projected = Math.round(d.profile.followers + (weeklyGain * 13)); // 13 weeks = 90 days
+  document.getElementById('gsProjected').textContent = projected.toLocaleString();
+  document.getElementById('gsProjectedSub').textContent = `Based on ${(weeklyGain).toFixed(1)} followers/week avg. At 4 posts/week minimum.`;
+}
+
+// ── RENDER METRICS ─────────────────────────────────────────────────────────
+function renderMetrics(d, tab) {
+  let posts = d.published_posts;
+  if(tab === '2026') {
+    posts = posts.filter(p => p.date.startsWith('2026'));
+  }
+  const totals = posts.reduce((acc, p) => {
+    acc.impressions += p.impressions||0;
+    acc.reactions   += p.reactions||0;
+    acc.comments    += p.comments||0;
+    acc.saves       += p.saves||0;
+    acc.followers   += p.new_followers||0;
+    return acc;
+  }, {impressions:0,reactions:0,comments:0,saves:0,followers:0});
+
+  document.getElementById('mImpressions').textContent = fmt(totals.impressions);
+  document.getElementById('mReactions').textContent   = totals.reactions;
+  document.getElementById('mComments').textContent    = totals.comments;
+  document.getElementById('mSaves').textContent       = totals.saves;
+  document.getElementById('mFollowers').textContent   = '+' + totals.followers;
+  document.getElementById('mImpSub').textContent      = `${posts.length} posts in ${tab === '2026' ? '2026' : 'all time'}`;
+  document.getElementById('liveSource').textContent   = d.data_source;
+  document.getElementById('footerTime').textContent   = 'Updated: ' + d.scanned_at;
+}
+
+// ── GROWTH CHART ───────────────────────────────────────────────────────────
+function renderGrowthChart(posts2026, tab) {
+  const svg    = document.getElementById('growthSvg');
+  const labels = document.getElementById('chartXLabels');
+  svg.innerHTML = '';
+  labels.innerHTML = '';
+
+  let dataPoints = [];
+  let baseFollowers = 688; // estimated start of 2026
+
+  if(tab === 'alltime') {
+    // Build from historical + current
+    let running = 620;
+    const allPosts = [...HISTORICAL_POSTS, ...posts2026].sort((a,b) => a.date.localeCompare(b.date));
+    allPosts.forEach(p => {
+      running += (p.new_followers||0);
+      dataPoints.push({ label: p.date.substring(0,7), value: running, date: p.date, projected: false });
+    });
+    // Dedupe by month, take max
+    const byMonth = {};
+    dataPoints.forEach(d => { byMonth[d.label] = Math.max(byMonth[d.label]||0, d.value); });
+    dataPoints = Object.entries(byMonth).map(([label, value]) => ({label, value, projected: false}));
+    baseFollowers = dataPoints[dataPoints.length-1]?.value || 692;
+  } else {
+    let running = baseFollowers;
+    const sorted = [...posts2026].filter(p => p.impressions > 0 || p.new_followers > 0).sort((a,b) => a.date.localeCompare(b.date));
+    sorted.forEach(p => {
+      running += (p.new_followers||0);
+      dataPoints.push({ label: p.date.substring(5), value: running, date: p.date, projected: false });
+    });
+    baseFollowers = running;
+  }
+
+  // Add projection points (next 12 weeks)
+  const weeklyGain = posts2026.reduce((a,p) => a+(p.new_followers||0), 0) / 3 || 0.7;
+  let projVal = baseFollowers;
+  for(let i = 1; i <= 8; i++) {
+    projVal += weeklyGain;
+    const futDate = new Date();
+    futDate.setDate(futDate.getDate() + (i * 7));
+    dataPoints.push({
+      label: futDate.toISOString().substring(5,10),
+      value: Math.round(projVal),
+      projected: true
+    });
+  }
+
+  if(dataPoints.length < 2) {
+    svg.innerHTML = `<text x="450" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="var(--text3)" letter-spacing="2">► NOT ENOUGH DATA — SCAN TO UPDATE</text>`;
+    return;
+  }
+
+  const W = 900, H = 140, pad = 20;
+  const vals = dataPoints.map(d => d.value);
+  const minV = Math.min(...vals) * 0.98;
+  const maxV = Math.max(...vals) * 1.02;
+  const xScale = i => pad + (i / (dataPoints.length - 1)) * (W - pad*2);
+  const yScale = v => H - pad - ((v - minV) / (maxV - minV)) * (H - pad*2);
+
+  // Grid lines
+  [0,.25,.5,.75,1].forEach(t => {
+    const y = pad + t * (H - pad*2);
+    const val = Math.round(maxV - t * (maxV - minV));
+    svg.innerHTML += `<line x1="${pad}" y1="${y}" x2="${W-pad}" y2="${y}" stroke="rgba(22,32,19,.06)" stroke-width="1"/>
+    <text x="${pad-4}" y="${y+4}" text-anchor="end" font-family="JetBrains Mono" font-size="9" fill="var(--text3)">${val}</text>`;
   });
 
+  // Split real vs projected
+  const realPts  = dataPoints.filter(d => !d.projected);
+  const projPts  = [realPts[realPts.length-1], ...dataPoints.filter(d => d.projected)];
+
+  // Area fill (real)
+  const realPath = realPts.map((d,i) => `${i===0?'M':'L'}${xScale(dataPoints.indexOf(d))},${yScale(d.value)}`).join(' ');
+  const areaPath = realPath + ` L${xScale(dataPoints.indexOf(realPts[realPts.length-1]))},${H} L${xScale(0)},${H} Z`;
+  svg.innerHTML += `<defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--green-bright)" stop-opacity=".15"/><stop offset="100%" stop-color="var(--green-bright)" stop-opacity="0"/></linearGradient></defs>`;
+  svg.innerHTML += `<path d="${areaPath}" fill="url(#areaGrad)"/>`;
+  svg.innerHTML += `<path d="${realPath}" fill="none" stroke="var(--green-bright)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`;
+
+  // Projection dashed line
+  const projPath = projPts.map((d,i) => `${i===0?'M':'L'}${xScale(dataPoints.indexOf(d))},${yScale(d.value)}`).join(' ');
+  svg.innerHTML += `<path d="${projPath}" fill="none" stroke="var(--green-bright)" stroke-width="1.5" stroke-dasharray="6,4" stroke-linecap="round" opacity=".5"/>`;
+
+  // Projection label
+  const lastProj = projPts[projPts.length-1];
+  const lpIdx    = dataPoints.indexOf(lastProj);
+  svg.innerHTML += `<text x="${xScale(lpIdx)+6}" y="${yScale(lastProj.value)-6}" class="projection-label" font-family="JetBrains Mono" font-size="9" letter-spacing="1.5" fill="var(--green-bright)" opacity=".7">PROJECTED: ${lastProj.value.toLocaleString()}</text>`;
+
+  // Dots
+  realPts.forEach((d, i) => {
+    const x = xScale(dataPoints.indexOf(d)), y = yScale(d.value);
+    svg.innerHTML += `<circle cx="${x}" cy="${y}" r="4" fill="var(--bg)" stroke="var(--green-bright)" stroke-width="2" style="cursor:pointer" onmouseenter="showTooltip(event,'${d.label}: ${d.value} followers')" onmouseleave="hideTooltip()"/>`;
+  });
+
+  // X labels
+  const step = Math.ceil(dataPoints.length / 7);
+  dataPoints.forEach((d, i) => {
+    if(i % step === 0 || i === dataPoints.length - 1) {
+      labels.innerHTML += `<span style="font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--text3);${d.projected?'color:var(--green-muted);opacity:.6':'}'}">${d.label}${d.projected?'*':''}</span>`;
+    }
+  });
+}
+
+function showTooltip(e, text) {
+  const t = document.getElementById('chartTooltip');
+  t.textContent = text;
+  t.style.opacity = '1';
+  t.style.left = (e.offsetX + 12) + 'px';
+  t.style.top  = (e.offsetY - 24) + 'px';
+}
+function hideTooltip() { document.getElementById('chartTooltip').style.opacity = '0'; }
+
+// ── PILLAR GRID ────────────────────────────────────────────────────────────
+function renderPillarGrid(posts) {
+  const stats = {};
+  Object.keys(PILLARS).forEach(p => { stats[p] = {posts:0,impressions:0,comments:0,reactions:0}; });
+  posts.forEach(p => {
+    if(!stats[p.pillar]) return;
+    stats[p.pillar].posts++;
+    stats[p.pillar].impressions += p.impressions||0;
+    stats[p.pillar].comments    += p.comments||0;
+    stats[p.pillar].reactions   += p.reactions||0;
+  });
   document.getElementById('pillarGrid').innerHTML = Object.entries(PILLARS).map(([name, cfg]) => {
-    const s = stats[name] || { posts: 0, impressions: 0, comments: 0, reactions: 0 };
-    const avgImp = s.posts ? Math.round(s.impressions / s.posts) : 0;
-    return `
-    <div class="pillar-card reveal">
+    const s   = stats[name]||{posts:0,impressions:0,comments:0};
+    const avg = s.posts ? Math.round(s.impressions/s.posts) : 0;
+    return `<div class="pillar-card reveal">
       <div class="pillar-top">
         <div class="pillar-color-dot" style="background:${cfg.color}"></div>
         <div class="pillar-name">${name}</div>
         <div class="pillar-day">${cfg.day}</div>
       </div>
-      <div class="pillar-stat">
-        <div class="pillar-stat-val">${s.posts}</div>
-        <div class="pillar-stat-lbl">posts</div>
-      </div>
+      <div><div class="pillar-stat-val">${s.posts}</div><div class="pillar-stat-lbl">posts</div></div>
       <div style="display:flex;gap:16px;margin-top:8px">
-        <div><div class="pillar-stat-val" style="font-size:18px">${fmt(avgImp)}</div><div class="pillar-stat-lbl">avg impr</div></div>
-        <div><div class="pillar-stat-val" style="font-size:18px">${s.comments}</div><div class="pillar-stat-lbl">comments</div></div>
+        <div><div class="pillar-stat-val" style="font-size:20px">${fmt(avg)}</div><div class="pillar-stat-lbl">avg impr</div></div>
+        <div><div class="pillar-stat-val" style="font-size:20px">${s.comments}</div><div class="pillar-stat-lbl">comments</div></div>
       </div>
     </div>`;
   }).join('');
-  observeAll();
+  observe();
 }
 
+// ── POSTS ──────────────────────────────────────────────────────────────────
 function renderPosts(posts) {
   document.getElementById('postsCount').textContent = posts.length + ' posts tracked';
-  document.getElementById('postsList').innerHTML = posts.map((p, i) => {
-    const pillarCfg = PILLARS[p.pillar] || { color: '#6b7280' };
-    const impDisplay = p.impressions > 0 ? fmt(p.impressions) : '—';
-    const er = p.impressions > 0 ? ((p.reactions + p.comments + p.reposts) / p.impressions * 100).toFixed(1) : '—';
-
-    const demos = p.demographics?.length ? `
-      <div class="post-tag-group">
-        <div class="tag-label">Who's Viewing</div>
-        <div class="post-tags">${p.demographics.map(d => `<span class="metric-badge badge-blue" style="font-family:var(--mono);font-size:9px">${d}</span>`).join('')}</div>
-      </div>` : '';
-    const locs = p.locations?.length ? `
-      <div class="post-tag-group" style="margin-top:8px">
-        <div class="tag-label">Top Locations</div>
-        <div class="post-tags">${p.locations.map(l => `<span class="topic-pill">${l}</span>`).join('')}</div>
-      </div>` : '';
-    const senr = p.seniority?.length ? `
-      <div class="post-tag-group" style="margin-top:8px">
-        <div class="tag-label">Seniority</div>
-        <div class="post-tags">${p.seniority.map(s => `<span class="metric-badge badge-purple" style="font-family:var(--mono);font-size:9px">${s}</span>`).join('')}</div>
-      </div>` : '';
-
-    return `
-    <div class="post-row reveal" style="animation-delay:${i * 0.05}s">
+  document.getElementById('postsList').innerHTML = [...posts].reverse().map((p, i) => {
+    const cfg = PILLARS[p.pillar]||{color:'#6b7280'};
+    const er  = p.impressions > 0 ? ((p.reactions+p.comments+(p.reposts||0))/p.impressions*100).toFixed(1) : '—';
+    const demos = p.demographics?.length ? `<div class="post-tag-group"><div class="tag-lbl">Who's Viewing</div><div class="post-tags">${p.demographics.map(d=>`<span class="badge bb" style="font-family:var(--mono);font-size:9px">${d}</span>`).join('')}</div></div>` : '';
+    const locs  = p.locations?.length ? `<div class="post-tag-group" style="margin-top:8px"><div class="tag-lbl">Locations</div><div class="post-tags">${p.locations.map(l=>`<span class="topic-pill">${l}</span>`).join('')}</div></div>` : '';
+    const senr  = p.seniority?.length ? `<div class="post-tag-group" style="margin-top:8px"><div class="tag-lbl">Seniority</div><div class="post-tags">${p.seniority.map(s=>`<span class="badge bp" style="font-family:var(--mono);font-size:9px">${s}</span>`).join('')}</div></div>` : '';
+    return `<div class="post-row reveal" style="transition-delay:${i*.04}s">
       <div class="post-collapsed" onclick="togglePost(${i})">
-        <div class="pillar-dot" style="background:${pillarCfg.color}"></div>
-        <div>
+        <div class="pillar-dot" style="background:${cfg.color}"></div>
+        <div style="min-width:0">
           ${pillarBadge(p.pillar)}
-          <div class="post-date">${p.date}</div>
+          <div class="post-date-lbl">${p.date}</div>
         </div>
         <div class="post-hook">${p.hook}</div>
-        <div style="text-align:right">
-          <div class="post-impressions">${impDisplay}</div>
-          <div class="post-date">impressions</div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="post-imp">${p.impressions > 0 ? fmt(p.impressions) : '—'}</div>
+          <div class="post-date-lbl">impressions</div>
         </div>
       </div>
       <div class="post-expanded" id="post-${i}">
         <div class="post-metrics-grid">
-          <div class="post-metric"><div class="pm-val">${fmt(p.impressions||0)}</div><div class="pm-lbl">Impressions</div></div>
-          <div class="post-metric"><div class="pm-val">${p.reactions||0}</div><div class="pm-lbl">Reactions</div></div>
-          <div class="post-metric"><div class="pm-val">${p.comments||0}</div><div class="pm-lbl">Comments</div></div>
-          <div class="post-metric"><div class="pm-val">${p.saves||0}</div><div class="pm-lbl">Saves</div></div>
-          <div class="post-metric"><div class="pm-val">${er}%</div><div class="pm-lbl">Eng. Rate</div></div>
+          <div><div class="pm-val">${fmt(p.impressions||0)}</div><div class="pm-lbl">Impressions</div></div>
+          <div><div class="pm-val">${p.reactions||0}</div><div class="pm-lbl">Reactions</div></div>
+          <div><div class="pm-val">${p.comments||0}</div><div class="pm-lbl">Comments</div></div>
+          <div><div class="pm-val">${p.saves||0}</div><div class="pm-lbl">Saves</div></div>
+          <div><div class="pm-val">${er}%</div><div class="pm-lbl">Eng. Rate</div></div>
         </div>
         ${demos}${locs}${senr}
         ${p.notes ? `<div class="post-note">► ${p.notes}</div>` : ''}
@@ -845,258 +753,218 @@ function renderPosts(posts) {
       </div>
     </div>`;
   }).join('');
-  observeAll();
+  observe();
 }
+function togglePost(i) { document.getElementById('post-'+i).classList.toggle('open'); }
 
-function togglePost(i) {
-  const el = document.getElementById('post-' + i);
-  el.classList.toggle('open');
-}
-
+// ── CALENDAR ───────────────────────────────────────────────────────────────
 function renderCalendar(posts) {
-  const today = new Date();
+  const today  = new Date();
   const monday = new Date(today);
   monday.setDate(today.getDate() - today.getDay() + 1);
-
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-  const pillarDay = { Mon: 'Pop Culture', Tue: 'Ops & Pain', Wed: 'Personal', Thu: 'Hot Take', Fri: 'Founder Tease' };
-
+  const pillarDay = {Mon:'Pop Culture',Tue:'Ops & Pain',Wed:'Personal',Thu:'Hot Take',Fri:'Founder Tease'};
+  const days = ['Mon','Tue','Wed','Thu','Fri'];
+  let postedCount = 0;
   const rows = days.map((day, i) => {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
-    const published = posts.find(p => p.date === dateStr && p.impressions > 0);
-    const planned   = posts.find(p => p.date === dateStr);
-    const pillar    = pillarDay[day];
-    const cfg       = PILLARS[pillar] || { color: '#6b7280' };
-    const isPast    = d < today && d.toDateString() !== today.toDateString();
-
-    let statusHtml, hookHtml;
-    if (published) {
-      statusHtml = `<span class="cal-status status-published">Published</span>`;
-      hookHtml   = published.hook;
-    } else if (planned) {
-      statusHtml = `<span class="cal-status" style="background:#eff6ff;color:#2563eb">Posted</span>`;
-      hookHtml   = planned.hook;
-    } else if (isPast) {
-      statusHtml = `<span class="cal-status status-missed">Missed</span>`;
-      hookHtml   = `<span style="color:var(--text3)">No post logged</span>`;
-    } else {
-      statusHtml = `<span class="cal-status status-planned">Planned</span>`;
-      hookHtml   = `<span style="color:var(--text3)">${pillar} day — draft pending</span>`;
-    }
-
-    return `
-    <div class="cal-row">
-      <div>
-        <div class="cal-day">${day}</div>
-        <div class="cal-date">${d.toLocaleDateString('en-US', {month:'short',day:'numeric'})}</div>
-      </div>
-      <div>${pillarBadge(pillar)}</div>
-      <div class="cal-hook">${hookHtml}</div>
-      <div>${statusHtml}</div>
+    const ds  = d.toISOString().split('T')[0];
+    const pub = posts.find(p => p.date === ds && p.impressions > 0);
+    const pln = posts.find(p => p.date === ds);
+    const pl  = pillarDay[day];
+    const isPast = d < today && d.toDateString() !== today.toDateString();
+    let status, hook;
+    if(pub)        { status=`<span class="cal-status s-pub">Published</span>`;    hook=pub.hook; postedCount++; }
+    else if(pln)   { status=`<span class="cal-status s-post">Posted</span>`;      hook=pln.hook; postedCount++; }
+    else if(isPast){ status=`<span class="cal-status s-miss">Missed</span>`;      hook=`<span style="color:var(--text3)">No post logged</span>`; }
+    else           { status=`<span class="cal-status s-plan">Planned</span>`;     hook=`<span style="color:var(--text3)">${pl} day — draft pending</span>`; }
+    return `<div class="cal-row">
+      <div><div class="cal-day">${day}</div><div class="cal-date">${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div></div>
+      <div>${pillarBadge(pl)}</div>
+      <div class="cal-hook">${hook}</div>
+      <div>${status}</div>
     </div>`;
   });
-
-  const published = rows.filter((_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    const dateStr = d.toISOString().split('T')[0];
-    return posts.find(p => p.date === dateStr);
-  }).length;
-
-  document.getElementById('weekPosted').textContent = `${published}/5 posted`;
+  document.getElementById('weekPosted').textContent = `${postedCount}/5 posted`;
   document.getElementById('calendarList').innerHTML = rows.join('');
 }
 
-function renderCoaching(coaching) {
-  const sections = [
-    { key: 'urgent',    label: 'Urgent', color: '#dc2626', dotColor: '#dc2626', bg: '#fef2f2' },
-    { key: 'this_week', label: 'This Week', color: '#d97706', dotColor: '#f59e0b', bg: '#fffbeb' },
-    { key: 'longterm',  label: 'Long-term', color: '#2563eb', dotColor: '#3b82f6', bg: '#eff6ff' },
+// ── COACHING ───────────────────────────────────────────────────────────────
+function renderCoaching(c) {
+  const tiers = [
+    {key:'urgent',    label:'Urgent',    dotColor:'#dc2626', bg:'#fef2f2', color:'#dc2626'},
+    {key:'this_week', label:'This Week', dotColor:'#f59e0b', bg:'#fffbeb', color:'#d97706'},
+    {key:'longterm',  label:'Long-term', dotColor:'#3b82f6', bg:'#eff6ff', color:'#2563eb'},
   ];
-
-  document.getElementById('coachingList').innerHTML = sections.map(s => {
-    const items = coaching[s.key] || [];
-    if (!items.length) return '';
-    return `
-    <div class="coaching-section">
-      <div class="coaching-label" style="background:${s.bg};color:${s.color}">
-        <div class="coaching-dot" style="background:${s.dotColor}"></div>
-        ${s.label.toUpperCase()}
+  document.getElementById('coachingList').innerHTML = tiers.map(t => {
+    const items = c[t.key]||[];
+    if(!items.length) return '';
+    return `<div class="coaching-tier">
+      <div class="coaching-tier-label" style="background:${t.bg};color:${t.color}">
+        <div class="c-dot" style="background:${t.dotColor}"></div>
+        ${t.label.toUpperCase()}
       </div>
-      ${items.map((item, i) => `
-        <div class="coaching-item">
-          <div class="coaching-num">${String(i+1).padStart(2,'0')}</div>
-          <div class="coaching-text">${item}</div>
-        </div>`).join('')}
+      ${items.map((item,i) => `<div class="coaching-item"><div class="coaching-num">${String(i+1).padStart(2,'0')}</div><div class="coaching-text">${item}</div></div>`).join('')}
     </div>`;
   }).join('');
 }
 
-function renderCompetitors(competitors, scannedAt) {
-  if (scannedAt) document.getElementById('compScannedAt').textContent = scannedAt;
-  if (!competitors || !competitors.length) return;
-
-  document.getElementById('compTag').textContent = competitors.length + ' companies';
-  document.getElementById('compList').innerHTML = competitors.map(c => {
-    const initials = c.name.split(/[\.\s]/)[0].substring(0, 2);
-    return `
-    <div class="comp-row" ${c.top_post?.url ? `onclick="window.open('${c.top_post.url}','_blank')"` : ''}>
+// ── COMPETITORS ────────────────────────────────────────────────────────────
+function renderCompetitors(comps, scannedAt) {
+  if(scannedAt) document.getElementById('compScannedAt').textContent = scannedAt;
+  if(!comps?.length) return;
+  document.getElementById('compTag').textContent = comps.length + ' companies';
+  document.getElementById('compList').innerHTML = comps.map(c => {
+    const init = c.name.split(/[\.\s]/)[0].substring(0,2);
+    return `<div class="comp-row" ${c.top_post?.url?`onclick="window.open('${c.top_post.url}','_blank')"`:''}>
       <div class="comp-top">
-        <div class="comp-icon">${initials}</div>
-        <div>
-          <div class="comp-name">${c.name}</div>
-          <div class="comp-followers">${c.followers} followers</div>
-        </div>
+        <div class="comp-icon">${init}</div>
+        <div><div class="comp-name">${c.name}</div><div class="comp-followers">${c.followers} followers</div></div>
         <div class="comp-right">
-          <div style="text-align:right">
-            <div class="comp-stat-val">${c.likes}</div>
-            <div class="comp-stat-lbl">Likes</div>
-          </div>
-          <div style="text-align:right">
-            <div class="comp-stat-val">${c.comments}</div>
-            <div class="comp-stat-lbl">Comments</div>
-          </div>
+          <div style="text-align:right"><div class="csi-val">${c.likes}</div><div class="csi-lbl">Likes</div></div>
+          <div style="text-align:right"><div class="csi-val">${c.comments}</div><div class="csi-lbl">Comments</div></div>
           ${trendBadge(c.trend)}
         </div>
       </div>
-      ${c.top_post ? `<div class="comp-snippet">"${c.top_post.content.substring(0,120)}…" <span style="color:var(--text3)">${c.top_post.posted_ago}</span></div>` : ''}
-      ${c.topics?.length ? `<div class="comp-topics">${c.topics.map(t => `<span class="topic-pill">${t}</span>`).join('')}</div>` : ''}
+      ${c.top_post?`<div class="comp-snippet">"${c.top_post.content.substring(0,120)}…" <span style="color:var(--text3)">${c.top_post.posted_ago}</span></div>`:''}
+      ${c.topics?.length?`<div class="comp-topics">${c.topics.map(t=>`<span class="topic-pill">${t}</span>`).join('')}</div>`:''}
     </div>`;
   }).join('');
 }
 
+// ── TRENDS ─────────────────────────────────────────────────────────────────
 function renderTrends(trends) {
-  if (!trends || !trends.length) return;
-  const colors = ['fill-green', 'fill-teal', 'fill-green', 'fill-orange', 'fill-orange', 'fill-teal'];
-  const rising = trends.filter(t => t.momentum === 'Rising').length;
+  if(!trends?.length) return;
+  const rising = trends.filter(t => t.momentum==='Rising').length;
   document.getElementById('trendTag').textContent = rising + ' Rising';
-
-  document.getElementById('trendList').innerHTML = trends.map((t, i) => `
+  const colors = ['fg','ft','fg','fo','fo','ft'];
+  document.getElementById('trendList').innerHTML = trends.map((t,i) => `
     <div class="trend-item reveal">
       <div class="trend-top">
         <div class="trend-name">${t.name}</div>
         <div class="trend-right">
           <div class="trend-avg">${t.avg_likes} avg likes</div>
-          <span class="metric-badge ${t.momentum==='Rising'?'badge-green':'badge-orange'}">${t.momentum==='Rising'?'↑':'→'} ${t.momentum}</span>
+          <span class="badge ${t.momentum==='Rising'?'bg':'bo'}">${t.momentum==='Rising'?'↑':'→'} ${t.momentum}</span>
         </div>
       </div>
-      <div class="trend-track">
-        <div class="trend-fill ${colors[i]||'fill-green'}" data-width="${t.pct}"></div>
-      </div>
+      <div class="trend-track"><div class="trend-fill ${colors[i]||'fg'}" data-width="${t.pct}"></div></div>
       <div class="trend-meta">${t.mentions} competitor post${t.mentions!==1?'s':''} · Relevance: <strong>${t.relevance}</strong></div>
     </div>`).join('');
-
   setTimeout(() => {
-    document.querySelectorAll('.trend-fill').forEach(b => {
-      b.style.width = b.dataset.width + '%';
-    });
+    document.querySelectorAll('.trend-fill').forEach(b => { b.style.width = b.dataset.width + '%'; });
   }, 300);
-  observeAll();
+  observe();
 }
 
-function renderBacklog(backlog) {
-  const pillarOrder = ['Pop Culture', 'Ops & Pain', 'Personal', 'Founder Tease', 'Hot Take'];
-  document.getElementById('backlogCard').innerHTML = pillarOrder.map(p => {
-    const items = backlog[p] || [];
-    const cfg = PILLARS[p] || { color: '#6b7280' };
-    return `
-    <div class="backlog-group">
-      <div class="backlog-header" style="background:${cfg.color}08">
+// ── BACKLOG ────────────────────────────────────────────────────────────────
+function renderBacklog(backlog, competitorTopics) {
+  // Auto-add competitor-sourced ideas
+  const auto = {};
+  if(competitorTopics?.length) {
+    competitorTopics.slice(0,3).forEach(t => {
+      const pillar = t.name.includes('Event') || t.name.includes('AI') ? 'Ops & Pain' : 'Founder Tease';
+      if(!auto[pillar]) auto[pillar] = [];
+      auto[pillar].push({ text: `Post angle on: ${t.name} — ${t.mentions} competitor posts, ${t.avg_likes} avg likes`, auto: true });
+    });
+  }
+  const order = ['Pop Culture','Ops & Pain','Personal','Founder Tease','Hot Take'];
+  let totalIdeas = 0;
+  document.getElementById('backlogCard').innerHTML = order.map(p => {
+    const items    = backlog[p]||[];
+    const autoItems= auto[p]||[];
+    const cfg      = PILLARS[p]||{color:'#6b7280'};
+    totalIdeas    += items.length + autoItems.length;
+    return `<div>
+      <div class="backlog-group-hdr" style="background:${cfg.color}08">
         <div class="pillar-color-dot" style="background:${cfg.color}"></div>
         ${pillarBadge(p)}
-        <div class="backlog-count">${items.length} ideas</div>
+        <div class="backlog-count">${items.length + autoItems.length} ideas</div>
       </div>
-      ${items.map(idea => `
-        <div class="backlog-item">
-          <div class="backlog-arrow">►</div>
-          <div class="backlog-text">${idea}</div>
-        </div>`).join('')}
+      ${autoItems.map(idea => `<div class="backlog-item"><div class="backlog-arrow">►</div><div class="backlog-text">${idea.text}</div><div class="backlog-source">AUTO</div></div>`).join('')}
+      ${items.map(idea => `<div class="backlog-item"><div class="backlog-arrow">►</div><div class="backlog-text">${idea}</div></div>`).join('')}
     </div>`;
   }).join('');
+  document.getElementById('backlogMeta').textContent = totalIdeas + ' ideas' + (Object.keys(auto).length ? ' · ' + Object.values(auto).flat().length + ' from competitor scan' : '');
 }
 
+// ── TODOS ──────────────────────────────────────────────────────────────────
 function renderTodos(todos) {
   document.getElementById('todoCard').innerHTML = todos.map(t => `
     <div class="todo-item">
-      <div class="todo-check" style="${t.done ? 'background:var(--green);border-color:var(--green)' : ''}"></div>
-      <div class="todo-text" style="${t.done ? 'color:var(--text3);text-decoration:line-through' : ''}">${t.task}</div>
+      <div class="todo-check" style="${t.done?'background:var(--green);border-color:var(--green)':''}"></div>
+      <div class="todo-text" style="${t.done?'color:var(--text3);text-decoration:line-through':''}">${t.task}</div>
     </div>`).join('');
 }
 
-// ── MAIN DATA LOAD ─────────────────────────────────────────────────────────
+// ── LOAD DASHBOARD ─────────────────────────────────────────────────────────
 async function loadDashboard() {
   try {
     const r = await fetch('/api/dashboard');
-    const d = await r.json();
-    renderHero(d);
-    renderMetrics(d);
-    renderPillarGrid(d.published_posts);
-    renderPosts([...d.published_posts].reverse());
-    renderCalendar(d.published_posts);
-    renderCoaching(d.coaching);
-    renderBacklog(d.idea_backlog);
-    renderTodos(d.profile_todos);
-    if (d.competitors?.length) renderCompetitors(d.competitors, d.scanned_at);
-    if (d.trends?.length)      renderTrends(d.trends);
-    observeAll();
-  } catch(e) {
-    console.error('Dashboard load error:', e);
-  }
+    dashData = await r.json();
+    renderHero(dashData);
+    renderGraphicsStrip(dashData);
+    renderMetrics(dashData, currentTab);
+    renderGrowthChart(dashData.published_posts, currentTab);
+    renderPillarGrid(dashData.published_posts);
+    renderPosts(dashData.published_posts);
+    renderCalendar(dashData.published_posts);
+    renderCoaching(dashData.coaching);
+    renderBacklog(dashData.idea_backlog, dashData.trends);
+    renderTodos(dashData.profile_todos);
+    if(dashData.competitors?.length) renderCompetitors(dashData.competitors, dashData.scanned_at);
+    if(dashData.trends?.length)      renderTrends(dashData.trends);
+    observe();
+  } catch(e) { console.error('Load error:', e); }
 }
 
 // ── SCAN ───────────────────────────────────────────────────────────────────
 async function startScan() {
-  const btn     = document.getElementById('scanBtn');
+  const btn = document.getElementById('scanBtn');
   const overlay = document.getElementById('overlay');
   const ovStatus = document.getElementById('ovStatus');
-
   document.getElementById('errorBar').style.display = 'none';
   overlay.classList.remove('hidden');
   btn.disabled = true;
   btn.textContent = 'Scanning…';
 
-  const steps = [
-    'Connecting to Apify...',
-    'Scraping competitor posts...',
-    'Analyzing industry trends...',
-    'Processing engagement data...',
-    'Building insights...',
-  ];
+  const steps = ['Connecting to Apify...','Scraping competitors...','Scraping your posts...','Analyzing trends...','Building insights...'];
   let si = 0;
-  const ticker = setInterval(() => {
-    if (si < steps.length) ovStatus.textContent = steps[si++];
-  }, 600);
+  const ticker = setInterval(() => { if(si < steps.length) ovStatus.textContent = steps[si++]; }, 700);
 
   try {
-    const res  = await fetch('/api/scan/competitors', { method: 'POST' });
-    const data = await res.json();
-    if (data.error) throw new Error(data.error);
+    // Trigger both scrapers in parallel
+    const [compRes, myRes] = await Promise.all([
+      fetch('/api/scan/competitors', {method:'POST'}),
+      fetch('/api/scan/my-posts',    {method:'POST'}),
+    ]);
+    const compData = await compRes.json();
+    const myData   = await myRes.json();
+    if(compData.error) throw new Error(compData.error);
 
     ovStatus.textContent = 'Waiting for LinkedIn data...';
     let waited = 0;
-    while (waited < 150) {
+    while(waited < 150) {
       await new Promise(r => setTimeout(r, 3000));
       waited += 3;
-      const sr = await fetch(`/api/status/${data.run_id}`);
+      const sr = await fetch(`/api/status/${compData.run_id}`);
       const sd = await sr.json();
       ovStatus.textContent = `Scraping... (${waited}s)`;
-      if (sd.status === 'SUCCEEDED') break;
-      if (sd.status === 'FAILED') throw new Error('Apify run failed.');
+      if(sd.status === 'SUCCEEDED') break;
+      if(sd.status === 'FAILED') throw new Error('Apify run failed.');
     }
 
     ovStatus.textContent = 'Processing results...';
-    const rr = await fetch(`/api/results/competitors/${data.dataset_id}`);
+    const rr = await fetch(`/api/results/competitors/${compData.dataset_id}`);
     const rd = await rr.json();
-    if (rd.error) throw new Error(rd.error);
+    if(rd.error) throw new Error(rd.error);
 
     renderCompetitors(rd.competitors, rd.scanned_at);
     renderTrends(rd.trends);
 
-    // Reload full dashboard
-    await loadDashboard();
+    // Update backlog with new trend ideas
+    if(dashData) renderBacklog(dashData.idea_backlog, rd.trends);
 
+    await loadDashboard();
   } catch(e) {
     const bar = document.getElementById('errorBar');
     bar.textContent = '⚠ ' + e.message;
