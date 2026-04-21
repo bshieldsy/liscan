@@ -211,12 +211,7 @@ main{max-width:1200px;margin:0 auto;padding:44px 48px 80px}
 .backlog-text{font-size:13px;color:var(--text);line-height:1.5}
 .backlog-source{font-family:var(--mono);font-size:9px;letter-spacing:1px;color:var(--green);background:#e8f5e2;padding:1px 6px;border-radius:3px;margin-left:auto;flex-shrink:0}
 
-/* TODOS */
-.todo-item{display:flex;align-items:flex-start;gap:14px;padding:12px 24px;border-bottom:1px solid var(--border);transition:background .15s}
-.todo-item:last-child{border-bottom:none}
-.todo-item:hover{background:var(--bg)}
-.todo-check{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--border);flex-shrink:0;margin-top:1px}
-.todo-text{font-size:13px;color:var(--text);line-height:1.5}
+
 
 /* DATA LIVE BADGE */
 .live-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--green);padding:4px 10px;background:#e8f5e2;border-radius:4px}
@@ -877,15 +872,6 @@ function renderBacklog(backlog, competitorTopics) {
     </div>`;
   }).join('');
   document.getElementById('backlogMeta').textContent = totalIdeas + ' ideas' + (Object.keys(auto).length ? ' · ' + Object.values(auto).flat().length + ' from competitor scan' : '');
-}
-
-// ── TODOS ──────────────────────────────────────────────────────────────────
-function renderTodos(todos) {
-  document.getElementById('todoCard').innerHTML = todos.map(t => `
-    <div class="todo-item">
-      <div class="todo-check" style="${t.done?'background:var(--green);border-color:var(--green)':''}"></div>
-      <div class="todo-text" style="${t.done?'color:var(--text3);text-decoration:line-through':''}">${t.task}</div>
-    </div>`).join('');
 }
 
 // ── LOAD DASHBOARD ─────────────────────────────────────────────────────────
