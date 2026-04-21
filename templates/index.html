@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LI Scanner</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#f5f5f7;--surface:#fff;--surface2:#f5f5f7;
+    --border:rgba(0,0,0,.08);--text:#1d1d1f;--text2:#6e6e73;--text3:#aeaeb2;
+    --blue:#0071e3;--blue-l:#e8f0fb;--green:#34c759;--green-l:#e8f8ed;
+    --orange:#ff9500;--orange-l:#fff4e5;--red:#ff3b30;--red-l:#fff0ef;
+    --radius:18px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;
+       font-weight:300;min-height:100vh;-webkit-font-smoothing:antialiased}
+
+  header{background:rgba(245,245,247,.85);backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+    padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+  .logo{font-weight:500;font-size:17px;letter-spacing:-.3px}
+  .logo-dot{color:var(--blue)}
+  .hdr-mid{font-size:13px;color:var(--text2)}
+  .scan-btn{background:var(--blue);color:#fff;border:none;font-family:'DM Sans',sans-serif;
+    font-size:13px;font-weight:500;padding:8px 18px;border-radius:980px;cursor:pointer;
+    transition:all .2s;letter-spacing:-.1px}
+  .scan-btn:hover{background:#0077ed;transform:scale(1.02)}
+  .scan-btn:disabled{background:var(--text3);cursor:not-allowed;transform:none}
+
+  .wrapper{max-width:1120px;margin:0 auto;padding:40px 24px 60px}
+
+  .page-title{margin-bottom:32px}
+  .page-title h1{font-family:'DM Serif Display',serif;font-size:38px;
+    font-weight:400;letter-spacing:-.5px;line-height:1.1}
+  .page-title p{font-size:15px;color:var(--text2);margin-top:6px;font-weight:300}
+
+  .stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+  .stat-card{background:var(--surface);border-radius:var(--radius);padding:22px 22px 20px;
+    border:1px solid var(--border);transition:box-shadow .2s,transform .2s}
+  .stat-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07);transform:translateY(-1px)}
+  .sc-label{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:8px}
+  .sc-value{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;
+    letter-spacing:-1px;line-height:1}
+  .sc-sub{font-size:12px;color:var(--text3);margin-top:6px;display:flex;
+    align-items:center;gap:4px}
+
+  .badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;
+    padding:2px 8px;border-radius:980px}
+  .b-green{background:var(--green-l);color:var(--green)}
+  .b-red{background:var(--red-l);color:var(--red)}
+  .b-orange{background:var(--orange-l);color:var(--orange)}
+  .b-blue{background:var(--blue-l);color:var(--blue)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);
+    overflow:hidden;transition:box-shadow .2s}
+  .card:hover{box-shadow:0 8px 24px rgba(0,0,0,.07)}
+  .card-hdr{padding:20px 24px 16px;border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:space-between}
+  .card-title{font-size:15px;font-weight:500;letter-spacing:-.2px}
+  .card-tag{font-size:11px;font-weight:500;color:var(--blue);
+    background:var(--blue-l);padding:3px 10px;border-radius:980px}
+
+  .comp-row{display:flex;align-items:center;padding:14px 24px;
+    border-bottom:1px solid var(--border);transition:background .15s}
+  .comp-row:last-child{border-bottom:none}
+  .comp-row:hover{background:var(--surface2)}
+  .comp-icon{width:32px;height:32px;border-radius:8px;background:var(--surface2);
+    border:1px solid var(--border);display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:600;color:var(--text2);margin-right:12px;flex-shrink:0}
+  .comp-info{flex:1}
+  .comp-name{font-size:14px;font-weight:500;letter-spacing:-.1px}
+  .comp-sub{font-size:12px;color:var(--text3);margin-top:1px}
+  .comp-stats{display:flex;gap:20px;align-items:center}
+  .csi{text-align:right}
+  .csi-val{font-size:15px;font-weight:500;letter-spacing:-.3px}
+  .csi-lbl{font-size:10px;color:var(--text3)}
+
+  .trend-item{padding:16px 24px;border-bottom:1px solid var(--border)}
+  .trend-item:last-child{border-bottom:none}
+  .trend-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .trend-name{font-size:14px;font-weight:500;letter-spacing:-.1px}
+  .trend-right{display:flex;align-items:center;gap:8px}
+  .trend-pct{font-size:13px;font-weight:500;color:var(--text2)}
+  .trend-track{height:4px;background:var(--surface2);border-radius:980px;overflow:hidden}
+  .trend-fill{height:100%;border-radius:980px;width:0;transition:width 1s cubic-bezier(.16,1,.3,1)}
+  .f-blue{background:var(--blue)}.f-green{background:var(--green)}.f-orange{background:var(--orange)}
+  .trend-mentions{font-size:11px;color:var(--text3);margin-top:6px}
+
+  .action-item{display:flex;gap:14px;padding:16px 24px;border-bottom:1px solid var(--border);
+    align-items:flex-start;transition:background .15s;cursor:pointer}
+  .action-item:last-child{border-bottom:none}
+  .action-item:hover{background:var(--surface2)}
+  .action-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);
+    margin-top:5px;flex-shrink:0}
+  .action-dot.orange{background:var(--orange)}
+  .action-dot.green{background:var(--green)}
+  .action-text{font-size:14px;color:var(--text);line-height:1.5}
+
+  .perf-grid{display:grid;grid-template-columns:1fr 1fr}
+  .perf-cell{padding:22px 24px;border-right:1px solid var(--border);
+    border-bottom:1px solid var(--border)}
+  .perf-cell:nth-child(even){border-right:none}
+  .perf-cell:nth-last-child(-n+2){border-bottom:none}
+  .perf-lbl{font-size:12px;color:var(--text2);font-weight:500;margin-bottom:6px}
+  .perf-val{font-family:'DM Serif Display',serif;font-size:32px;font-weight:400;
+    letter-spacing:-.5px;line-height:1}
+  .perf-sub{font-size:12px;color:var(--text3);margin-top:4px}
+
+  .footer{text-align:center;font-size:12px;color:var(--text3);margin-top:32px}
+
+  /* Scan overlay */
+  .overlay{position:fixed;inset:0;background:rgba(245,245,247,.92);
+    backdrop-filter:blur(24px);display:flex;flex-direction:column;
+    align-items:center;justify-content:center;z-index:999;transition:opacity .4s}
+  .overlay.hidden{opacity:0;pointer-events:none}
+  .spinner{width:40px;height:40px;border:2.5px solid var(--border);
+    border-top-color:var(--blue);border-radius:50%;
+    animation:spin .8s linear infinite;margin-bottom:20px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ov-label{font-size:15px;font-weight:500;margin-bottom:6px}
+  .ov-status{font-size:13px;color:var(--text2)}
+</style>
+</head>
+<body>
+
+<div class="overlay" id="overlay">
+  <div class="spinner"></div>
+  <div class="ov-label">Scanning LinkedIn</div>
+  <div class="ov-status" id="ovStatus">Initializing...</div>
+</div>
+
+<header>
+  <div class="logo">LI Scanner<span class="logo-dot">.</span></div>
+  <div class="hdr-mid">Event & Project Management · Small Business</div>
+  <button class="scan-btn" id="scanBtn" onclick="runScan()">Scan Now</button>
+</header>
+
+<div class="wrapper">
+  <div class="page-title">
+    <h1>Your LinkedIn Intelligence</h1>
+    <p>Event industry · Project management · Small teams · Freelancers</p>
+  </div>
+
+  <!-- STAT ROW -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="sc-label">Followers</div>
+      <div class="sc-value" id="statFollowers">—</div>
+      <div class="sc-sub"><span class="badge b-green">↑ +12</span> this week</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Engagement Rate</div>
+      <div class="sc-value" id="statEngage">—</div>
+      <div class="sc-sub"><span class="badge b-orange" id="engageBadge">Below avg</span> 4.1% industry</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Rising Trends</div>
+      <div class="sc-value">4</div>
+      <div class="sc-sub"><span class="badge b-blue">In your niche</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-label">Action Items</div>
+      <div class="sc-value">5</div>
+      <div class="sc-sub"><span class="badge b-red">Needs attention</span></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- COMPETITORS -->
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Competitor Activity</div>
+        <div class="card-tag">Live</div>
+      </div>
+      <div id="compList"></div>
+    </div>
+
+    <!-- TRENDS -->
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Industry Trends</div>
+        <div class="card-tag">4 Rising</div>
+      </div>
+      <div id="trendList"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- PERFORMANCE -->
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Your Performance</div>
+        <div class="card-tag">This Month</div>
+      </div>
+      <div class="perf-grid">
+        <div class="perf-cell">
+          <div class="perf-lbl">Followers</div>
+          <div class="perf-val" id="perfFollowers">—</div>
+          <div class="perf-sub">↑ 12 this week</div>
+        </div>
+        <div class="perf-cell">
+          <div class="perf-lbl">Engagement Rate</div>
+          <div class="perf-val" id="perfEngage" style="color:var(--orange)">—</div>
+          <div class="perf-sub">Below 4.1% avg</div>
+        </div>
+        <div class="perf-cell">
+          <div class="perf-lbl">Posts This Month</div>
+          <div class="perf-val" id="perfPosts" style="color:var(--red)">—</div>
+          <div class="perf-sub">Target: 6+</div>
+        </div>
+        <div class="perf-cell">
+          <div class="perf-lbl">Pending Connections</div>
+          <div class="perf-val" id="perfConnections" style="color:var(--green)">—</div>
+          <div class="perf-sub">Ready to accept</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="card">
+      <div class="card-hdr">
+        <div class="card-title">Action Items</div>
+        <div class="card-tag">Do These Now</div>
+      </div>
+      <div id="actionList"></div>
+    </div>
+  </div>
+
+  <div class="footer" id="footer">Loading...</div>
+</div>
+
+<script>
+const dotColors = ['','orange','orange','','green'];
+
+function renderCompetitors(data) {
+  const initials = n => n.split(/[\.\s]/)[0].substring(0,2);
+  const trendBadge = t => {
+    if (t.includes('Up'))     return '<span class="badge b-green">↑ Up</span>';
+    if (t.includes('Down'))   return '<span class="badge b-red">↓ Down</span>';
+    return '<span class="badge b-orange">→ Stable</span>';
+  };
+  document.getElementById('compList').innerHTML = data.map(c => `
+    <div class="comp-row">
+      <div class="comp-icon">${initials(c.name)}</div>
+      <div class="comp-info">
+        <div class="comp-name">${c.name}</div>
+        <div class="comp-sub">${c.posts} posts this week</div>
+      </div>
+      <div class="comp-stats">
+        <div class="csi">
+          <div class="csi-val">${c.engage}%</div>
+          <div class="csi-lbl">Engagement</div>
+        </div>
+        ${trendBadge(c.trend)}
+      </div>
+    </div>`).join('');
+}
+
+function renderTrends(data) {
+  const colors = ['f-green','f-blue','f-blue','f-orange','f-orange'];
+  const momBadge = m => m === 'Rising'
+    ? '<span class="badge b-green">↑ Rising</span>'
+    : '<span class="badge b-orange">→ Stable</span>';
+  document.getElementById('trendList').innerHTML = data.map((t,i) => `
+    <div class="trend-item">
+      <div class="trend-top">
+        <div class="trend-name">${t.name}</div>
+        <div class="trend-right">
+          <div class="trend-pct">${t.engage}%</div>
+          ${momBadge(t.momentum)}
+        </div>
+      </div>
+      <div class="trend-track">
+        <div class="trend-fill ${colors[i]}" style="width:${t.pct}%"></div>
+      </div>
+      <div class="trend-mentions">${t.mentions} mentions · ${t.relevance} relevance to your business</div>
+    </div>`).join('');
+}
+
+function renderActions(data) {
+  document.getElementById('actionList').innerHTML = data.map((a,i) => `
+    <div class="action-item">
+      <div class="action-dot ${dotColors[i]}"></div>
+      <div class="action-text">${a}</div>
+    </div>`).join('');
+}
+
+function renderStats(s) {
+  document.getElementById('statFollowers').textContent  = s.followers;
+  document.getElementById('statEngage').textContent     = s.engagement + '%';
+  document.getElementById('perfFollowers').textContent  = s.followers;
+  document.getElementById('perfEngage').textContent     = s.engagement + '%';
+  document.getElementById('perfPosts').textContent      = s.posts;
+  document.getElementById('perfConnections').textContent = s.connections;
+}
+
+async function runScan() {
+  const btn = document.getElementById('scanBtn');
+  const overlay = document.getElementById('overlay');
+  const ovStatus = document.getElementById('ovStatus');
+
+  btn.disabled = true;
+  btn.textContent = 'Scanning…';
+  overlay.classList.remove('hidden');
+
+  const steps = [
+    'Connecting to data sources...',
+    'Scanning competitor activity...',
+    'Analyzing industry trends...',
+    'Pulling your performance data...',
+    'Generating recommendations...',
+  ];
+
+  let i = 0;
+  const ticker = setInterval(() => {
+    if (i < steps.length) ovStatus.textContent = steps[i++];
+  }, 500);
+
+  try {
+    const res = await fetch('/api/scan');
+    const d   = await res.json();
+
+    clearInterval(ticker);
+    ovStatus.textContent = 'Done.';
+
+    renderCompetitors(d.competitors);
+    renderTrends(d.trends);
+    renderActions(d.actions);
+    renderStats(d.your_stats);
+    document.getElementById('footer').textContent = 'Last updated ' + d.scanned_at;
+
+    setTimeout(() => {
+      overlay.classList.add('hidden');
+      btn.disabled = false;
+      btn.textContent = 'Scan Now';
+    }, 400);
+
+  } catch(e) {
+    clearInterval(ticker);
+    ovStatus.textContent = 'Error — check console.';
+    btn.disabled = false;
+    btn.textContent = 'Retry';
+    setTimeout(() => overlay.classList.add('hidden'), 1500);
+  }
+}
+
+// Auto-scan on load
+window.addEventListener('load', runScan);
+</script>
+</body>
+</html>
