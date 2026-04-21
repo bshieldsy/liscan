@@ -107,7 +107,7 @@
 </head>
 <body>
 
-<div class="overlay" id="overlay">
+<div class="overlay hidden" id="overlay">
   <div class="spinner"></div>
   <div class="ov-label" id="ovLabel">Scanning LinkedIn</div>
   <div class="ov-status" id="ovStatus">Triggering scrape...</div>
@@ -379,6 +379,9 @@ async function startScan() {
 
 // On load — try to fetch latest dataset if env var is set
 window.addEventListener('load', async () => {
+  // Always hide overlay immediately on load
+  document.getElementById('overlay').classList.add('hidden');
+
   try {
     const r = await fetch('/api/latest');
     if (r.ok) {
