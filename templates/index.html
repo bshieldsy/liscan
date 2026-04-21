@@ -455,14 +455,103 @@ const PILLARS = {
   "Founder Tease": {day:"Fri",color:"#A855F7"},
 };
 
-// Historical data for All Time view — pre 2026 known posts
-const HISTORICAL_POSTS = [
-  {date:"2024-12-04",impressions:580,followers:2,reactions:35,comments:4},
-  {date:"2024-12-20",impressions:620,followers:3,reactions:22,comments:3},
-  {date:"2025-03-15",impressions:450,followers:1,reactions:18,comments:2},
-  {date:"2025-06-10",impressions:510,followers:2,reactions:24,comments:5},
-  {date:"2025-09-22",impressions:670,followers:2,reactions:28,comments:6},
-  {date:"2025-12-15",impressions:720,followers:3,reactions:31,comments:4},
+// Real connection history from LinkedIn data export (Aug 2015 — Apr 2026)
+const CONNECTION_HISTORY = [
+  {month:"2015-08",connections:4,cumulative:4},
+  {month:"2016-01",connections:18,cumulative:22},
+  {month:"2016-02",connections:12,cumulative:34},
+  {month:"2016-04",connections:1,cumulative:35},
+  {month:"2016-05",connections:1,cumulative:36},
+  {month:"2017-01",connections:40,cumulative:76},
+  {month:"2017-02",connections:2,cumulative:78},
+  {month:"2017-08",connections:20,cumulative:98},
+  {month:"2017-10",connections:9,cumulative:107},
+  {month:"2017-11",connections:2,cumulative:109},
+  {month:"2018-10",connections:10,cumulative:119},
+  {month:"2018-11",connections:5,cumulative:124},
+  {month:"2019-02",connections:16,cumulative:140},
+  {month:"2019-04",connections:2,cumulative:142},
+  {month:"2019-05",connections:2,cumulative:144},
+  {month:"2019-06",connections:1,cumulative:145},
+  {month:"2019-07",connections:3,cumulative:148},
+  {month:"2019-08",connections:1,cumulative:149},
+  {month:"2019-09",connections:1,cumulative:150},
+  {month:"2019-10",connections:10,cumulative:160},
+  {month:"2019-11",connections:2,cumulative:162},
+  {month:"2019-12",connections:8,cumulative:170},
+  {month:"2020-01",connections:8,cumulative:178},
+  {month:"2020-02",connections:3,cumulative:181},
+  {month:"2020-03",connections:4,cumulative:185},
+  {month:"2020-04",connections:2,cumulative:187},
+  {month:"2020-05",connections:4,cumulative:191},
+  {month:"2020-06",connections:7,cumulative:198},
+  {month:"2020-07",connections:5,cumulative:203},
+  {month:"2020-08",connections:1,cumulative:204},
+  {month:"2020-10",connections:5,cumulative:209},
+  {month:"2020-11",connections:4,cumulative:213},
+  {month:"2020-12",connections:2,cumulative:215},
+  {month:"2021-01",connections:13,cumulative:228},
+  {month:"2021-02",connections:13,cumulative:241},
+  {month:"2021-03",connections:7,cumulative:248},
+  {month:"2021-04",connections:8,cumulative:256},
+  {month:"2021-05",connections:8,cumulative:264},
+  {month:"2021-06",connections:7,cumulative:271},
+  {month:"2021-07",connections:13,cumulative:284},
+  {month:"2021-08",connections:6,cumulative:290},
+  {month:"2021-09",connections:5,cumulative:295},
+  {month:"2021-10",connections:9,cumulative:304},
+  {month:"2021-11",connections:7,cumulative:311},
+  {month:"2021-12",connections:1,cumulative:312},
+  {month:"2022-01",connections:10,cumulative:322},
+  {month:"2022-02",connections:4,cumulative:326},
+  {month:"2022-03",connections:19,cumulative:345},
+  {month:"2022-04",connections:9,cumulative:354},
+  {month:"2022-05",connections:6,cumulative:360},
+  {month:"2022-06",connections:7,cumulative:367},
+  {month:"2022-07",connections:12,cumulative:379},
+  {month:"2022-08",connections:8,cumulative:387},
+  {month:"2022-09",connections:16,cumulative:403},
+  {month:"2022-10",connections:5,cumulative:408},
+  {month:"2022-11",connections:7,cumulative:415},
+  {month:"2022-12",connections:8,cumulative:423},
+  {month:"2023-01",connections:13,cumulative:436},
+  {month:"2023-02",connections:11,cumulative:447},
+  {month:"2023-03",connections:2,cumulative:449},
+  {month:"2023-04",connections:5,cumulative:454},
+  {month:"2023-05",connections:5,cumulative:459},
+  {month:"2023-06",connections:4,cumulative:463},
+  {month:"2023-07",connections:15,cumulative:478},
+  {month:"2023-08",connections:10,cumulative:488},
+  {month:"2023-09",connections:7,cumulative:495},
+  {month:"2023-10",connections:9,cumulative:504},
+  {month:"2023-11",connections:17,cumulative:521},
+  {month:"2023-12",connections:6,cumulative:527},
+  {month:"2024-01",connections:4,cumulative:531},
+  {month:"2024-03",connections:6,cumulative:537},
+  {month:"2024-04",connections:9,cumulative:546},
+  {month:"2024-05",connections:6,cumulative:552},
+  {month:"2024-06",connections:5,cumulative:557},
+  {month:"2024-07",connections:9,cumulative:566},
+  {month:"2024-08",connections:11,cumulative:577},
+  {month:"2024-09",connections:4,cumulative:581},
+  {month:"2024-10",connections:1,cumulative:582},
+  {month:"2024-11",connections:6,cumulative:588},
+  {month:"2024-12",connections:8,cumulative:596},
+  {month:"2025-01",connections:3,cumulative:599},
+  {month:"2025-02",connections:1,cumulative:600},
+  {month:"2025-03",connections:2,cumulative:602},
+  {month:"2025-04",connections:3,cumulative:605},
+  {month:"2025-05",connections:6,cumulative:611},
+  {month:"2025-06",connections:4,cumulative:615},
+  {month:"2025-07",connections:3,cumulative:618},
+  {month:"2025-08",connections:5,cumulative:623},
+  {month:"2025-09",connections:3,cumulative:626},
+  {month:"2025-10",connections:1,cumulative:627},
+  {month:"2025-12",connections:2,cumulative:629},
+  {month:"2026-01",connections:1,cumulative:630},
+  {month:"2026-02",connections:2,cumulative:632},
+  {month:"2026-03",connections:6,cumulative:638},
+  {month:"2026-04",connections:16,cumulative:654},
 ];
 
 let dashData = null;
@@ -529,13 +618,13 @@ function renderGraphicsStrip(d) {
   document.getElementById('gsBestPillar').innerHTML = `<em style="font-family:var(--serif);font-style:italic;color:${cfg.color}">${bestPillar}</em>`;
   document.getElementById('gsBestPillarSub').textContent = `Avg ${fmt(bestAvg)} impressions per post in this pillar.`;
 
-  // Projection — simple linear extrapolation
-  const followersGained = d.published_posts.reduce((a,p) => a + (p.new_followers||0), 0);
-  const weeks = 3; // weeks of data
-  const weeklyGain = followersGained / weeks;
-  const projected = Math.round(d.profile.followers + (weeklyGain * 13)); // 13 weeks = 90 days
+  // Projection — based on last 3 months real connection growth
+  const recent3 = CONNECTION_HISTORY.slice(-3);
+  const avgMonthly = recent3.reduce((a,d) => a + d.connections, 0) / 3;
+  const weeklyGrowth = avgMonthly / 4.3;
+  const projected = Math.round(d.profile.followers + (weeklyGrowth * 13)); // 13 weeks = 90 days
   document.getElementById('gsProjected').textContent = projected.toLocaleString();
-  document.getElementById('gsProjectedSub').textContent = `Based on ${(weeklyGain).toFixed(1)} followers/week avg. At 4 posts/week minimum.`;
+  document.getElementById('gsProjectedSub').textContent = `Based on ${avgMonthly.toFixed(1)} new connections/month avg (last 3 months). Accelerates with consistent posting.`;
 }
 
 // ── RENDER METRICS ─────────────────────────────────────────────────────────
@@ -571,42 +660,53 @@ function renderGrowthChart(posts2026, tab) {
   labels.innerHTML = '';
 
   let dataPoints = [];
-  let baseFollowers = 688; // estimated start of 2026
+  let baseFollowers = 638; // connections at start of 2026
 
   if(tab === 'alltime') {
-    // Build from historical + current
-    let running = 620;
-    const allPosts = [...HISTORICAL_POSTS, ...posts2026].sort((a,b) => a.date.localeCompare(b.date));
-    allPosts.forEach(p => {
-      running += (p.new_followers||0);
-      dataPoints.push({ label: p.date.substring(0,7), value: running, date: p.date, projected: false });
+    // Use real LinkedIn connection history — every data point
+    // Show every 3rd month to keep chart readable but data-rich
+    const step = Math.ceil(CONNECTION_HISTORY.length / 24);
+    CONNECTION_HISTORY.forEach((d, i) => {
+      if(i % step === 0 || i === CONNECTION_HISTORY.length - 1) {
+        dataPoints.push({
+          label:     d.month,
+          value:     d.cumulative,
+          projected: false,
+          tooltip:   `${d.month}: ${d.cumulative} connections (+${d.connections})`
+        });
+      }
     });
-    // Dedupe by month, take max
-    const byMonth = {};
-    dataPoints.forEach(d => { byMonth[d.label] = Math.max(byMonth[d.label]||0, d.value); });
-    dataPoints = Object.entries(byMonth).map(([label, value]) => ({label, value, projected: false}));
-    baseFollowers = dataPoints[dataPoints.length-1]?.value || 692;
+    baseFollowers = CONNECTION_HISTORY[CONNECTION_HISTORY.length - 1].cumulative;
   } else {
-    let running = baseFollowers;
-    const sorted = [...posts2026].filter(p => p.impressions > 0 || p.new_followers > 0).sort((a,b) => a.date.localeCompare(b.date));
-    sorted.forEach(p => {
-      running += (p.new_followers||0);
-      dataPoints.push({ label: p.date.substring(5), value: running, date: p.date, projected: false });
+    // 2026 view — use actual post follower gains
+    let running = 630; // connections at Jan 2026
+    // Add monthly connection data for 2026
+    CONNECTION_HISTORY.filter(d => d.month.startsWith('2026')).forEach(d => {
+      dataPoints.push({
+        label:     d.month,
+        value:     d.cumulative,
+        projected: false,
+        tooltip:   `${d.month}: ${d.cumulative} connections (+${d.connections})`
+      });
     });
-    baseFollowers = running;
+    baseFollowers = dataPoints.length ? dataPoints[dataPoints.length-1].value : 654;
   }
 
-  // Add projection points (next 12 weeks)
-  const weeklyGain = posts2026.reduce((a,p) => a+(p.new_followers||0), 0) / 3 || 0.7;
+  // Add projection points — based on last 3 months real growth (avg 8/month = ~1.9/week)
+  const recent3months = CONNECTION_HISTORY.slice(-3);
+  const avgMonthly = recent3months.reduce((a,d) => a + d.connections, 0) / 3;
+  const weeklyGain  = avgMonthly / 4.3;
   let projVal = baseFollowers;
   for(let i = 1; i <= 8; i++) {
     projVal += weeklyGain;
     const futDate = new Date();
     futDate.setDate(futDate.getDate() + (i * 7));
+    const label = futDate.toISOString().substring(0, 7);
     dataPoints.push({
-      label: futDate.toISOString().substring(5,10),
-      value: Math.round(projVal),
-      projected: true
+      label:     tab === 'alltime' ? label : futDate.toISOString().substring(5,10),
+      value:     Math.round(projVal),
+      projected: true,
+      tooltip:   `Projected: ${Math.round(projVal)} connections`
     });
   }
 
