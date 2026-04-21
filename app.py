@@ -459,7 +459,7 @@ def dashboard():
         "profile": {
             "name":             "Brett Shields",
             "headline":         "Managing Director | Event Producer & Strategist",
-            "followers":        692,
+            "followers":        694,
             "followers_gained": followers_gained,
             "url":              MY_LINKEDIN_URL,
         },
@@ -485,3 +485,32 @@ def dashboard():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+# Last scan timestamp — used by frontend 4-hour auto-refresh logic
+@app.route("/api/last-scan")
+def last_scan():
+    return jsonify({
+        "last_scan_iso":      datetime.now().isoformat(),
+        "has_competitor_data": bool(APIFY_COMPETITOR_DATASET),
+    })
+
+# Trigger both scrapers at once
+@app.route("/api/scan/all", methods=["POST"])
+def scan_all():
+    comp_result, comp_err = apify_trigger(ACTOR_COMPETITOR, {
+        "startUrls": [{"url": f"https://www.linkedin.com/company/{c['slug']}/"} for c in COMPETITORS],
+        "maxPostsPerProfile": 5,
+        "postLimit": "this_week",
+        "scrapeReactions": True,
+        "maxReactionsPerPost": 5,
+        "includeReposts": False,
+    })
+    my_result, my_err = apify_trigger(ACTOR_MY_POSTS, {
+        "startUrls": [{"url": MY_LINKEDIN_URL}],
+        "maxResults": 10,
+    })
+    return jsonify({
+        "competitors": comp_result,
+        "my_posts":    my_result,
+        "errors":      [e for e in [comp_err, my_err] if e],
+    })
