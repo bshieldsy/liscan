@@ -442,14 +442,6 @@ footer .accent{color:var(--green-bright)}
   <div class="card reveal" id="backlogCard"></div>
 </section>
 
-<!-- ── PROFILE TODOS ── -->
-<section class="section">
-  <div class="section-hdr reveal">
-    <div class="section-title">Profile To-Dos</div>
-    <div class="section-meta">Optimize your presence</div>
-  </div>
-  <div class="card reveal" id="todoCard"></div>
-</section>
 
 </main>
 
@@ -910,7 +902,6 @@ async function loadDashboard() {
     renderCalendar(dashData.published_posts);
     renderCoaching(dashData.coaching);
     renderBacklog(dashData.idea_backlog, dashData.trends);
-    renderTodos(dashData.profile_todos);
     if(dashData.competitors?.length) renderCompetitors(dashData.competitors, dashData.scanned_at);
     if(dashData.trends?.length)      renderTrends(dashData.trends);
     observe();
@@ -918,57 +909,65 @@ async function loadDashboard() {
 }
 
 // ── SCAN ───────────────────────────────────────────────────────────────────
-async function startScan() {
-  const btn = document.getElementById('scanBtn');
-  const overlay = document.getElementById('overlay');
+async function runFullScan(silent) {
+  const btn      = document.getElementById('scanBtn');
+  const overlay  = document.getElementById('overlay');
   const ovStatus = document.getElementById('ovStatus');
-  document.getElementById('errorBar').style.display = 'none';
-  overlay.classList.remove('hidden');
+
+  if(!silent) {
+    document.getElementById('errorBar').style.display = 'none';
+    overlay.classList.remove('hidden');
+  }
   btn.disabled = true;
-  btn.textContent = 'Scanning…';
+  btn.innerHTML = silent ? '<span>↺</span> Updating...' : '<span>↺</span> Scanning…';
 
   const steps = ['Connecting to Apify...','Scraping competitors...','Scraping your posts...','Analyzing trends...','Building insights...'];
   let si = 0;
-  const ticker = setInterval(() => { if(si < steps.length) ovStatus.textContent = steps[si++]; }, 700);
+  const ticker = setInterval(() => {
+    if(si < steps.length) ovStatus.textContent = steps[si++];
+  }, 700);
 
   try {
-    // Trigger both scrapers in parallel
-    const [compRes, myRes] = await Promise.all([
-      fetch('/api/scan/competitors', {method:'POST'}),
-      fetch('/api/scan/my-posts',    {method:'POST'}),
-    ]);
-    const compData = await compRes.json();
-    const myData   = await myRes.json();
-    if(compData.error) throw new Error(compData.error);
+    // Trigger both scrapers via combined endpoint
+    const scanRes  = await fetch('/api/scan/all', {method:'POST'});
+    const scanData = await scanRes.json();
+    if(scanData.errors?.length) console.warn('Scan warnings:', scanData.errors);
 
-    ovStatus.textContent = 'Waiting for LinkedIn data...';
+    const compData = scanData.competitors;
+    if(!compData?.run_id) throw new Error('Could not start competitor scan. Check Apify token.');
+
+    if(!silent) ovStatus.textContent = 'Waiting for LinkedIn data...';
     let waited = 0;
     while(waited < 150) {
       await new Promise(r => setTimeout(r, 3000));
       waited += 3;
       const sr = await fetch(`/api/status/${compData.run_id}`);
       const sd = await sr.json();
-      ovStatus.textContent = `Scraping... (${waited}s)`;
+      if(!silent) ovStatus.textContent = `Scraping LinkedIn... (${waited}s)`;
       if(sd.status === 'SUCCEEDED') break;
-      if(sd.status === 'FAILED') throw new Error('Apify run failed.');
+      if(sd.status === 'FAILED') throw new Error('Apify run failed. Check your token.');
     }
 
-    ovStatus.textContent = 'Processing results...';
+    if(!silent) ovStatus.textContent = 'Processing results...';
     const rr = await fetch(`/api/results/competitors/${compData.dataset_id}`);
     const rd = await rr.json();
     if(rd.error) throw new Error(rd.error);
 
     renderCompetitors(rd.competitors, rd.scanned_at);
     renderTrends(rd.trends);
-
-    // Update backlog with new trend ideas
     if(dashData) renderBacklog(dashData.idea_backlog, rd.trends);
+
+    // Save last scan time to localStorage
+    localStorage.setItem('li_hq_last_scan', new Date().toISOString());
 
     await loadDashboard();
   } catch(e) {
-    const bar = document.getElementById('errorBar');
-    bar.textContent = '⚠ ' + e.message;
-    bar.style.display = 'block';
+    if(!silent) {
+      const bar = document.getElementById('errorBar');
+      bar.textContent = '⚠ ' + e.message;
+      bar.style.display = 'block';
+    }
+    console.error('Scan error:', e);
   } finally {
     clearInterval(ticker);
     overlay.classList.add('hidden');
@@ -977,10 +976,36 @@ async function startScan() {
   }
 }
 
+// Manual scan button
+function startScan() { runFullScan(false); }
+
+// ── AUTO-REFRESH (4 hour cooldown) ─────────────────────────────────────────
+async function checkAutoRefresh() {
+  const FOUR_HOURS = 4 * 60 * 60 * 1000;
+  const lastScan   = localStorage.getItem('li_hq_last_scan');
+
+  if(!lastScan) {
+    // First ever visit — scan silently in background after data loads
+    console.log('LI HQ: First visit, triggering background scan...');
+    setTimeout(() => runFullScan(true), 2000);
+    return;
+  }
+
+  const elapsed = Date.now() - new Date(lastScan).getTime();
+  if(elapsed > FOUR_HOURS) {
+    console.log(`LI HQ: Last scan was ${Math.round(elapsed/3600000,1)}h ago — auto-refreshing...`);
+    setTimeout(() => runFullScan(true), 2000);
+  } else {
+    const nextIn = Math.round((FOUR_HOURS - elapsed) / 60000);
+    console.log(`LI HQ: Next auto-scan in ~${nextIn} minutes.`);
+  }
+}
+
 // ── BOOT ───────────────────────────────────────────────────────────────────
-window.addEventListener('load', () => {
+window.addEventListener('load', async () => {
   document.getElementById('overlay').classList.add('hidden');
-  loadDashboard();
+  await loadDashboard();
+  checkAutoRefresh();
 });
 </script>
 </body>
